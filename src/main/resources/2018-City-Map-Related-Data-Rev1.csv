@@ -1,0 +1,85 @@
+Note:  Best estimates from multiple data sources. Not for use by autonomous vehicles.  Please report any errors to jmillermdmph@gmail.com,,
+,,
+YEAR,2018,"""Event Year"""
+REV,1,"""Revision"" "
+THEME,IROBOT,"Event Theme - 2017 is ""I, Robot"""
+GPSUNIT,d.ddddd,"""Format of latitude and longitude:  D.DDDDD (decimal degree, 5 digits past decimal) | DD:HH:MM:SS.SSS (degrees hours minutes seconds)"""
+MRADIALUNIT,feet,"""Man Centric Unit for radial distance:  feet | meters"
+MANGULARUNIT,DDD,"""Man Centric Angular Unit:   HH:MM (Hours Minutes) HH.HH (fractional hours) DDD (integer degrees), from 12:00 being 0/360 and 3:00 being 90"""
+GS_LAT,40.7864,Golden Spike Latitude
+GS_LON,-119.2065,Golden Spike Longitude
+GS_ELEV,3904,Elevation Above Sea Level in feet
+P1_LAT,40.783,Pentagon Point 1 Latitude
+P1_LON,-119.2357,Pentagon Point 1 Longitude
+P2_LAT,40.8063,Pentagon Point 2 Latitude
+P2_LON,-119.2199,Pentagon Point 2 Longitude
+P3_LAT,40.8022,Pentagon Point 3 Latitude
+P3_LON,-119.1857,Pentagon Point 3 Longitude
+P4_LAT,40.7762,Pentagon Point 4 Latitude
+P4_LON,-119.1802,Pentagon Point 4 Longitude
+P5_LAT,40.7644,Pentagon Point 5 Latitude
+P5_LON,-119.2111,Pentagon Point 5 Longitude
+TNSA_DDD,4:30,"True North-South Axis, Clock"
+PP1_DDD,90,Portal at 3
+PP2_DDD,145,Portal at 4:30
+CC_DDD,180,Portal at 6 to center camp (aka PP3)
+PP4_DDD,225,Portal at 7:30
+PP5_DDD,270,Portal at 9:00
+MPC_DDD,315,"Man Polar Coordinate True North-South Axis, man degrees (if at man, north is at 10:30 oclock)"
+MCCR,2907,Man - Center Camp Center Radial Distance 
+RRCR,752,Rod's Road Center Radius about center of center camp
+RRW,40,Rod's Ring Road Width
+PSW,40,Promenade Street Width
+RSW,40,Regular Street Width
+PROM612_DDD,180,Promenade 6:12 Man Angle
+PROM39_DDD,90,Promenate 3:9 Man Angle
+PROM_WIDTH,40,Promenade Width
+PROM_LAMP,100,Approximate spacing between lamps along promenades
+ORR,5585,Outer Road Center Radius
+ORW,50,Outer Road Width
+CCPR,330,Center Camp Plaza Radius (from Center of Center camp to start of theme camp
+CTCIR,330,Center Theme Camp Inner Radius
+CTCOR,732,Center Theme Camp Outer Radius
+PCCPKW,234,Plaza Center Camp Portal Keyhole Widest
+PCCPKN,120,Plaza Center Camp Keyhole Narrowest
+PBCRM,3180,Plaza B/* Distance Center to  Man
+PGCRM,4380,Plaza G/* Distance Center to Man
+PICRM,4860,Plaza I/* Distance Center to Man
+PB300PMW,120,Plaza B/3:00 Portal Mouth Width
+PB900PMW,120,Plaza B/9:00 Portal Mouth Width
+PB300PR,200,Plaza B/3:00 Portal Plaza Radius
+PB900PR,200,Plaza B/9:00 Portal Plaza Radius
+PG300PR,200,Plaza G/3:00 Plaza Radius
+PG430R,200,Plaza G/4:30 Plaza Radius
+PI600R,200,Plaza I/6:00 Plaza Radius
+PG730R,200,Plaza G/7:30 Plaza Radius
+PG900R,200,Plaza G/9:00 Plaza Radius
+DEPOT,750,Depot to L center to center
+MGREETER,6614,Man to Greeter Area Distance
+MPP ,8175,Man to Pentagon Points
+ERCR,2500,Esplanade Road Center Radius
+ERW,40,Esplanade Road Width
+MARCR,2940,"Man to ""A"" Road Center Radius"
+MBRCR,3180,"Man to ""B"" Road Center Radius"
+MCRCR,3420,"Man to ""C"" Road Center Radius"
+MDRCR,3660,"Man to ""D"" Road Center Radius"
+MERCR,3900,"Man to ""E"" Road Center Radius"
+MFRCR,4140,"Man to ""F"" Road Center Radius"
+MGRCR,4380,"Man to ""G"" Road Center Radius"
+MHRCR,4620,"Man to ""H"" Road Center Radius"
+MIRCR,4860,"Man to ""I"" Road Center Radius"
+MJRCR,5100,"Man to ""J"" Road Center Radius"
+MKRCR,5340,"Man to ""K"" Road Center Radius"
+MLRCR,5585,"Man to ""L"" Road Center Radius"
+ARN,Algorithm,"""A"" Road Name"
+BRN,Bender,"""B"" Road Name"
+CRN,Cylon,"""C"" Road Name"
+DRN,Dewey,"""D"" Road Name"
+ERN,Elektro,"""E"" Road Name"
+FRN,Fribo,"""F"" Road Name"
+GRN,Gort,"""G"" Road Name"
+HRN,HAL,"""H"" Road Name"
+IRN,Iron Giant,"""I"" Road Name"
+JRN,Johnny 5,"""J"" Road Name"
+KRN,Kinoshita,"""K"" Road Name"
+LRN,Leon,"""L"" Road Name"

@@ -1,0 +1,84 @@
+Note:  these data are subject to revision and should not be used for navigation of self-driving mutant vehicles.,,
+,,
+YEAR,2016,"""Event Year"""
+THEME,DAVINCI,Event Theme
+GPSUNIT,d.dddddd,"""Format of latitude and longitude:  D.DDDDDD (decimal degree) | DD:HH:MM:SS.SSS (degrees hours minutes seconds)"""
+MRADIALUNIT,feet,"""Man Centric Unit for radial distance:  feet | meters"
+MANGULARUNIT,DDD,"""Man Centric Angular Unit:   HH:MM (Hours Minutes) HH.HH (fractional hours) DDD (integer degrees), from 12:00 being 0/360 and 3:00 being 90"""
+GS_LAT,40.7864,Golden Spike Latitude
+GS_LON,-119.2065,Golden Spike Longitude
+P1_LAT,40.783,Pentagon Point 1 Latitude
+P1_LON,-119.2357,Pentagon Point 1 Longitude
+P2_LAT,40.8063,Pentagon Point 2 Latitude
+P2_LON,-119.2199,Pentagon Point 2 Longitude
+P3_LAT,40.8022,Pentagon Point 3 Latitude
+P3_LON,-119.1857,Pentagon Point 3 Longitude
+P4_LAT,40.7762,Pentagon Point 4 Latitude
+P4_LON,-119.1802,Pentagon Point 4 Longitude
+P5_LAT,40.7644,Pentagon Point 5 Latitude
+P5_LON,-119.2111,Pentagon Point 5 Longitude
+TNSA_DDD,4:30,"True North-South Axis, Clock"
+PP1_DDD,90,Portal at 3
+PP2_DDD,145,Portal at 4:30
+CC_DDD,180,Portal at 6 to center camp (aka PP3)
+PP4_DDD,225,Portal at 7:30
+PP5_DDD,270,Portal at 9:00
+MPC_DDD,315,"Man Polar Coordinate True North-South Axis, man degrees (if at man, north is at 10:30 oclock)"
+MCCR,2907,Man - Center Camp Center Radial Distance 
+RRCR,752,Rod's Road Center Radius about center of center camp
+RRW,40,Rod's Road Width
+RSW,40,Regular Street Width
+PROM612_DDD,180,Promenade 6:12 Man Angle
+PROM39_DDD,90,Promenate 3:9 Man Angle
+PROM_WIDTH,40,Promenade Width
+PROM_LAMP,100,Approximate spacing between lamps along promenades
+ORR,5580,Outer Road Center Radius
+ORW,50,Outer Road Width
+CCPR,330,Center Camp Plaza Radius (from Center of Center camp to start of theme camp
+CTCIR,330,Center Theme Camp Inner Radius
+CTCOR,732,Center Theme Camp Outer Radius
+CP3DDD,90,Civic Plaza at 3:00 clock
+CP9DDD,270,Civic Plaza at 9:00 clock
+CPR,250,Civic Plaza Radius
+MCPR,3180,Man to Civic Plaza Radial Distance
+AP430DDD,135,Art Plaza at 4:30 clock
+AP730DDD,225,Art Plaza at 7:30 clock
+APR,250,Art Plaza Radius
+MAPR,4380,Man to Art Plaza Radial Distance
+PP3DD,90,Public Plaza at 3:00 clock
+PPDDD,180,Public Plaza at 6:00 clock
+PPDDD,270,Public Plaza at 9:00 clock
+PPR,250,Public Plaza Radius
+M3PPR,4380,Public Plaza at 3:00 radial distance
+M6PPR,4680,Public Plaza at 6:00 radial distance
+M9PPR,4380,Public Plaza at 9:00 radial distance
+DEPOT,750,Depot to L center to center
+MGREETER,6614,Man to Greeter Area Distance
+MPP ,8175,Man to Pentagon Points
+PSL,9160,Length of one side of Fence Pentagon
+ERCR,2500,Esplanade Road Center Radius
+ERW,40,Esplanade Road Width
+MARCR,2940,"Man to ""A"" Road Center Radius"
+MBRCR,3180,"Man to ""B"" Road Center Radius"
+MCRCR,3420,"Man to ""C"" Road Center Radius"
+MDRCR,3660,"Man to ""D"" Road Center Radius"
+MERCR,3900,"Man to ""E"" Road Center Radius"
+MFRCR,4140,"Man to ""F"" Road Center Radius"
+MGRCR,4380,"Man to ""G"" Road Center Radius"
+MHRCR,4620,"Man to ""H"" Road Center Radius"
+MIRCR,4860,"Man to ""I"" Road Center Radius"
+MJRCR,5100,"Man to ""J"" Road Center Radius"
+MKRCR,5340,"Man to ""K"" Road Center Radius"
+MLRCR,5580,"Man to ""L"" Road Center Radius"
+ARN,Ano,"""A"" Road Name"
+BRN,Botticelli,"""B"" Road Name"
+CRN,Cosimo,"""C"" Road Name"
+DRN,Donnatello,"""D"" Road Name"
+ERN,Effigiare,"""E"" Road Name"
+FRN,Florin,"""F"" Road Name"
+GRN,Guild,"""G"" Road Name"
+HRN,High Renaissance,"""H"" Road Name"
+IRN,Italic,"""I"" Road Name"
+JRN,Justice,"""J"" Road Name"
+KRN,Knowledge,"""K"" Road Name"
+LRN,Lorenzo,"""L"" Road Name"

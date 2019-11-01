@@ -1,0 +1,79 @@
+YEAR,2014,"""Event Year"""
+GPSUNIT,d.dddddd,"""Format of latitude and longitude:  D.DDDDDD (decimal degree) | DD.HHMMSS.SSS (degrees hours minutes seconds)"""
+MRADIALUNIT,feet,"""Man Centric Unit for radial distance:  feet | meters"
+MANGULARUNIT,hh:mm,"""Man Centric Angular Unit:   HH:MM (Hours Minutes) HH.HH (fractional hours) DDD (integer degrees)"""
+GS_LAT,40.7888,Golden Spike Latitude
+GS_LON,-119.20315,Golden Spike Longitude
+P1_LAT,40.78542,Pentagon Point 1 Latitude
+P1_LON,-119.23241,Pentagon Point 1 Longitude
+P2_LAT,40.80875,Pentagon Point 2 Latitude
+P2_LON,-119.21665,Pentagon Point 2 Longitude
+P3_LAT,40.80464,Pentagon Point 3 Latitude
+P3_LON,-119.1824,Pentagon Point 3 Longitude
+P4_LAT,40.77869,Pentagon Point 4 Latitude
+P4_LON,-119.17687,Pentagon Point 4 Longitude
+P5_LAT,40.76678,Pentagon Point 5 Latitude
+P5_LON,-119.20772,Pentagon Point 5 Longitude
+TNSA_HM,4:30,"True North-South Axis, Clock"
+PP1_HM,3:00,Portal at 3
+PP2_HM,4:30,Portal at 4:30
+CC_HM,6:00,Portal at 6 to center camp (aka PP3)
+PP4_HM,7:30,Portal at 7:30
+PP5_HM,9:00,Portal at 9:00
+MPC_HM,4:30,"Man Polar Coordinate True North-South Axis, hours and minutes"
+MCCR,2907,Man - Center Camp Radial Distance 
+RRCR,752,Rod's Road Center Radius about center of center camp
+RRW,40,Rod's Road Width
+RSW,40,Regular Street Width
+SSW,0,Skinny Street Width - short radials that run from G to L at the :15 and :45 time increments
+PROM612_HM,12:00,Promenade 6:12 Man Angle
+PROM39_HM,3:00,Promenate 3:9 Man Angle
+PROM_WIDTH,40,Promenade Width
+PROM_LAMP,100,Approximate spacing between lamps along promenades
+ORR,11160,Outer Road Center Radius
+ORW,40,Outer Road Width
+CCPR,330,Center Camp Plaza Radius (from Center of Center camp to start of theme camp
+CTCIR,330,Center Theme Camp Inner Radius
+CTCOR,732,Center Theme Camp Outer Radius
+CP3HM,3:00,Civic Plaza at 3:00 clock
+CP9HM,9:00,Civic Plaza at 9:00 clock
+CPR,250,Civic Plaza Radius
+MCPR,3180,Man to Civic Plaza Radial Distance
+AP430HM,4:30,Art Plaza at 4:30 clock
+AP730HM,7:30,Art Plaza at 7:30 clock
+APR,200,Art Plaza Radius
+MAPR,4380,Man to Art Plaza Radial Distance
+PP3HM,3:00,Public Plaza at 3:00 clock
+PP6HM,6:00,Public Plaza at 6:00 clock
+PP9HM,9:00,Public Plaza at 9:00 clock
+PPR,200,Public Plaza Radius
+MPPR,5340,Man to Public Plaza Radius
+DEPOT,750,Depot to L center to center
+MGREETER,6614,Man to Greeter Area Distance
+MPP ,8175,Man to Pentagon Points
+ERCR,2500,Esplanade Road Center Radius
+ERW,40,Esplanade Road Width
+MARCR,2940,"Man to ""A"" Road Center Radius"
+MBRCR,3180,"Man to ""B"" Road Center Radius"
+MCRCR,3420,"Man to ""C"" Road Center Radius"
+MDRCR,3660,"Man to ""D"" Road Center Radius"
+MERCR,3900,"Man to ""E"" Road Center Radius"
+MFRCR,4140,"Man to ""F"" Road Center Radius"
+MGRCR,4380,"Man to ""G"" Road Center Radius"
+MHRCR,4620,"Man to ""H"" Road Center Radius"
+MIRCR,4860,"Man to ""I"" Road Center Radius"
+MJRCR,5100,"Man to ""J"" Road Center Radius"
+MKRCR,5340,"Man to ""K"" Road Center Radius"
+MLRCR,5580,"Man to ""L"" Road Center Radius"
+ARN,,"""A"" Road Name"
+BRN,,"""B"" Road Name"
+CRN,,"""C"" Road Name"
+DRN,,"""D"" Road Name"
+ERN,,"""E"" Road Name"
+FRN,,"""F"" Road Name"
+GRN,,"""G"" Road Name"
+HRN,,"""H"" Road Name"
+IRN,,"""I"" Road Name"
+JRN,,"""J"" Road Name"
+KRN,,"""K"" Road Name"
+LRN,,"""L"" Road Name"

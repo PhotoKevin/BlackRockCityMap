@@ -1,0 +1,52 @@
+GS_LAT,40.78660,Golden Spike Latitude
+GS_LON,-119.20660,Golden Spike Longitude
+GS_ELEV,3904,Elevation Above Sea Level in feet
+P1_LAT,40.78306,Pentagon Point 1 Latitude
+P1_LON,-119.23568,Pentagon Point 1 Longitude
+MPC_DDD,315,"Man Polar Coordinate True North-South Axis, man degrees (if at man, north is at 10:30 oclock)"
+
+MCCR,2907,Man - Center Camp Center Radial Distance 
+MTR,2500,Man - Temple Radial Distance
+MPR,825,Man Plaza Radius
+TPR,500,Temple Plaza Radius
+
+RRCR,752,Rod's Road Center Radius about center of center camp
+RSW,40,Regular Street Width
+ORR,,Outer Road Center Radius
+
+CTCIR,330,Center Theme Camp Inner Radius
+CTCOR,732,Center Theme Camp Outer Radius
+PCCPKW,264,Plaza Center Camp Portal Keyhole Widest
+PCCPKN,120,Plaza Center Camp Keyhole Narrowest
+PW,120,Portal Mouth Width
+PPW,120,Plaza Portal Mouth Width
+PR,125,Plaza Radius
+
+ERCR,2500,Esplanade Road Center Radius
+BDZ,400,"Block Depth Esp"
+BDA,200,"Block Depth A"
+BDB,200,"Block Depth B"
+BDC,200,"Block Depth C"
+BDD,200,"Block Depth D"
+BDE,200,"Block Depth E"
+BDF,200,"Block Depth F"
+BDG,200,"Block Depth G"
+BDH,200,"Block Depth H"
+BDI,200,"Block Depth I"
+BDJ,200,"Block Depth J"
+BDK,200,"Block Depth K"
+BDL,200,"Block Depth L"
+
+ARN,,"""A"" Road Name"
+BRN,,"""B"" Road Name"
+CRN,,"""C"" Road Name"
+DRN,,"""D"" Road Name"
+ERN,,"""E"" Road Name"
+FRN,,"""F"" Road Name"
+GRN,,"""G"" Road Name"
+HRN,,"""H"" Road Name"
+IRN,,"""I"" Road Name"
+JRN,,"""J"" Road Name"
+KRN,,"""K"" Road Name"
+LRN,,"""L"" Road Name"
+
