@@ -85,6 +85,19 @@ public class StreetMap
       }
    }
    
+   public void print ()
+   {
+      for (int r = 0; r<data.length; r++)
+      {
+          if (data[r][0] != '\0')
+          {
+              for (int c = 0; c<data[r].length; c++)
+                System.out.print (data[r][c]);
+              System.out.println ();
+          }
+      }
+   }
+   
    private int row (AnnularStreet a)
    {
       if (a.getStreetLetter () == AnnularStreet.ESPLANADE)
@@ -121,6 +134,17 @@ public class StreetMap
       else 
          return data[row-1][col] != ' ';
    }
+   
+   public char maxRoadLetter ()
+   {
+      char maxLetter = 0;
+      for (int r = 0; r<data.length; r++)
+         if (data[r][0] != '\0')
+             maxLetter += 1;
+      
+      // There are two letters per street
+      return  (char) (maxLetter/2 + 'A'-1);
+   }
 
    /**
     * Determine if there is a road away from the man from
@@ -134,9 +158,12 @@ public class StreetMap
       int row = row (intersection.annular);
       int col = column (intersection.radial);
       
-      if ((intersection.annular.getStreetLetter () >= 'L') && intersection.annular.getStreetLetter () != AnnularStreet.ESPLANADE)
+      if ((intersection.annular.getStreetLetter () >= maxRoadLetter()) && intersection.annular.getStreetLetter () != AnnularStreet.ESPLANADE)
          return false;
       
+      if (data[row+1][0] == '\0')
+          return false;
+
       if (row > data.length - 2)
          return false;
          

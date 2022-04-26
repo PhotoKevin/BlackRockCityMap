@@ -174,7 +174,27 @@ public class StreetMapTest
       }
    }
 
+   @Test
+   public void testBlockCorners22 ()
+   {
+      try
+      {
+         System.out.println ("blockCorners22");
+      StreetMap instance = new StreetMap ("2022-StreetMap.txt");
+      instance.print ();
+//      boolean expResult = true;
+         ArrayList<Intersection> result = instance.getBlockCorners (new Intersection ( "3:30",   'i'));
 
+         for (Intersection ii : result)
+            System.out.println (ii.toString ());
+
+         assertEquals (4, result.size ());
+      }
+      catch (Exception ex)
+      {
+         fail (ex.toString ());
+      }
+   }
 
    /**
     * Test of isPlaza method, of class StreetMap.
@@ -197,6 +217,16 @@ public class StreetMapTest
       assertEquals (expResult, result);
    }
    
+   @Test
+   public void testMaxRoad ()
+   {
+      System.out.println ("maxRoadLetter");
+      StreetMap instance = new StreetMap ("2018-StreetMap.txt");
+      assertEquals ('L', instance.maxRoadLetter ());
+      
+      instance = new StreetMap ("2022-StreetMap.txt");
+      assertEquals ('K', instance.maxRoadLetter ());
+   }
 
 
    /**

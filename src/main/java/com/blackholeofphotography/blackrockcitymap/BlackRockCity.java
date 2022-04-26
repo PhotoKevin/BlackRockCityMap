@@ -172,7 +172,6 @@ public class BlackRockCity
       else if (d.isPlazaPortal (lateInside)) // Yes, lateInside. Need to deal with the odd corners at 3:00A and 9:00A
       {
          LLALocation g;
-         double bearing = lateBearing;
 
          double espBlockFT = d.getBlockDepth (AnnularStreet.ESPLANADE);
          double AblockFT = this.PlazaPortalLength () - espBlockFT;
@@ -442,7 +441,6 @@ public class BlackRockCity
       
       double radiusRROutside = d.getCenterThemeCampOuterRadius () + d.getRegularStreetWidth (); // Radius of the ouside edge of Rod's Road
 
-   {
       LLALocation p300Esp = new Intersection (3,00, AnnularStreet.ESPLANADE).corner (d, IntersectionOffset.CounterClockwiseManside);
       LLALocation p900Esp = new Intersection (9,00, AnnularStreet.ESPLANADE).corner (d, IntersectionOffset.ClockwiseManside);
 
@@ -456,8 +454,8 @@ public class BlackRockCity
       
       LLALocation p900Man = new Intersection (9,00, AnnularStreet.THE_MAN).corner (d, IntersectionOffset.Clockwise);
 
-      LLALocation p1000L = new Intersection ("10:00", 'L').corner (d, IntersectionOffset.ClockwiseOutside);
-      LLALocation p200L = new Intersection ("2:00", 'L').corner (d, IntersectionOffset.CounterClockwiseOutside);
+      LLALocation p1000L = new Intersection ("10:00", d.maxRoadLetter ()).corner (d, IntersectionOffset.ClockwiseOutside);
+      LLALocation p200L = new Intersection ("2:00", d.maxRoadLetter ()).corner (d, IntersectionOffset.CounterClockwiseOutside);
 
 
       LLALocation a = new Intersection ("2:00", AnnularStreet.ESPLANADE).corner (d, IntersectionOffset.CounterClockwiseManside);
@@ -471,7 +469,6 @@ public class BlackRockCity
       OuterPlaya.addArcSegment (GoldenSpike, p1200ManB, p900Man, ArcDirection.COUNTER_CLOCKWISE);
       OuterPlaya.addArcSegment (GoldenSpike, p900Esp, b, ArcDirection.CLOCKWISE);
       OuterPlaya.addArcSegment (GoldenSpike, p1000L, p200L, ArcDirection.COUNTER_CLOCKWISE);
-      }
 
       return OuterPlaya;
    }
@@ -546,7 +543,7 @@ public class BlackRockCity
             } 
          }
 
-         for (char ch='A'; ch<='L'; ch++)
+         for (char ch='A'; ch<=d.maxRoadLetter (); ch++)
          {
             for (int hour=2; hour<10; hour++)
             {
