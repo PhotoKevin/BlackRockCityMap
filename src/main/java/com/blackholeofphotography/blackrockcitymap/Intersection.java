@@ -73,7 +73,7 @@ public class Intersection
 
    /**
     * Get the LLALocation of the center of the intersection.
-    * @param dataSet Dataset to use for city dimensions. 
+    * @param dataSet The Dataset to use for city dimensions. 
     * @return an LLALocation
     */
    public LLALocation corner (BurningData dataSet)
@@ -96,11 +96,22 @@ public class Intersection
  
       if (this.annular.isCenterCamp ())
       {
+         double bearing530A = dataSet.getCenterCampLLA ().getBearing (new Intersection (5, 30, 'A').corner (dataSet));
+         double bearing630A = dataSet.getCenterCampLLA ().getBearing (new Intersection (6, 30, 'A').corner (dataSet));
+
          g = dataSet.getCenterCampLLA ();
          if (this.annular.getStreetLetter () == AnnularStreet.RODS_ROAD)
             g = g.moveFT (bearing, dataSet.getCenterThemeCampOuterRadius () + halfWidth);
          else
+         {
+            // Center is special. 3:00 and 9:00 are offset to follow a line from 
+            // the center of Center Camp and go to where A intersects Rod's Road.
+            if (this.radial.equals (new RadialStreet (3, 0)))
+               bearing = bearing530A;
+            else if (this.radial.equals (new RadialStreet (9, 0)))
+               bearing = bearing630A;
             g = g.moveFT (bearing, dataSet.getCenterThemeCampInnerRadius ());
+         }
       }
       else if (this.annular.getStreetLetter () == AnnularStreet.TEMPLE)
       {
@@ -150,6 +161,9 @@ public class Intersection
       case CounterClockwise:
          g = g.moveFT (bearing+90.0, -halfWidth);
          break;
+         
+      case Center:
+         break;         
       }
                  
       return g;
