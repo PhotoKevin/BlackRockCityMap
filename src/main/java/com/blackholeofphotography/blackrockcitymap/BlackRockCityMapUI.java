@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019, Kevin Nickerson (kevin@blackholeofphotography.com)
+ * Copyright (c) 2019-2022, Kevin Nickerson (kevin@blackholeofphotography.com)
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -211,7 +211,7 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
 
       int x = (int) lr.xCoordinate ();
       int y = (int) lr.yCoordinate ();
-      org.jfree.graphics2d.svg.SVGGraphics2D g2 = new org.jfree.graphics2d.svg.SVGGraphics2D (y, x);
+      org.jfree.svg.SVGGraphics2D g2 = new org.jfree.svg.SVGGraphics2D (y, x);
       
       docWidth = lr.xCoordinate () - ul.xCoordinate ();
       docHeight = lr.yCoordinate () - ul.yCoordinate ();

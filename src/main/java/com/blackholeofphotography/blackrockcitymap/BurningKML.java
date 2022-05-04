@@ -29,7 +29,6 @@ package com.blackholeofphotography.blackrockcitymap;
 
 //import com.blackholeofphotography.blackrockcitymap.KML.Folder;
 import com.blackholeofphotography.blackrockcitymap.path.Path;
-import de.micromata.opengis.kml.v_2_2_0.Coordinate;
 import de.micromata.opengis.kml.v_2_2_0.Feature;
 import de.micromata.opengis.kml.v_2_2_0.Folder;
 import de.micromata.opengis.kml.v_2_2_0.Kml;
@@ -37,16 +36,11 @@ import de.micromata.opengis.kml.v_2_2_0.LineString;
 import de.micromata.opengis.kml.v_2_2_0.LineStyle;
 import de.micromata.opengis.kml.v_2_2_0.Placemark;
 //import de.micromata.opengis.kml.v_2_2_0.Placemark;
-import java.awt.Color;
-import java.awt.Rectangle;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.jfree.graphics2d.svg.SVGGraphics2D;
 
 /**
  *
@@ -84,7 +78,6 @@ public class BurningKML
    {
       String                  nextLevel;
       String                  rest;
-      int                     i;
 
       nextLevel               =  SubFolder;
       rest                    =  null;

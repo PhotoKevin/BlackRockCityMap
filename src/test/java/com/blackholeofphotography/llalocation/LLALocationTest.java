@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019, Kevin Nickerson (kevin@blackholeofphotography.com)
+ * Copyright (c) 2019-2022, Kevin Nickerson (kevin@blackholeofphotography.com)
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,14 +25,13 @@
  */
 package com.blackholeofphotography.llalocation;
 
-import de.micromata.opengis.kml.v_2_2_0.Coordinate;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import static org.junit.Assert.*;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 /**
  *
  * @author Kevin Nickerson (kevin@blackholeofphotography.com)
@@ -66,22 +65,22 @@ public class LLALocationTest
       };
    }
    
-   @BeforeClass
+   @BeforeAll
    public static void setUpClass ()
    {
    }
    
-   @AfterClass
+   @AfterAll
    public static void tearDownClass ()
    {
    }
    
-   @Before
+   @BeforeEach
    public void setUp ()
    {
    }
    
-   @After
+   @AfterEach
    public void tearDown ()
    {
    }
