@@ -1,3 +1,4 @@
 /target/
 /20*.svg
 /20*.kml
+/dependency-reduced-pom.xml
