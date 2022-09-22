@@ -72,6 +72,11 @@ public class Path
       segments.add (new PathPoint (point));
    }
    
+   public LLALocation currentPoint ()
+   {
+      return segments.get (segments.size ()-1).endPoint ();
+   }
+   
    public void closePath ()
    {
       closed = true;
