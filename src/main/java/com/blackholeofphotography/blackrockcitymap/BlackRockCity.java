@@ -296,6 +296,9 @@ public class BlackRockCity
       return centerPoint.moveFT (newBearing, hypot);
    }
    
+   // Draw one of the four blocks inside of Rod's Road.
+   // See CenterCamp.svg 
+   
    private Path drawCentralBlock (String folderPath, LLALocation earlyInside, LLALocation lateInside, LLALocation lateOutside, LLALocation earlyOutside)
    {
       Path p = new Path (folderPath, Color.BLACK);
@@ -564,20 +567,20 @@ public class BlackRockCity
          }
        
 
-         // Get a bearing that points to the center of 5:30A.
+         // Get a bearing that points from the center of Center Camp to the center of 5:30A.
          // Pretend that's a portal and point the 3:00 road at it.
          // Ditto for the 9:00 road from Center Camp
          double bearing530A = d.getCenterCampLLA ().getBearing (new Intersection (5, 30, 'A').corner (d));
          double bearing630A = d.getCenterCampLLA ().getBearing (new Intersection (6, 30, 'A').corner (d));
 
-         Path p = this.drawCentralBlock ("CenterCamp", 
+         Path p = this.drawCentralBlock ("CenterCampEarlyManside", 
                  this.KeyHolePoint (d.getCenterCampLLA (), d.getBearing (new RadialStreet ("12:00")), d.getCenterThemeCampInnerRadius (), -d.getCenterCampKeyholeNarrowest ()),
                  new Intersection (3, 0, AnnularStreet.INNER_CIRCLE).corner (d, IntersectionOffset.CounterClockwise), 
                  this.KeyHolePoint (d.getCenterCampLLA (), bearing530A, d.getCenterThemeCampOuterRadius (), d.getRegularStreetWidth ()),
                  this.KeyHolePoint (d.getCenterCampLLA (), d.getBearing (new RadialStreet ("12:00")), d.getCenterThemeCampOuterRadius (), -d.getCenterCampKeyholeWidest ()));
          drawing.add (p);
          
-         p = this.drawCentralBlock ("CenterCamp", 
+         p = this.drawCentralBlock ("CenterCampEarlyOutside", 
                  new Intersection (3, 0, AnnularStreet.INNER_CIRCLE).corner (d, IntersectionOffset.Clockwise), 
                  new Intersection (6, 0, AnnularStreet.INNER_CIRCLE).corner (d, IntersectionOffset.CounterClockwise), 
                  new Intersection (6, 0, AnnularStreet.RODS_ROAD).corner (d, IntersectionOffset.CounterClockwiseManside),
@@ -585,14 +588,14 @@ public class BlackRockCity
          drawing.add (p);
 
 
-         p = this.drawCentralBlock ("CenterCamp", 
+         p = this.drawCentralBlock ("CenterCampLateOutside", 
                  new Intersection (6, 0, AnnularStreet.INNER_CIRCLE).corner (d, IntersectionOffset.Clockwise), 
                  new Intersection (9, 0, AnnularStreet.INNER_CIRCLE).corner (d, IntersectionOffset.CounterClockwise), 
                  this.KeyHolePoint (d.getCenterCampLLA (), bearing630A, d.getCenterThemeCampOuterRadius (), d.getRegularStreetWidth ()),
                  new Intersection (6, 0, AnnularStreet.RODS_ROAD).corner (d, IntersectionOffset.ClockwiseManside)); 
          drawing.add (p);
 
-         p = this.drawCentralBlock ("CenterCamp", 
+         p = this.drawCentralBlock ("CenterCampLateManside", 
                  new Intersection (9, 0, AnnularStreet.INNER_CIRCLE).corner (d, IntersectionOffset.Clockwise), 
                  this.KeyHolePoint (d.getCenterCampLLA (), d.getBearing (new RadialStreet ("12:00")), d.getCenterThemeCampInnerRadius (), d.getCenterCampKeyholeNarrowest ()),
                  this.KeyHolePoint (d.getCenterCampLLA (), d.getBearing (new RadialStreet ("12:00")), d.getCenterThemeCampOuterRadius (), d.getCenterCampKeyholeWidest ()),
@@ -610,9 +613,6 @@ public class BlackRockCity
          drawing.add (this.drawOuterPlaya ("OuterPlaya"));
          drawing.add (this.drawInnerPlaya ("OnnerPlaya", true));
          drawing.add (this.drawInnerPlaya ("OnnerPlaya", false));
-//         drawing.clear ();
-//         drawing.add (drawRR ());
-         
       }
       catch (IOException | NumberFormatException e)
       {
