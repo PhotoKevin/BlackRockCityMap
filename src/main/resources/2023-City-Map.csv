@@ -1,0 +1,50 @@
+GS_LAT,40.785980,Golden Spike Latitude
+GS_LON,-119.205840,Golden Spike Longitude
+GS_ELEV,3904,Elevation Above Sea Level in feet
+P1_LAT,40.78236,Pentagon Point 1 Latitude
+P1_LON,-119.23530,Pentagon Point 1 Longitude
+MPC_DDD,315,"Man Polar Coordinate True North-South Axis, man degrees (if at man, north is at 10:30 oclock)"
+
+MCCR,3026,Man - Center Camp Center Radial Distance 
+MTR,2500,Man - Temple Radial Distance
+MPR,825,Man Plaza Radius
+TPR,250,Temple Plaza Radius
+
+RRCR,783,Rod's Road Center Radius about center of center camp
+RSW,40,Regular Street Width
+ORR,5635,Outer Road Center Radius
+
+CTCIR,320,Center Theme Camp Inner Radius
+CTCOR,763,Center Theme Camp Outer Radius
+PCCPKW,317,Plaza Center Camp Portal Keyhole Widest
+PCCPKN,120,Plaza Center Camp Keyhole Narrowest
+PW,120,Portal Mouth Width
+PPW,120,Plaza Portal Mouth Width
+PR,100,Plaza Radius
+
+ERCR,2500,Esplanade Road Center Radius
+BDZ,400,"Block Depth A"
+BDA,250,"Block Depth A"
+BDB,250,"Block Depth B"
+BDC,250,"Block Depth C"
+BDD,250,"Block Depth D"
+BDE,450,"Block Depth E"
+BDF,250,"Block Depth F"
+BDG,250,"Block Depth G"
+BDH,250,"Block Depth H"
+BDI,150,"Block Depth I"
+BDJ,150,"Block Depth J"
+BDK,150,"Block Depth K"
+
+ARN,Afanc,"""A"" Road Name"
+BRN,Bigfoot ,"""B"" Road Name"
+CRN,Chupacabra ,"""C"" Road Name"
+DRN,Dingbat ,"""D"" Road Name"
+ERN,Encantado ,"""E"" Road Name"
+FRN,Frogbat ,"""F"" Road Name"
+GRN,Grootslang ,"""G"" Road Name"
+HRN,Hodag ,"""H"" Road Name"
+IRN,Igopogo ,"""I"" Road Name"
+JRN,Jackalope,"""J"" Road Name"
+KRN,Kraken ,"""K"" Road Name"
+

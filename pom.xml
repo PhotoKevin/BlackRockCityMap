@@ -1,39 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>com.blackholeofphotography</groupId>
-    <artifactId>BlackRockCityMap</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
-    <dependencies>
-       <!-- https://mvnrepository.com/artifact/de.micromata.jak/JavaAPIforKml -->
-       <dependency>
-          <groupId>de.micromata.jak</groupId>
-          <artifactId>JavaAPIforKml</artifactId>
-          <version>2.2.1</version>
-       </dependency>
-        <!-- https://mvnrepository.com/artifact/org.jfree/org.jfree.svg -->
-        <dependency>
-           <groupId>org.jfree</groupId>
-           <artifactId>org.jfree.svg</artifactId>
-           <version>5.0.2</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.apache.xmlgraphics/batik-all -->
-        <dependency>
-           <groupId>org.apache.xmlgraphics</groupId>
-           <artifactId>batik-all</artifactId>
-           <version>1.14</version>
-           <type>pom</type>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
-        <dependency>
-           <groupId>org.junit.jupiter</groupId>
-           <artifactId>junit-jupiter-api</artifactId>
-           <version>5.8.2</version>
-           <scope>test</scope>
-        </dependency>
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>com.blackholeofphotography</groupId>
+   <artifactId>BlackRockCityMap</artifactId>
+   <version>1.0-SNAPSHOT</version>
+   <packaging>jar</packaging>
+   <dependencies>
+      <!-- https://mvnrepository.com/artifact/de.micromata.jak/JavaAPIforKml -->
+      <dependency>
+         <groupId>de.micromata.jak</groupId>
+         <artifactId>JavaAPIforKml</artifactId>
+         <version>2.2.1</version>
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/org.apache.xmlgraphics/batik-svggen -->
+      <dependency>
+         <groupId>org.apache.xmlgraphics</groupId>
+         <artifactId>batik-svggen</artifactId>
+         <version>1.16</version>
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/org.apache.xmlgraphics/batik-transcoder -->
+      <dependency>
+         <groupId>org.apache.xmlgraphics</groupId>
+         <artifactId>batik-transcoder</artifactId>
+         <version>1.16</version>
+      </dependency>
 
-    </dependencies>
+      <!-- https://mvnrepository.com/artifact/org.jfree/org.jfree.svg -->
+      <dependency>
+         <groupId>org.jfree</groupId>
+         <artifactId>org.jfree.svg</artifactId>
+         <version>5.0.5</version>
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/org.apache.xmlgraphics/batik-all -->
+      <dependency>
+         <groupId>org.apache.xmlgraphics</groupId>
+         <artifactId>batik-all</artifactId>
+         <version>1.16</version>
+         <type>pom</type>
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+      <dependency>
+         <groupId>org.junit.jupiter</groupId>
+         <artifactId>junit-jupiter-api</artifactId>
+         <version>5.9.3</version>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.apache.xmlgraphics</groupId>
+         <artifactId>batik-swing</artifactId>
+         <version>1.14</version>
+         <type>jar</type>
+      </dependency>
+   </dependencies>
    <build>
       <pluginManagement>
          <plugins>
@@ -94,9 +112,9 @@
       </plugins>
    </build>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
+   <properties>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <maven.compiler.source>1.8</maven.compiler.source>
+      <maven.compiler.target>1.8</maven.compiler.target>
+   </properties>
 </project>

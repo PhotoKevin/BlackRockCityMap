@@ -296,9 +296,15 @@ public class BlackRockCity
       return centerPoint.moveFT (newBearing, hypot);
    }
    
-   // Draw one of the four blocks inside of Rod's Road.
-   // See CenterCamp.svg 
-   
+   /**
+    * Draw one of the four blocks inside of Rod's Road going around Central Camp
+    * @param folderPath Name of the path.
+    * @param earlyInside Point closest to Center Camp on the early side 
+    * @param lateInside Point closest to Center Camp on the late side 
+    * @param lateOutside Point furthest from Center Camp on the early side 
+    * @param earlyOutside Point furthest from Center Camp on the late side 
+    * @return 
+    */
    private Path drawCentralBlock (String folderPath, LLALocation earlyInside, LLALocation lateInside, LLALocation lateOutside, LLALocation earlyOutside)
    {
       Path p = new Path (folderPath, Color.BLACK);
@@ -521,11 +527,45 @@ public class BlackRockCity
       return InnerPlaya;
    }
    
+   public Path drawHOVerlandia ()
+   {
+      Path p = new Path ("HOV", Color.GREEN);
+      Intersection HOVCorner = new Intersection (new RadialStreet (6, 15), new AnnularStreet ('I'));
+      LLALocation start = HOVCorner.corner (d, IntersectionOffset.CounterClockwiseManside);
+      p.addPoint (start);
+      p.addArcSegment (GoldenSpike, start, start.moveFT (GoldenSpike, -400), ArcDirection.COUNTER_CLOCKWISE);
+      double p1Bearing = GoldenSpike.getBearing (p.currentPoint ());
+
+      p.addLineSegment (p.currentPoint (), p.currentPoint ().moveFT (p1Bearing, -150));
+      
+      p1Bearing = GoldenSpike.getBearing (start);
+      p.addArcSegment (GoldenSpike, p.currentPoint (), start.moveFT (p1Bearing, -150), ArcDirection.CLOCKWISE);
+      
+      
+
+//      p.addArcSegment (d.getCenterCampLLA (), earlyInside, lateInside, ArcDirection.CLOCKWISE);
+//      p.addLineSegment (lateInside, lateOutside);    // Implicit line
+//      p.addArcSegment (d.getCenterCampLLA (), lateOutside, earlyOutside, ArcDirection.COUNTER_CLOCKWISE);
+//      p.addLineSegment (earlyOutside, earlyInside);
+//      // Back to start
+//      //p.addPoint (earlyInside);
+//
+//      p.closePath ();
+      return p;
+
+
+//      LLALocation earlyInsideCorner = earlyInside.corner (d, IntersectionOffset.ClockwiseOutside);
+      
+   }
+   
    public ArrayList<Path> drawCity ()
    {
       ArrayList<Path> drawing = new ArrayList<> ();
       try
       {
+         Path HOV = drawHOVerlandia ();
+         drawing.add (HOV);
+
          // https://innovate.burningman.org/dataset/2017-golden-spike-and-general-city-map-data/
 
          drawing.add (Perimeter ());
@@ -567,20 +607,20 @@ public class BlackRockCity
          }
        
 
-         // Get a bearing that points from the center of Center Camp to the center of 5:30A.
+         // Get a bearing that points to the center of 5:30A.
          // Pretend that's a portal and point the 3:00 road at it.
          // Ditto for the 9:00 road from Center Camp
          double bearing530A = d.getCenterCampLLA ().getBearing (new Intersection (5, 30, 'A').corner (d));
          double bearing630A = d.getCenterCampLLA ().getBearing (new Intersection (6, 30, 'A').corner (d));
 
-         Path p = this.drawCentralBlock ("CenterCampEarlyManside", 
+         Path p = this.drawCentralBlock ("CenterCamp", 
                  this.KeyHolePoint (d.getCenterCampLLA (), d.getBearing (new RadialStreet ("12:00")), d.getCenterThemeCampInnerRadius (), -d.getCenterCampKeyholeNarrowest ()),
                  new Intersection (3, 0, AnnularStreet.INNER_CIRCLE).corner (d, IntersectionOffset.CounterClockwise), 
                  this.KeyHolePoint (d.getCenterCampLLA (), bearing530A, d.getCenterThemeCampOuterRadius (), d.getRegularStreetWidth ()),
                  this.KeyHolePoint (d.getCenterCampLLA (), d.getBearing (new RadialStreet ("12:00")), d.getCenterThemeCampOuterRadius (), -d.getCenterCampKeyholeWidest ()));
          drawing.add (p);
          
-         p = this.drawCentralBlock ("CenterCampEarlyOutside", 
+         p = this.drawCentralBlock ("CenterCamp", 
                  new Intersection (3, 0, AnnularStreet.INNER_CIRCLE).corner (d, IntersectionOffset.Clockwise), 
                  new Intersection (6, 0, AnnularStreet.INNER_CIRCLE).corner (d, IntersectionOffset.CounterClockwise), 
                  new Intersection (6, 0, AnnularStreet.RODS_ROAD).corner (d, IntersectionOffset.CounterClockwiseManside),
@@ -588,14 +628,14 @@ public class BlackRockCity
          drawing.add (p);
 
 
-         p = this.drawCentralBlock ("CenterCampLateOutside", 
+         p = this.drawCentralBlock ("CenterCamp", 
                  new Intersection (6, 0, AnnularStreet.INNER_CIRCLE).corner (d, IntersectionOffset.Clockwise), 
                  new Intersection (9, 0, AnnularStreet.INNER_CIRCLE).corner (d, IntersectionOffset.CounterClockwise), 
                  this.KeyHolePoint (d.getCenterCampLLA (), bearing630A, d.getCenterThemeCampOuterRadius (), d.getRegularStreetWidth ()),
                  new Intersection (6, 0, AnnularStreet.RODS_ROAD).corner (d, IntersectionOffset.ClockwiseManside)); 
          drawing.add (p);
 
-         p = this.drawCentralBlock ("CenterCampLateManside", 
+         p = this.drawCentralBlock ("CenterCamp", 
                  new Intersection (9, 0, AnnularStreet.INNER_CIRCLE).corner (d, IntersectionOffset.Clockwise), 
                  this.KeyHolePoint (d.getCenterCampLLA (), d.getBearing (new RadialStreet ("12:00")), d.getCenterThemeCampInnerRadius (), d.getCenterCampKeyholeNarrowest ()),
                  this.KeyHolePoint (d.getCenterCampLLA (), d.getBearing (new RadialStreet ("12:00")), d.getCenterThemeCampOuterRadius (), d.getCenterCampKeyholeWidest ()),
@@ -613,6 +653,9 @@ public class BlackRockCity
          drawing.add (this.drawOuterPlaya ("OuterPlaya"));
          drawing.add (this.drawInnerPlaya ("OnnerPlaya", true));
          drawing.add (this.drawInnerPlaya ("OnnerPlaya", false));
+//         drawing.clear ();
+//         drawing.add (drawRR ());
+         
       }
       catch (IOException | NumberFormatException e)
       {
