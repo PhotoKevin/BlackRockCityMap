@@ -76,7 +76,6 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
       jPanel1 = new javax.swing.JPanel();
       jLabel1 = new javax.swing.JLabel();
       cbYear = new javax.swing.JComboBox<>();
-      jButton1 = new javax.swing.JButton();
       jSVGCanvas1 = new org.apache.batik.swing.JSVGCanvas();
 
       setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -99,15 +98,6 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
          }
       });
 
-      jButton1.setText("jButton1");
-      jButton1.addActionListener(new java.awt.event.ActionListener()
-      {
-         public void actionPerformed(java.awt.event.ActionEvent evt)
-         {
-            jButton1ActionPerformed(evt);
-         }
-      });
-
       javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
       jPanel1.setLayout(jPanel1Layout);
       jPanel1Layout.setHorizontalGroup(
@@ -117,9 +107,7 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
             .addComponent(jLabel1)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(cbYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jButton1)
-            .addGap(86, 86, 86))
+            .addContainerGap(631, Short.MAX_VALUE))
       );
       jPanel1Layout.setVerticalGroup(
          jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -127,9 +115,8 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
             .addContainerGap()
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                .addComponent(jLabel1)
-               .addComponent(cbYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-               .addComponent(jButton1))
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+               .addComponent(cbYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addContainerGap(7, Short.MAX_VALUE))
       );
 
       jSVGCanvas1.addHierarchyBoundsListener(new java.awt.event.HierarchyBoundsListener()
@@ -183,13 +170,6 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
       rescale ();
    }//GEN-LAST:event_formWindowOpened
 
-   private void jButton1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton1ActionPerformed
-   {//GEN-HEADEREND:event_jButton1ActionPerformed
-      //this.rootPane.repaint ();
-      //rescale ();
-
-   }//GEN-LAST:event_jButton1ActionPerformed
-
    private void jSVGCanvas1AncestorResized(java.awt.event.HierarchyEvent evt)//GEN-FIRST:event_jSVGCanvas1AncestorResized
    {//GEN-HEADEREND:event_jSVGCanvas1AncestorResized
       rescale ();
@@ -212,7 +192,7 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
    {
       BlackRockCity city = new BlackRockCity (""+year);
       
-//      BurningKML.createKML (year);
+      BurningKML.createKML (year);
       
 
       ArrayList<Path> map = city.drawCity  ();
@@ -334,7 +314,6 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
 
    // Variables declaration - do not modify//GEN-BEGIN:variables
    private javax.swing.JComboBox<String> cbYear;
-   private javax.swing.JButton jButton1;
    private javax.swing.JLabel jLabel1;
    private javax.swing.JPanel jPanel1;
    private org.apache.batik.swing.JSVGCanvas jSVGCanvas1;
