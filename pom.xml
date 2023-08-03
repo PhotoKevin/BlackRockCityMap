@@ -7,11 +7,6 @@
    <packaging>jar</packaging>
    <dependencies>
       <!-- https://mvnrepository.com/artifact/de.micromata.jak/JavaAPIforKml -->
-      <dependency>
-         <groupId>de.micromata.jak</groupId>
-         <artifactId>JavaAPIforKml</artifactId>
-         <version>2.2.1</version>
-      </dependency>
       <!-- https://mvnrepository.com/artifact/org.apache.xmlgraphics/batik-svggen -->
       <dependency>
          <groupId>org.apache.xmlgraphics</groupId>
@@ -50,6 +45,11 @@
          <artifactId>batik-swing</artifactId>
          <version>1.14</version>
          <type>jar</type>
+      </dependency>
+      <dependency>
+         <groupId>de.micromata.jak</groupId>
+         <artifactId>JavaAPIforKml</artifactId>
+         <version>2.3.0-SNAPSHOT</version>
       </dependency>
    </dependencies>
    <build>
