@@ -444,40 +444,47 @@ public class BlackRockCity
       return CityBlock;
    }
    
+   // This draws around the city propper. It's the outside edge of the outer most road, around the temple, etc.
    private Path drawOuterPlaya (String folderPath)
    {
-      Path OuterPlaya = new Path (folderPath, Color.BLACK);
-      
-      double radiusRROutside = d.getCenterThemeCampOuterRadius () + d.getRegularStreetWidth (); // Radius of the ouside edge of Rod's Road
-
+      // The variables start with 'p' for point. Then the radial time and anular streat.
+      // Recall that we are after where the sides of the roads intersect, so there are IntersecionOffsets as needed.
       LLALocation p300Esp = new Intersection (3,00, AnnularStreet.ESPLANADE).corner (d, IntersectionOffset.CounterClockwiseManside);
       LLALocation p900Esp = new Intersection (9,00, AnnularStreet.ESPLANADE).corner (d, IntersectionOffset.ClockwiseManside);
 
-      LLALocation p300Man = new Intersection (3,00, AnnularStreet.THE_MAN).corner (d, IntersectionOffset.CounterClockwise);
+      // The two edges where the road from the man to the temple meet the circle around the man.
       LLALocation p1200ManA = new Intersection (12,00, AnnularStreet.THE_MAN).corner (d, IntersectionOffset.Clockwise);
       LLALocation p1200ManB = new Intersection (12,00, AnnularStreet.THE_MAN).corner (d, IntersectionOffset.CounterClockwise);
 
+      // The two edges where the road to the temple intersect the circle around the temple.
       LLALocation p600TempleB = new Intersection (6,00, AnnularStreet.TEMPLE).corner (d, IntersectionOffset.Clockwise);
       LLALocation p600TempleA = new Intersection (6,00, AnnularStreet.TEMPLE).corner (d, IntersectionOffset.CounterClockwise);
 
-      
+      // Where the roads from the 3:00 and 9:00 plaza intersect with the circle around the man
+      LLALocation p300Man = new Intersection (3,00, AnnularStreet.THE_MAN).corner (d, IntersectionOffset.CounterClockwise);
       LLALocation p900Man = new Intersection (9,00, AnnularStreet.THE_MAN).corner (d, IntersectionOffset.Clockwise);
 
+      // It used to be that the outer street was L. Not anymore, but I've left the
+      // variable name alone.
       LLALocation p1000L = new Intersection ("10:00", d.maxRoadLetter ()).corner (d, IntersectionOffset.ClockwiseOutside);
       LLALocation p200L = new Intersection ("2:00", d.maxRoadLetter ()).corner (d, IntersectionOffset.CounterClockwiseOutside);
 
 
-      LLALocation a = new Intersection ("2:00", AnnularStreet.ESPLANADE).corner (d, IntersectionOffset.CounterClockwiseManside);
-      LLALocation b = new Intersection ("10:00", AnnularStreet.ESPLANADE).corner (d, IntersectionOffset.ClockwiseManside);
+      LLALocation p200Esp = new Intersection ("2:00", AnnularStreet.ESPLANADE).corner (d, IntersectionOffset.CounterClockwiseManside);
+      LLALocation p1000Esp = new Intersection ("10:00", AnnularStreet.ESPLANADE).corner (d, IntersectionOffset.ClockwiseManside);
 
-      OuterPlaya.addArcSegment (GoldenSpike, a, p300Esp, ArcDirection.CLOCKWISE);
+      Path OuterPlaya = new Path (folderPath, Color.BLACK);
+
+      OuterPlaya.addArcSegment (GoldenSpike, p200Esp, p300Esp, ArcDirection.CLOCKWISE);
       OuterPlaya.addArcSegment (GoldenSpike, p300Man, p1200ManA, ArcDirection.COUNTER_CLOCKWISE);
       OuterPlaya.addPoint (p600TempleA);
       OuterPlaya.addArcSegment (d.getTempleLLA (), p600TempleA, p600TempleB, ArcDirection.COUNTER_CLOCKWISE);
       OuterPlaya.addPoint (p600TempleB);
       OuterPlaya.addArcSegment (GoldenSpike, p1200ManB, p900Man, ArcDirection.COUNTER_CLOCKWISE);
-      OuterPlaya.addArcSegment (GoldenSpike, p900Esp, b, ArcDirection.CLOCKWISE);
+      OuterPlaya.addArcSegment (GoldenSpike, p900Esp, p1000Esp, ArcDirection.CLOCKWISE);
       OuterPlaya.addArcSegment (GoldenSpike, p1000L, p200L, ArcDirection.COUNTER_CLOCKWISE);
+      
+      OuterPlaya.addPoint (p200Esp);
 
       return OuterPlaya;
    }
@@ -504,6 +511,7 @@ public class BlackRockCity
          InnerPlaya.addArcSegment (GoldenSpike, p300Esp, p1, ArcDirection.CLOCKWISE);
          InnerPlaya.addArcSegment (d.getCenterCampLLA (), p1, p1200RR, ArcDirection.COUNTER_CLOCKWISE);
          InnerPlaya.addArcSegment (GoldenSpike, p600Man, p300Man, ArcDirection.COUNTER_CLOCKWISE);
+         InnerPlaya.addPoint (p300Esp);
       }
       else
       {
@@ -522,6 +530,7 @@ public class BlackRockCity
 
          InnerPlaya.addArcSegment (d.getCenterCampLLA (), p2, p1200RR, ArcDirection.CLOCKWISE);
          InnerPlaya.addArcSegment (GoldenSpike, p600Man, p900Man, ArcDirection.CLOCKWISE);
+         InnerPlaya.addPoint (p900Esp);
       }
       
       return InnerPlaya;
@@ -563,8 +572,8 @@ public class BlackRockCity
       ArrayList<Path> drawing = new ArrayList<> ();
       try
       {
-         Path HOV = drawHOVerlandia ();
-         drawing.add (HOV);
+//         Path HOV = drawHOVerlandia ();
+//         drawing.add (HOV);
 
          // https://innovate.burningman.org/dataset/2017-golden-spike-and-general-city-map-data/
 
