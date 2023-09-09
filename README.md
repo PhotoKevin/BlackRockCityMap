@@ -1,9 +1,12 @@
 # Black Rock City Map
 Generate maps of Black Rock City from data files in SVG (Inkscape) and KML (Google Earth) formats.
-Covers 2014 to 2022.
+Covers 2014 to 2023.
 
-### Note:
+### Note
 You don't need to build or run the program yourself. The generated maps are attached to the releases. 
+
+### License
+The code is licensed as the MIT 2 clause but the generated maps are CC0 (Public domain). 
 
 ## Background
 This started out because I wanted to see how Black Rock City compared to other cities in Google Earth. 
@@ -23,6 +26,9 @@ As noted, this program generates SVG files for InkScape. InkScape is 100% free a
 Since it's vector based, the images can be scaled to any degree you like without losing quality.
 If you need a bitmap, Inkscape can export PNG files in any resolution you like.
 
+## The math
+Laying out the city requires a good bit of trigonometry. There are SVG files in the source tree that give 
+some of the math using diagrams. Even so, they're terse but they're what I made in working things out.
 
 ## Errors and Ommisions
 In 2014 some of the roads were different widths, and some of the plazas were different diameters. This

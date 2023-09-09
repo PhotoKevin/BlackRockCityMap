@@ -50,12 +50,8 @@ import java.util.ArrayList;
 
 public class BurningKML
 {
-   Kml root;
-   Folder fYear;
    public BurningKML ()
    {
-      root = new Kml ();
-      fYear = root.createAndSetFolder ().withName ("2017");
    }
 
    private Folder findFolderByName (Folder rootFolder, String name)

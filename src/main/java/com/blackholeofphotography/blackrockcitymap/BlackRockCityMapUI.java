@@ -193,6 +193,7 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
       BlackRockCity city = new BlackRockCity (""+year);
       
       BurningKML.createKML (year);
+      BurningGeoJSON.createGeoJSON (year);
       
 
       ArrayList<Path> map = city.drawCity  ();
