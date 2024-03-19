@@ -112,14 +112,14 @@ public class BurningKML
   
    public static void createKML (int year)
    {
-      BlackRockCity city = new BlackRockCity (""+year);
+      BlackRockCity city = new BlackRockCity (year);
       ArrayList<Path> drawing = city.drawCity ();
       BurningKML bk;
       bk = new BurningKML ();
       Folder fYear;
       Kml root;
       root = new Kml ();
-      fYear = root.createAndSetFolder ().withName (""+year);
+      fYear = root.createAndSetFolder ().withName (String.valueOf (year));
 
 
       for (Path pp : drawing)

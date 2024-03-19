@@ -45,7 +45,7 @@ public class BurningGeoJSON
 
    public static void createGeoJSON (int year)
    {
-      BlackRockCity city = new BlackRockCity (""+year);
+      BlackRockCity city = new BlackRockCity (year);
       ArrayList<Path> drawing = city.drawCity ();
       ArrayList<mil.nga.sf.geojson.Geometry> geo = new ArrayList<> ();
 

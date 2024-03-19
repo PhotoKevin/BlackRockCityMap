@@ -181,8 +181,8 @@ public class StreetMapTest
       try
       {
          System.out.println ("blockCorners22");
-      StreetMap instance = new StreetMap ("2022-StreetMap.txt");
-      instance.print ();
+         StreetMap instance = new StreetMap ("2022-StreetMap.txt");
+         instance.print ();
 //      boolean expResult = true;
          ArrayList<Intersection> result = instance.getBlockCorners (new Intersection ( "3:30",   'i'));
 

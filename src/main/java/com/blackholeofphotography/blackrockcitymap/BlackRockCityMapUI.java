@@ -30,6 +30,7 @@ import com.blackholeofphotography.blackrockcitymap.path.PathBounds;
 import com.blackholeofphotography.llalocation.LLALocation;
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.io.BufferedWriter;
@@ -59,7 +60,7 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
    public BlackRockCityMapUI ()
    {
       initComponents ();
-      cbYear.setSelectedItem ("2023");
+      cbYear.setSelectedItem ("2024");
 
    }
 
@@ -89,7 +90,7 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
 
       jLabel1.setText("Year:");
 
-      cbYear.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2014", "2015", "2016", "2017", "2018", "2019", "2022", "2023" }));
+      cbYear.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2014", "2015", "2016", "2017", "2018", "2019", "2022", "2023", "2024" }));
       cbYear.addActionListener(new java.awt.event.ActionListener()
       {
          public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -119,6 +120,20 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
             .addContainerGap(7, Short.MAX_VALUE))
       );
 
+      jSVGCanvas1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter()
+      {
+         public void mouseDragged(java.awt.event.MouseEvent evt)
+         {
+            jSVGCanvas1MouseDragged(evt);
+         }
+      });
+      jSVGCanvas1.addMouseWheelListener(new java.awt.event.MouseWheelListener()
+      {
+         public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt)
+         {
+            jSVGCanvas1MouseWheelMoved(evt);
+         }
+      });
       jSVGCanvas1.addHierarchyBoundsListener(new java.awt.event.HierarchyBoundsListener()
       {
          public void ancestorMoved(java.awt.event.HierarchyEvent evt)
@@ -127,6 +142,17 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
          public void ancestorResized(java.awt.event.HierarchyEvent evt)
          {
             jSVGCanvas1AncestorResized(evt);
+         }
+      });
+      jSVGCanvas1.addMouseListener(new java.awt.event.MouseAdapter()
+      {
+         public void mousePressed(java.awt.event.MouseEvent evt)
+         {
+            jSVGCanvas1MousePressed(evt);
+         }
+         public void mouseReleased(java.awt.event.MouseEvent evt)
+         {
+            jSVGCanvas1MouseReleased(evt);
          }
       });
 
@@ -175,13 +201,57 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
       rescale ();
    }//GEN-LAST:event_jSVGCanvas1AncestorResized
 
+   private int zoomLevel = 25;
+   private void jSVGCanvas1MouseWheelMoved(java.awt.event.MouseWheelEvent evt)//GEN-FIRST:event_jSVGCanvas1MouseWheelMoved
+   {//GEN-HEADEREND:event_jSVGCanvas1MouseWheelMoved
+      zoomLevel += evt.getWheelRotation ();
+      rescale ();
+   }//GEN-LAST:event_jSVGCanvas1MouseWheelMoved
+
+   private double centerTranslateX, centerTranslateY;
+   private int dragStartX, dragStartY;
+   private int dragDistanceX, dragDistanceY;
+   
+   private void jSVGCanvas1MouseDragged(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jSVGCanvas1MouseDragged
+   {//GEN-HEADEREND:event_jSVGCanvas1MouseDragged
+      dragDistanceX = (evt.getX () - dragStartX);
+      dragDistanceY = (evt.getY () - dragStartY);
+      //System.out.printf ("D: %d, %d\n", dragDistanceX, dragDistanceY);
+   }//GEN-LAST:event_jSVGCanvas1MouseDragged
+
+   Rectangle currentRect;
+   private void jSVGCanvas1MousePressed(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jSVGCanvas1MousePressed
+   {//GEN-HEADEREND:event_jSVGCanvas1MousePressed
+      dragStartX = evt.getX ();
+      dragStartY = evt.getY ();
+      dragDistanceX = 0;
+      dragDistanceY = 0;
+      //System.out.printf ("P: %d, %d\n", dragStartX, dragStartY);
+      rescale ();
+   }//GEN-LAST:event_jSVGCanvas1MousePressed
+
+   private void jSVGCanvas1MouseReleased(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jSVGCanvas1MouseReleased
+   {//GEN-HEADEREND:event_jSVGCanvas1MouseReleased
+      centerTranslateX += dragDistanceX;
+      centerTranslateY += dragDistanceY;
+      System.out.printf ("R: %f, %f, %d\n", centerTranslateX, centerTranslateY, zoomLevel);
+      dragDistanceX = 0;
+      dragDistanceY = 0;
+      rescale ();
+   }//GEN-LAST:event_jSVGCanvas1MouseReleased
+
    private void rescale ()
    {
       AffineTransform at = this.jSVGCanvas1.getRenderingTransform ();
       double scaleFactorX = this.jSVGCanvas1.getWidth () / docWidth;
       double scaleFactorY = this.jSVGCanvas1.getHeight () / docHeight;
       double scaleFactor = Math.min (scaleFactorX, scaleFactorY);
+      scaleFactor *= zoomLevel * 4 / 100.0;
       at.setToScale (scaleFactor, scaleFactor);
+      double translateX = (centerTranslateX + dragDistanceX) * 1/scaleFactor;
+      double translateY = (centerTranslateY + dragDistanceY) * 1/scaleFactor;
+      
+      at.translate (translateX, translateY);
       this.jSVGCanvas1.setRenderingTransform (at, true);
    }
 
@@ -190,10 +260,14 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
 
    private void DrawMap (int year)
    {
-      BlackRockCity city = new BlackRockCity (""+year);
+      BlackRockCity city = new BlackRockCity (year);
       
       BurningKML.createKML (year);
       BurningGeoJSON.createGeoJSON (year);
+      
+      centerTranslateX = -521.000000;
+      centerTranslateY = -1244.000000;
+      zoomLevel = 125;
       
 
       ArrayList<Path> map = city.drawCity  ();

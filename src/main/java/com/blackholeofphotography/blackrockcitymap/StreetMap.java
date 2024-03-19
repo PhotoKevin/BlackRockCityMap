@@ -89,15 +89,19 @@ public class StreetMap
    {
       for (int r = 0; r<data.length; r++)
       {
-          if (data[r][0] != '\0')
-          {
-              for (int c = 0; c<data[r].length; c++)
-                System.out.print (data[r][c]);
-              System.out.println ();
-          }
+         if (data[r][0] != '\0')
+         {
+            for (int c = 0; c<data[r].length; c++)
+            {
+               char x = data[r][c];
+               if (x != '\0')
+                  System.out.print (x);
+            }
+            System.out.println ();
+         }
       }
    }
-   
+         
    private int row (AnnularStreet a)
    {
       if (a.getStreetLetter () == AnnularStreet.ESPLANADE)

@@ -41,7 +41,7 @@ public class RadialStreetTest
    
    public RadialStreetTest ()
    {
-      dataSet = new BurningData ("2018");
+      dataSet = new BurningData (2018);
    }
    
    @BeforeAll

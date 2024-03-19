@@ -57,7 +57,7 @@ public class BurningData
    private Map<String,String> Value = new HashMap<>();
    private Map<String,String> Description = new HashMap<>();
    private StreetMap strMap;
-   
+   private int year;
    /**
     * Location of the GoldenSpike
     * @return Location of GoldenSpike
@@ -76,6 +76,10 @@ public class BurningData
       return getLLALocation ("P1");
    }
    
+   public int getYear ()
+   {
+      return year;
+   }
    /**
     * Get the key value as a double, print an error if it's missing
     * @param key Key name (first column in csv)
@@ -394,14 +398,15 @@ public class BurningData
    }
 
 
-   public BurningData (String dataFile) 
+   public BurningData (int year) 
    {
+      this.year = year;
       try
       {
          List<String> in;
          ClassLoader classloader = Thread.currentThread().getContextClassLoader();
          
-         URL u = classloader.getResource(dataFile + "-City-Map.csv");
+         URL u = classloader.getResource(String.format ("%d-City-Map.csv", year));
          InputStream resource = u.openStream ();
          
          in = new BufferedReader(new InputStreamReader(resource, StandardCharsets.UTF_8)).lines().collect(Collectors.toList());
@@ -415,7 +420,7 @@ public class BurningData
             }
          }
          
-         strMap = new StreetMap (dataFile + "-StreetMap.txt");
+         strMap = new StreetMap (String.format ("%d-StreetMap.txt", year));
       }
       catch (IOException ex)
       {

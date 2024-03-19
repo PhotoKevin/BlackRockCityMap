@@ -43,7 +43,7 @@ public class BurningDataTest
 
    public BurningDataTest ()
    {
-      dataSet = new BurningData ("2019");
+      dataSet = new BurningData (2019);
    }
    
    @BeforeAll

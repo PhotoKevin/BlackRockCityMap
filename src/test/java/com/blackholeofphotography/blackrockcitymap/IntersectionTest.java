@@ -44,13 +44,13 @@ public class IntersectionTest
 
    public IntersectionTest ()
    {
-      dataSet = new BurningData ("2019");
+      dataSet = new BurningData (2019);
    }
    
    @BeforeAll
    public static void setUpClass ()
    {
-      dataSet = new BurningData ("2019");
+      dataSet = new BurningData (2019);
    }
    
    @AfterAll

@@ -44,14 +44,14 @@ public class AnnularStreetTest
 
    public AnnularStreetTest ()
    {
-      dataSet = new BurningData ("2018");
+      dataSet = new BurningData (2018);
    }
    
    @BeforeAll
    public static void setUpClass ()
    {
       System.out.println ("Setup");
-      dataSet = new BurningData ("2018");
+      dataSet = new BurningData (2018);
    }
    
    @AfterAll
