@@ -79,6 +79,8 @@ public class LLALocation
 
       lat1                 =  Math.toRadians (this.latitude);
       lon1                 =  Math.toRadians (this.longitude);
+      if (lla == null)
+         System.out.println ();
 
       lat2                 =  Math.toRadians (lla.latitude);  
       lon2                 =  Math.toRadians (lla.longitude);
@@ -159,7 +161,7 @@ public class LLALocation
       }
 
                
-      return km;
+      return Math.abs(km);
    }
 
    /**
@@ -181,6 +183,19 @@ public class LLALocation
    {
       return distanceMI (lla) * 5280;
    }
+   
+   public double distanceNSFT (LLALocation lla)
+   {
+      LLALocation pt = new LLALocation (lla.getLatitude (), getLongitude (), lla.getAltitude ());
+      return distanceFT (pt);
+   }
+   
+   public double distanceEWFT (LLALocation lla)
+   {
+      LLALocation pt = new LLALocation (getLatitude (), lla.getLongitude (), lla.getAltitude ());
+      return distanceFT (pt);
+   }
+
 
    /**
     * Move from here the given direction and distance.
@@ -357,4 +372,10 @@ public class LLALocation
    {
       return new Coordinate (this.longitude, this.latitude);
    }   
+   
+   @Override
+   public String toString ()
+   {
+      return String.format ("%.5f, %.5f", getLatitude (), getLongitude ());
+   }
 }

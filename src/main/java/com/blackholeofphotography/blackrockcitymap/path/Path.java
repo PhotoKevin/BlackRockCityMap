@@ -28,7 +28,6 @@ package com.blackholeofphotography.blackrockcitymap.path;
 import com.blackholeofphotography.llalocation.LLALocation;
 import de.micromata.opengis.kml.v_2_2_0.Coordinate;
 import java.awt.Color;
-import java.awt.Point;
 import java.awt.geom.Path2D;
 import java.util.ArrayList;
 
@@ -42,10 +41,12 @@ public class Path
    private Color PathColor;
    private final ArrayList<PathSegment> segments;
    private boolean closed = false; 
+   private final Color fillColor;
    
    public Path (String name)
    {
       PathColor = Color.BLACK;
+      fillColor = new Color (0, 0, 0, 0);
       PathName = name;
       segments = new ArrayList<> ();
    }
@@ -53,6 +54,15 @@ public class Path
    public Path (String name, Color color)
    {
       PathColor = color;
+      fillColor = new Color (0, 0, 0, 0);
+      PathName = name;
+      segments = new ArrayList<> ();
+   }
+
+   public Path (String name, Color color, Color fill)
+   {
+      PathColor = color;
+      fillColor = fill;
       PathName = name;
       segments = new ArrayList<> ();
    }
@@ -67,6 +77,17 @@ public class Path
       segments.add (new PathArc (center, p1, p2, dir));
    }
    
+   public void addCircle (LLALocation center, LLALocation edge)
+   {
+      segments.add (new PathCircle (center, edge));
+      closed = true;
+   }
+   
+   public void addCircle (LLALocation center, double radiusFT)
+   {
+      segments.add (new PathCircle (center, radiusFT));
+      closed = true;
+   }   
    public void addPoint (LLALocation point)
    {
       segments.add (new PathPoint (point));
@@ -80,6 +101,11 @@ public class Path
    public void closePath ()
    {
       closed = true;
+   }
+   
+   public boolean isClosed ()
+   {
+      return closed;
    }
    
    public String getName ()
@@ -97,6 +123,11 @@ public class Path
       return PathColor;
    }
    
+   public Color getFillColor ()
+   {
+      return fillColor;
+   }
+   
    public String getKMLColor ()
    {
       return String.format ("#%02x%02x%02x%02x", PathColor.getAlpha (), PathColor.getBlue (), PathColor.getGreen(), PathColor.getRed());
@@ -112,6 +143,9 @@ public class Path
       
       for (PathSegment seg : segments)
          points.addAll (seg.toCoordinates ());
+      
+      if (closed && !segments.isEmpty ())
+         points.add (segments.get (0).startPoint ().toCoordinate ());
 
       return points;
    }

@@ -26,6 +26,9 @@
 package com.blackholeofphotography.llalocation;
 
 
+import com.blackholeofphotography.blackrockcitymap.path.Path;
+import java.awt.Color;
+import java.util.ArrayList;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -119,5 +122,40 @@ public class LLALocationTest
       double expResult = 0.0;
       double result = instance.distanceFT (lla);
       assertEquals (expResult, result, 0.0);
+   }
+   
+   @Test
+   public void testDistanceNS ()
+   {
+      LLALocation GoldenSpike = new LLALocation (40.786400, -119.203500, 3904);
+      LLALocation c0 = GoldenSpike.moveFT (90, 1000);
+      double r = 1000.0;
+      
+      LLALocation a0 = c0.moveFT (45, r);
+      LLALocation b0 = c0.moveFT (00, r);
+
+      double baX = b0.distanceEWFT (a0);
+      double caX = c0.distanceEWFT (a0);
+      assertEquals (707, baX, 2);
+      assertEquals (707, caX, 2);
+      
+      double abX = a0.distanceEWFT (b0);
+      double acX = a0.distanceEWFT (c0);
+      assertEquals (707, abX, 2);
+      assertEquals (707, acX, 2);
+
+
+      double baY = b0.distanceNSFT (a0);
+      double caY = c0.distanceNSFT (a0);
+      
+      assertEquals (292, baY, 2);
+      assertEquals (707, caY, 2);
+
+      double abY = a0.distanceNSFT (b0);
+      double acY = a0.distanceNSFT (c0);
+
+      assertEquals (292, baY, 2);
+      assertEquals (707, caY, 2);
+
    }
 }

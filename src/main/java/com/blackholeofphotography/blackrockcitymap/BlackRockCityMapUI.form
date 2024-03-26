@@ -51,7 +51,9 @@
                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="cbYear" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="631" max="32767" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="chkCenterline" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -62,6 +64,7 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="cbYear" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="chkCenterline" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="7" max="32767" attributes="0"/>
               </Group>
@@ -96,6 +99,15 @@
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="chkCenterline">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Centerline"/>
+            <Property name="actionCommand" type="java.lang.String" value="Centerline"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkCenterlineActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

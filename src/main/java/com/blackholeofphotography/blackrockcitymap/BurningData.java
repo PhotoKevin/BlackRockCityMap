@@ -82,8 +82,8 @@ public class BurningData
    }
    /**
     * Get the key value as a double, print an error if it's missing
-    * @param key Key name (first column in csv)
-    * @return Value as double (second column in csv)
+    * @param key Key name (first column in CSV)
+    * @return Value as double (second column in CSV)
     */
    private double getDoubleValue (String key)
    {
@@ -289,7 +289,17 @@ public class BurningData
    {
       return this.strMap.isPlazaPortal (intersection);
    }
-
+   
+      /**
+    * Determine if this intersection is a Mid - Plaza Portal.
+    * That's the intersections between a portal and its plaza
+    * @param intersection intersection of interest.
+    * @return true/false
+    */
+   public boolean isMidPlazaPortal (Intersection intersection)
+   {
+      return this.strMap.isMidPlazaPortal (intersection);
+   }
 
    public char maxRoadLetter ()
    {

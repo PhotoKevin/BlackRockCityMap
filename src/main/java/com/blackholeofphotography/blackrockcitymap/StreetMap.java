@@ -29,16 +29,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
@@ -238,7 +232,8 @@ public class StreetMap
    
    /**
     * Determine if this intersection is a Portal.
-    * Be aware that a portal might also be a Plaza Portal
+    * Be aware that a portal might also be a Plaza Portal.
+    * This returns false in that case.
     * @param intersection The intersection of interest.
     * @return true/false
     */
@@ -267,6 +262,31 @@ public class StreetMap
       
       return data[row][col] == 'P' && data[row+4][col] == 'Z';
    }
+   
+      /**
+    * Determine if this intersection is a Plaza Portal.
+    * A Plaza portal is a portal that opens into a plaza.
+    * They traditionally only happen at 3:00Esp and 9:00Esp
+    * A Mid Plaza Portal is an intersection between a Portal and its plaza
+    * @param intersection The intersection of interest.
+    * @return true/false
+    */
+   public boolean isMidPlazaPortal (Intersection intersection)
+   {
+      int row = row (intersection.annular);
+      int col = column (intersection.radial);
+      
+      // Lazy here. A portal is only on Esplanade. 
+      // A Mid plaza portal intersection has to be A
+      // and the Plaza B. If they ever put one out on C
+      // this will be wrong.
+      
+      if (intersection.annular.getStreetLetter () != 'A')
+         return false;
+      
+      return data[0][col] == 'P' && data[row+2][col] == 'Z';
+   }
+
    
    /**
     * Get the corners of the block where the supplied intersection is the 

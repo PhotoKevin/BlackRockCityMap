@@ -42,4 +42,18 @@ public class PathBounds
       UpperLeft = ul;
       LowerRight = lr;
    }
+   
+   public double getWidth ()
+   {
+      LLALocation ur = new LLALocation (UpperLeft.getLatitude (), LowerRight.getLongitude (), UpperLeft.getAltitude ());
+      double w = Math.abs (UpperLeft.distanceFT (ur));
+      return w;
+   }
+   
+   public double getHeight ()
+   {
+      LLALocation ll = new LLALocation (LowerRight.getLatitude (), UpperLeft.getLongitude (), UpperLeft.getAltitude ());
+      double h = Math.abs (UpperLeft.distanceFT (ll));
+      return h;
+   }
 }

@@ -43,10 +43,8 @@ import mil.nga.sf.geojson.Position;
 public class BurningGeoJSON
 {
 
-   public static void createGeoJSON (int year)
+   public static void createGeoJSON (String baseFilename, int year, ArrayList<Path> drawing)
    {
-      BlackRockCity city = new BlackRockCity (year);
-      ArrayList<Path> drawing = city.drawCity ();
       ArrayList<mil.nga.sf.geojson.Geometry> geo = new ArrayList<> ();
 
 
@@ -72,7 +70,7 @@ public class BurningGeoJSON
       content = FeatureConverter.toStringValue (gc);
       
       //System.out.println (k.toString());
-      File ko = new File (year + "BRC.json");
+      File ko = new File (baseFilename + ".json");
       try (BufferedWriter writer = new BufferedWriter(new FileWriter(ko)))
       {
          writer.write (content);

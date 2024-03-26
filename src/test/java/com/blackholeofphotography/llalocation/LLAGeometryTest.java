@@ -28,6 +28,7 @@ package com.blackholeofphotography.llalocation;
 import java.util.ArrayList;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -96,5 +97,75 @@ public class LLAGeometryTest
       expResult.add (c0.moveFT (180, 10));
       ArrayList<LLALocation> result = LLAGeometry.Intersection (c0, r, p0, p1);
       //assertEquals (expResult, result);
+   }
+   
+   
+
+   @Test
+   public void testIntersectionCircleLineHorizontal ()
+   {
+      System.out.println ("Intersection");
+      LLALocation c0 = new LLALocation (0, 0, 0);
+      double r = 100.0;
+      LLALocation p0 = c0.moveFT (-90, 10);
+      LLALocation p1 = c0.moveFT (90, 10);
+      ArrayList<LLALocation> expResult = new ArrayList<>();
+      expResult.add (c0.moveFT (-90, 100));
+      expResult.add (c0.moveFT (90, 100));
+      ArrayList<LLALocation> result = LLAGeometry.Intersection (c0, r, p0, p1);
+      System.out.printf ("exp: %s, act %s\n", expResult.get (0), result.get (0));
+      
+      assertEquals (0.0, expResult.get (0).distanceFT (result.get (0)), 0.0002);
+   
+      //assertEquals (expResult, result);
+   }
+   
+   
+   @Test
+   public void testIntersectionCircleLineVertical ()
+   {
+      System.out.println ("Intersection");
+      LLALocation c0 = new LLALocation (0, 0, 0);
+      double r = 100.0;
+      LLALocation p0 = c0.moveFT (0, 10);
+      LLALocation p1 = c0.moveFT (180, 10);
+      ArrayList<LLALocation> expResult = new ArrayList<>();
+      expResult.add (c0.moveFT (0, 100));
+      expResult.add (c0.moveFT (180, 100));
+      ArrayList<LLALocation> result = LLAGeometry.Intersection (c0, r, p0, p1);
+      System.out.printf ("exp: %s, act %s\n", expResult.get (0), result.get (0));
+      
+      assertEquals (0.0, expResult.get (0).distanceFT (result.get (0)), 0.0002);
+   
+      //assertEquals (expResult, result);
+   }
+   
+   @Test
+   public void testIntersectionCircleLineMany ()
+   {
+      for (int angleA=0; angleA < 360; angleA+=45)
+      {
+         for (int angleB=0; angleB < 360; angleB+=45)
+         {
+            if (angleA != angleB)
+            {
+               LLALocation c0 = new LLALocation (0, 0, 0);
+               double r = 100.0;
+               LLALocation p0 = c0.moveFT (angleA, r);
+               LLALocation p1 = c0.moveFT (angleB, r);
+
+               ArrayList<LLALocation> result = LLAGeometry.Intersection (c0, r, p0, p1);         
+               System.out.printf ("\nTry %d -> %d\n", angleA, angleB);
+               System.out.printf ("Dist: %.4f\n", p0.distanceFT (result.get (0)));
+               System.out.printf ("Dist: %.4f\n", p0.distanceFT (result.get (1)));
+
+               System.out.printf ("Dist: %.4f\n", p1.distanceFT (result.get (0)));
+               System.out.printf ("Dist: %.4f\n", p1.distanceFT (result.get (1)));
+
+               assertEquals (0.0, p0.distanceFT (p0.getClosest (result)), 0.0002);
+               assertEquals (0.0, p1.distanceFT (p1.getClosest (result)), 0.0002);
+            }
+         }
+      }
    }
 }

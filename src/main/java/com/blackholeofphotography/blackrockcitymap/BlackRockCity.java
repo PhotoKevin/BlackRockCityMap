@@ -56,7 +56,8 @@ public class BlackRockCity
       GoldenSpike = d.GS ();
    }
    
-      public ArrayList<Path> drawCity ()
+   
+   public ArrayList<Path> drawCity ()
    {
       ArrayList<Path> drawing = new ArrayList<> ();
       try
@@ -359,7 +360,7 @@ public class BlackRockCity
       return CityBlock;
    }
    
-   private LLALocation KeyHolePoint (LLALocation centerPoint, double keyholeBearing, double radiusFT, double keyholeWidthFT)
+   public static  LLALocation KeyHolePoint (LLALocation centerPoint, double keyholeBearing, double radiusFT, double keyholeWidthFT)
    {
       double opposite = keyholeWidthFT / 2;
       double hypot = radiusFT;
@@ -402,9 +403,9 @@ public class BlackRockCity
       double radius = GoldenSpike.distanceFT (P1);
       double p1Bearing = GoldenSpike.getBearing (P1);
       Path ppp = new Path ("Perimeter");
-      for (int i=0; i<6; i++)
+      for (int i=0; i<5; i++)
          ppp.addPoint (GoldenSpike.moveFT (72*i+p1Bearing, radius));
-      
+      ppp.closePath ();
       return ppp;
    }
    
@@ -648,32 +649,32 @@ public class BlackRockCity
       double bearing630A = d.getCenterCampLLA ().getBearing (new Intersection (6, 30, 'A').corner (d));
 
       Path p = this.drawCentralBlock ("CenterCamp", 
-              this.KeyHolePoint (d.getCenterCampLLA (), d.getBearing (new RadialStreet ("12:00")), d.getCenterThemeCampInnerRadius (), -d.getCenterCampKeyholeNarrowest ()),
+              KeyHolePoint (d.getCenterCampLLA (), d.getBearing (new RadialStreet ("12:00")), d.getCenterThemeCampInnerRadius (), -d.getCenterCampKeyholeNarrowest ()),
               new Intersection (3, 0, AnnularStreet.INNER_CIRCLE).corner (d, IntersectionOffset.CounterClockwise), 
-              this.KeyHolePoint (d.getCenterCampLLA (), bearing530A, d.getCenterThemeCampOuterRadius (), d.getRegularStreetWidth ()),
-              this.KeyHolePoint (d.getCenterCampLLA (), d.getBearing (new RadialStreet ("12:00")), d.getCenterThemeCampOuterRadius (), -d.getCenterCampKeyholeWidest ()));
+              KeyHolePoint (d.getCenterCampLLA (), bearing530A, d.getCenterThemeCampOuterRadius (), d.getRegularStreetWidth ()),
+              KeyHolePoint (d.getCenterCampLLA (), d.getBearing (new RadialStreet ("12:00")), d.getCenterThemeCampOuterRadius (), -d.getCenterCampKeyholeWidest ()));
       drawing.add (p);
 
       p = this.drawCentralBlock ("CenterCamp", 
               new Intersection (3, 0, AnnularStreet.INNER_CIRCLE).corner (d, IntersectionOffset.Clockwise), 
               new Intersection (6, 0, AnnularStreet.INNER_CIRCLE).corner (d, IntersectionOffset.CounterClockwise), 
               new Intersection (6, 0, AnnularStreet.RODS_ROAD).corner (d, IntersectionOffset.CounterClockwiseManside),
-              this.KeyHolePoint (d.getCenterCampLLA (), bearing530A, d.getCenterThemeCampOuterRadius (), -d.getRegularStreetWidth ()));
+              KeyHolePoint (d.getCenterCampLLA (), bearing530A, d.getCenterThemeCampOuterRadius (), -d.getRegularStreetWidth ()));
       drawing.add (p);
 
 
       p = this.drawCentralBlock ("CenterCamp", 
               new Intersection (6, 0, AnnularStreet.INNER_CIRCLE).corner (d, IntersectionOffset.Clockwise), 
               new Intersection (9, 0, AnnularStreet.INNER_CIRCLE).corner (d, IntersectionOffset.CounterClockwise), 
-              this.KeyHolePoint (d.getCenterCampLLA (), bearing630A, d.getCenterThemeCampOuterRadius (), d.getRegularStreetWidth ()),
+              KeyHolePoint (d.getCenterCampLLA (), bearing630A, d.getCenterThemeCampOuterRadius (), d.getRegularStreetWidth ()),
               new Intersection (6, 0, AnnularStreet.RODS_ROAD).corner (d, IntersectionOffset.ClockwiseManside)); 
       drawing.add (p);
 
       p = this.drawCentralBlock ("CenterCamp", 
               new Intersection (9, 0, AnnularStreet.INNER_CIRCLE).corner (d, IntersectionOffset.Clockwise), 
-              this.KeyHolePoint (d.getCenterCampLLA (), d.getBearing (new RadialStreet ("12:00")), d.getCenterThemeCampInnerRadius (), d.getCenterCampKeyholeNarrowest ()),
-              this.KeyHolePoint (d.getCenterCampLLA (), d.getBearing (new RadialStreet ("12:00")), d.getCenterThemeCampOuterRadius (), d.getCenterCampKeyholeWidest ()),
-              this.KeyHolePoint (d.getCenterCampLLA (), bearing630A, d.getCenterThemeCampOuterRadius (), -d.getRegularStreetWidth ()));
+              KeyHolePoint (d.getCenterCampLLA (), d.getBearing (new RadialStreet ("12:00")), d.getCenterThemeCampInnerRadius (), d.getCenterCampKeyholeNarrowest ()),
+              KeyHolePoint (d.getCenterCampLLA (), d.getBearing (new RadialStreet ("12:00")), d.getCenterThemeCampOuterRadius (), d.getCenterCampKeyholeWidest ()),
+              KeyHolePoint (d.getCenterCampLLA (), bearing630A, d.getCenterThemeCampOuterRadius (), -d.getRegularStreetWidth ()));
       drawing.add (p);
 
       p = drawOuterCentralCornerBlock ("WedgeBlock", true);
@@ -685,26 +686,6 @@ public class BlackRockCity
       drawing.add (this.drawInnerCentralCornerBlock ("WedgeBlock", false));
       
       return drawing;
-   }
-   
-   private Path drawPlazaWedge (String folderPath, LLALocation earlyInside, LLALocation lateInside, 
-           LLALocation lateOutside, LLALocation earlyOutside, boolean early)
-   {
-      Path p = new Path (folderPath, Color.BLACK);
-      p.addArcSegment (d.getCenterCampLLA (), earlyInside, lateInside, ArcDirection.CLOCKWISE);
-      if (early)
-         p.addLineSegment (lateInside, lateOutside);
-      else
-         p.addArcSegment (d.GS (), lateInside, lateOutside, ArcDirection.COUNTER_CLOCKWISE);
-      p.addArcSegment (d.getCenterCampLLA (), lateOutside, earlyOutside, ArcDirection.COUNTER_CLOCKWISE);
-      
-      if (! early)
-         p.addLineSegment (earlyOutside, earlyInside);
-      else
-         p.addArcSegment (d.GS (), earlyOutside, earlyInside, ArcDirection.COUNTER_CLOCKWISE);
-
-      p.closePath ();
-      return p;
    }
 
    /**
@@ -738,10 +719,10 @@ public class BlackRockCity
       ArrayList<LLALocation> outsideBIntersection = LLAGeometry.Intersection (d.GS (), d.getStreetRadiusFT ('B')+d.getRegularStreetWidth ()/2,
                d.getCenterCampLLA (), d.getCenterThemeCampInnerRadius ());
 
-      LLALocation p1 = this.KeyHolePoint (d.getCenterCampLLA (), d.getBearing (new RadialStreet ("12:00")), d.getCenterThemeCampInnerRadius (), -d.getCenterCampKeyholeNarrowest ());
+      LLALocation p1 = KeyHolePoint (d.getCenterCampLLA (), d.getBearing (new RadialStreet ("12:00")), d.getCenterThemeCampInnerRadius (), -d.getCenterCampKeyholeNarrowest ());
       LLALocation p2 = p1.getClosest (mansideAIntersection);
       LLALocation p3 = i530A.corner (d, IntersectionOffset.ClockwiseManside);
-      LLALocation p4 = this.KeyHolePoint (d.getCenterCampLLA (), d.getBearing (new RadialStreet ("12:00")), d.getCenterThemeCampOuterRadius (), -d.getCenterCampKeyholeWidest ());
+      LLALocation p4 = KeyHolePoint (d.getCenterCampLLA (), d.getBearing (new RadialStreet ("12:00")), d.getCenterThemeCampOuterRadius (), -d.getCenterCampKeyholeWidest ());
       
       // Wedge between 12 and 3
       Path p = new Path ("EarlyWedge", Color.BLACK);
@@ -754,10 +735,10 @@ public class BlackRockCity
       
       // earlyInside, (arc) lateInside, lateOutside, (arc) earlyOutside
       // Wedge between 9 and 12
-      p1 = this.KeyHolePoint (d.getCenterCampLLA (), d.getBearing (new RadialStreet ("12:00")), d.getCenterThemeCampInnerRadius (), d.getCenterCampKeyholeNarrowest ());
+      p1 = KeyHolePoint (d.getCenterCampLLA (), d.getBearing (new RadialStreet ("12:00")), d.getCenterThemeCampInnerRadius (), d.getCenterCampKeyholeNarrowest ());
       p2 = p1.getClosest (mansideAIntersection);
       p3 = i630A.corner (d, IntersectionOffset.CounterClockwiseManside);
-      p4 = this.KeyHolePoint (d.getCenterCampLLA (), d.getBearing (new RadialStreet ("12:00")), d.getCenterThemeCampOuterRadius (), d.getCenterCampKeyholeWidest ());
+      p4 = KeyHolePoint (d.getCenterCampLLA (), d.getBearing (new RadialStreet ("12:00")), d.getCenterThemeCampOuterRadius (), d.getCenterCampKeyholeWidest ());
       
       p = new Path ("LateWedge", Color.BLACK);
       p.addArcSegment (d.getCenterCampLLA (), p1, p2, ArcDirection.COUNTER_CLOCKWISE);
@@ -776,6 +757,7 @@ public class BlackRockCity
       p.addArcSegment (d.GS (), p1, p2, ArcDirection.CLOCKWISE);
       p.addArcSegment (d.getCenterCampLLA (), p2, p3, ArcDirection.CLOCKWISE);
       p.addArcSegment (d.GS (), p3, p4, ArcDirection.COUNTER_CLOCKWISE);
+      p.closePath ();
       drawing.add (p);
 
       p1 = i630A.corner (d, IntersectionOffset.CounterClockwiseOutside);
@@ -783,10 +765,11 @@ public class BlackRockCity
       p4 = i630B.corner (d, IntersectionOffset.CounterClockwiseManside);
       p3 = p4.getClosest (mansideBIntersection);
       
-      p = new Path ("earlyAB", Color.BLACK);
+      p = new Path ("lateAB", Color.BLACK);
       p.addArcSegment (d.GS (), p1, p2, ArcDirection.COUNTER_CLOCKWISE);
       p.addArcSegment (d.getCenterCampLLA (), p2, p3, ArcDirection.COUNTER_CLOCKWISE);
       p.addArcSegment (d.GS (), p3, p4, ArcDirection.CLOCKWISE);
+      p.closePath ();
       drawing.add (p);
       
       double bearing630 = d.GS ().getBearing (d.getCenterCampLLA ());
@@ -799,11 +782,12 @@ public class BlackRockCity
       p3 = p3.moveFT (bearing630+90, d.getRegularStreetWidth ()/2);
       LLALocation p5 = i600C.corner (d, IntersectionOffset.ClockwiseManside);
 
-      p = new Path ("earlyAB", Color.BLACK);
+      p = new Path ("lateBC", Color.BLACK);
       p.addArcSegment (d.GS (), p1, p2, ArcDirection.COUNTER_CLOCKWISE);
       p.addArcSegment (d.getCenterCampLLA (), p2, p3, ArcDirection.COUNTER_CLOCKWISE);
       p.addPoint (p5);
       p.addArcSegment (d.GS (), p5, p4, ArcDirection.CLOCKWISE);
+      p.closePath ();
       drawing.add (p);
 
       p1 = i530B.corner (d, IntersectionOffset.ClockwiseOutside);
@@ -813,11 +797,12 @@ public class BlackRockCity
       p3 = p3.moveFT (bearing630-90, d.getRegularStreetWidth ()/2);
       p5 = i600C.corner (d, IntersectionOffset.CounterClockwiseManside);
 
-      p = new Path ("earlyAB", Color.BLACK);
+      p = new Path ("earlyBC", Color.BLACK);
       p.addArcSegment (d.GS (), p1, p2, ArcDirection.CLOCKWISE);
       p.addArcSegment (d.getCenterCampLLA (), p2, p3, ArcDirection.CLOCKWISE);
       p.addPoint (p5);
       p.addArcSegment (d.GS (), p5, p4, ArcDirection.COUNTER_CLOCKWISE);
+      p.closePath ();
       drawing.add (p);
       return drawing;
    }

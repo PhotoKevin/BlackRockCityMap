@@ -110,37 +110,42 @@ public class BurningKML
    }
    
   
-   public static void createKML (int year)
+   public static void createKML (String baseFilename, int year, ArrayList<Path> drawing)
    {
-      BlackRockCity city = new BlackRockCity (year);
-      ArrayList<Path> drawing = city.drawCity ();
-      BurningKML bk;
-      bk = new BurningKML ();
-      Folder fYear;
-      Kml root;
-      root = new Kml ();
-      fYear = root.createAndSetFolder ().withName (String.valueOf (year));
-
-
-      for (Path pp : drawing)
+      try
       {
-         Folder f = bk.addSubFolder (fYear, pp.getName ());
-         Placemark place = f.createAndAddPlacemark ();
-         LineString ls = place.createAndSetLineString ();
-         ls.setCoordinates (pp.toCoordinates ());
+         BurningKML bk;
+         bk = new BurningKML ();
+         Folder fYear;
+         Kml root;
+         root = new Kml ();
+         fYear = root.createAndSetFolder ().withName (String.valueOf (year));
 
-         place.createAndAddStyle ().withLineStyle ( new LineStyle().withColor (pp.getKMLColor ()).withWidth (2.0));        
+
+         for (Path pp : drawing)
+         {
+            Folder f = bk.addSubFolder (fYear, pp.getName ());
+            Placemark place = f.createAndAddPlacemark ();
+            LineString ls = place.createAndSetLineString ();
+            ls.setCoordinates (pp.toCoordinates ());
+
+            place.createAndAddStyle ().withLineStyle ( new LineStyle().withColor (pp.getKMLColor ()).withWidth (2.0));        
+         }
+
+         //System.out.println (k.toString());
+         File ko = new File (baseFilename + ".kml");
+         try (BufferedWriter writer = new BufferedWriter(new FileWriter(ko)))
+         {
+            root.marshal (writer);
+         }
+         catch (IOException ex)
+         {
+
+         }      
       }
-
-      //System.out.println (k.toString());
-      File ko = new File (year + "BRC.kml");
-      try (BufferedWriter writer = new BufferedWriter(new FileWriter(ko)))
+      catch (Exception ex)
       {
-         root.marshal (writer);
+         System.out.println (ex);
       }
-      catch (IOException ex)
-      {
-         
-      }      
    }
 }

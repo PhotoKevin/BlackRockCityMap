@@ -61,6 +61,7 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
    {
       initComponents ();
       cbYear.setSelectedItem ("2024");
+      chkCenterline.setSelected (true);
 
    }
 
@@ -77,6 +78,7 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
       jPanel1 = new javax.swing.JPanel();
       jLabel1 = new javax.swing.JLabel();
       cbYear = new javax.swing.JComboBox<>();
+      chkCenterline = new javax.swing.JCheckBox();
       jSVGCanvas1 = new org.apache.batik.swing.JSVGCanvas();
 
       setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -99,6 +101,16 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
          }
       });
 
+      chkCenterline.setText("Centerline");
+      chkCenterline.setActionCommand("Centerline");
+      chkCenterline.addActionListener(new java.awt.event.ActionListener()
+      {
+         public void actionPerformed(java.awt.event.ActionEvent evt)
+         {
+            chkCenterlineActionPerformed(evt);
+         }
+      });
+
       javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
       jPanel1.setLayout(jPanel1Layout);
       jPanel1Layout.setHorizontalGroup(
@@ -108,7 +120,9 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
             .addComponent(jLabel1)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(cbYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addContainerGap(631, Short.MAX_VALUE))
+            .addGap(18, 18, 18)
+            .addComponent(chkCenterline)
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
       );
       jPanel1Layout.setVerticalGroup(
          jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -116,7 +130,8 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
             .addContainerGap()
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                .addComponent(jLabel1)
-               .addComponent(cbYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+               .addComponent(cbYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+               .addComponent(chkCenterline))
             .addContainerGap(7, Short.MAX_VALUE))
       );
 
@@ -176,14 +191,12 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
 
    private void cbYearActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_cbYearActionPerformed
    {//GEN-HEADEREND:event_cbYearActionPerformed
-      String y = (String) cbYear.getSelectedItem ().toString ();
-      DrawMap (Integer.parseInt (y));
+      fixupControls ();
+      DrawMap ();
    }//GEN-LAST:event_cbYearActionPerformed
 
    private void formWindowOpened(java.awt.event.WindowEvent evt)//GEN-FIRST:event_formWindowOpened
    {//GEN-HEADEREND:event_formWindowOpened
-      String y = (String) cbYear.getSelectedItem ().toString ();
-      
       this.jSVGCanvas1.addGVTTreeRendererListener(new GVTTreeRendererAdapter() 
          {
             @Override
@@ -192,10 +205,33 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
                 rescale ();
             }
          });      
-      DrawMap (Integer.parseInt (y));
+      DrawMap ();
       rescale ();
    }//GEN-LAST:event_formWindowOpened
 
+   private int getYear ()
+   {
+      String y = (String) cbYear.getSelectedItem ().toString ();
+      return Integer.parseInt (y);
+   }
+   
+   private boolean doCenterline ()
+   {
+      return chkCenterline.isEnabled () && chkCenterline.isSelected ();
+      
+   }
+   
+   private void fixupControls ()
+   {
+      if (getYear () >= 2024)
+         chkCenterline.setEnabled (true);
+      else
+      {
+         chkCenterline.setEnabled (false);
+         chkCenterline.setSelected (false);
+      }
+   }
+   
    private void jSVGCanvas1AncestorResized(java.awt.event.HierarchyEvent evt)//GEN-FIRST:event_jSVGCanvas1AncestorResized
    {//GEN-HEADEREND:event_jSVGCanvas1AncestorResized
       rescale ();
@@ -204,7 +240,7 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
    private int zoomLevel = 25;
    private void jSVGCanvas1MouseWheelMoved(java.awt.event.MouseWheelEvent evt)//GEN-FIRST:event_jSVGCanvas1MouseWheelMoved
    {//GEN-HEADEREND:event_jSVGCanvas1MouseWheelMoved
-      zoomLevel += evt.getWheelRotation ();
+      zoomLevel -= evt.getWheelRotation ();
       rescale ();
    }//GEN-LAST:event_jSVGCanvas1MouseWheelMoved
 
@@ -240,6 +276,11 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
       rescale ();
    }//GEN-LAST:event_jSVGCanvas1MouseReleased
 
+   private void chkCenterlineActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_chkCenterlineActionPerformed
+   {//GEN-HEADEREND:event_chkCenterlineActionPerformed
+      DrawMap ();
+   }//GEN-LAST:event_chkCenterlineActionPerformed
+
    private void rescale ()
    {
       AffineTransform at = this.jSVGCanvas1.getRenderingTransform ();
@@ -255,22 +296,27 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
       this.jSVGCanvas1.setRenderingTransform (at, true);
    }
 
+   
 
 
 
-   private void DrawMap (int year)
+   private void DrawMap ()
    {
+//      centerTranslateX = -521.000000;
+//      centerTranslateY = -1244.000000;
+//      zoomLevel = 125;
+      int year = getYear ();
+//      boolean loRes = this.chkCenterline.isSelected ();
+      
       BlackRockCity city = new BlackRockCity (year);
+      BlackRockCityCenterline centerlineCity = new BlackRockCityCenterline (year);
       
-      BurningKML.createKML (year);
-      BurningGeoJSON.createGeoJSON (year);
+      ArrayList<Path> map = doCenterline () ? centerlineCity.drawCity () : city.drawCity  ();
+      String baseFilename = String.format ("%dBRC%s", year, doCenterline () ? "-Centerline" : "");
       
-      centerTranslateX = -521.000000;
-      centerTranslateY = -1244.000000;
-      zoomLevel = 125;
-      
+      BurningKML.createKML (baseFilename, year, map);
+      BurningGeoJSON.createGeoJSON (baseFilename, year, map);
 
-      ArrayList<Path> map = city.drawCity  ();
       PathBounds b = city.Perimeter ().getBounds ();
       LLALocation base = b.UpperLeft;
       SVGGPSCoordinate ul = new SVGGPSCoordinate (base, b.UpperLeft);      
@@ -291,9 +337,13 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
       {
          Path2D pp = new Path2D.Double ();
          pp.append (seg.toPath2D (base), true);
+         int alpha = seg.getFillColor ().getAlpha ();
+         if (seg.isClosed () && alpha != 0)
+         {
+            g2.setColor (seg.getFillColor ());
+            g2.fill (pp);
+         }
          g2.setColor (seg.getColor ());
-         
-         pp.closePath ();
          g2.draw (pp);
       }
 
@@ -302,8 +352,8 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
 //      System.out.println (svgElement);
 
 
-      //System.out.println (k.toString());
-      File ko = new File (year + "BRC.svg");
+      String filename = String.format ("%s.svg", baseFilename);
+      File ko = new File (filename);
       try (BufferedWriter writer = new BufferedWriter(new FileWriter(ko)))
       {
          writer.write (svgElement);
@@ -357,22 +407,13 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
             }
          }
       }
-      catch (ClassNotFoundException ex)
+      catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex)
       {
          java.util.logging.Logger.getLogger (BlackRockCityMapUI.class.getName ()).log (java.util.logging.Level.SEVERE, null, ex);
       }
-      catch (InstantiationException ex)
-      {
-         java.util.logging.Logger.getLogger (BlackRockCityMapUI.class.getName ()).log (java.util.logging.Level.SEVERE, null, ex);
-      }
-      catch (IllegalAccessException ex)
-      {
-         java.util.logging.Logger.getLogger (BlackRockCityMapUI.class.getName ()).log (java.util.logging.Level.SEVERE, null, ex);
-      }
-      catch (javax.swing.UnsupportedLookAndFeelException ex)
-      {
-         java.util.logging.Logger.getLogger (BlackRockCityMapUI.class.getName ()).log (java.util.logging.Level.SEVERE, null, ex);
-      }
+      //</editor-fold>
+      //</editor-fold>
+
       //</editor-fold>
       //</editor-fold>
 
@@ -389,6 +430,7 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
 
    // Variables declaration - do not modify//GEN-BEGIN:variables
    private javax.swing.JComboBox<String> cbYear;
+   private javax.swing.JCheckBox chkCenterline;
    private javax.swing.JLabel jLabel1;
    private javax.swing.JPanel jPanel1;
    private org.apache.batik.swing.JSVGCanvas jSVGCanvas1;

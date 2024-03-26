@@ -93,7 +93,7 @@ public class LLAGeometry
     * @param p1 Another point on the line
     * @return List of points of intersection. May be 0, 1, or 2 points.
     */
-   public static ArrayList<LLALocation> Intersection (LLALocation c0, double r, LLALocation p0, LLALocation p1)
+   public static ArrayList<LLALocation> IntersectionOld (LLALocation c0, double r, LLALocation p0, LLALocation p1)
    {
       ArrayList<LLALocation> points = new ArrayList<> ();
       
@@ -113,6 +113,75 @@ public class LLAGeometry
       points.add (closest.moveFT (closestBearing+90, dist));
       points.add (closest.moveFT (closestBearing-90, dist));
       
+      return points;
+   }
+   
+   
+   public static ArrayList<LLALocation> Intersection ( LLALocation center, double radius,
+           LLALocation pointA, LLALocation pointB) 
+   {
+      ArrayList<LLALocation> points = new ArrayList<> ();
+
+      double baX = pointB.distanceEWFT (pointA);
+      double baY = pointB.distanceNSFT (pointA);
+      double caX = center.distanceEWFT (pointA);
+      double caY = center.distanceNSFT (pointA);
+      
+      if (pointA.getLatitude () > pointB.getLatitude ())
+         baY *= -1;
+      if (pointA.getLongitude () > pointB.getLongitude ())
+         baX *= -1;
+
+      if (pointA.getLatitude () > center.getLatitude ())
+         caY *= -1;
+      if (pointA.getLongitude () > center.getLongitude ())
+         caX *= -1;
+      
+
+      double a = baX * baX + baY * baY;
+      double bBy2 = baX * caX + baY * caY;
+      double c = caX * caX + caY * caY - radius * radius;
+
+      double pBy2 = bBy2 / a;
+      double q = c / a;
+
+      double disc = pBy2 * pBy2 - q;
+      if (disc < 0) 
+      {
+         return points;
+      }
+      // if disc == 0 ... dealt with later
+      double tmpSqrt = Math.sqrt(disc);
+      double abScalingFactor1 = -pBy2 + tmpSqrt;
+      double abScalingFactor2 = -pBy2 - tmpSqrt;
+      
+      //     Point p1 = new Point(pointA.x - baX * abScalingFactor1, 
+      //                          pointA.y - baY * abScalingFactor1);
+
+      double d1 = - baX * abScalingFactor1;
+      double v1 = - baY * abScalingFactor1;
+      LLALocation p1 = pointA.moveFT (90, d1);
+      p1 = p1.moveFT (0, v1);
+
+      if (disc == 0) 
+      {
+         points.add (p1);
+         return points;
+      }
+      //  Point p2 = new Point(pointA.x - baX * abScalingFactor2, 
+      //                       pointA.y - baY * abScalingFactor2);
+      double d2 = - baX * abScalingFactor2;
+      double v2 = - baY * abScalingFactor2;
+      LLALocation p2 = pointA.moveFT (90, d2);
+      p2 = p2.moveFT (0, v2);
+
+
+      points.add (p1);
+      points.add (p2);
+      
+//      System.out.print (p1);
+//      System.out.print (" ");
+//      System.out.println (p2);
       return points;
    }
 }

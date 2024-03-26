@@ -58,7 +58,7 @@ public class PathArc extends PathSegment
    }
    
 
-   private ArrayList<LLALocation> addArcFT (double startAngle, LLALocation center, double endAngle, double radiusFT, ArcDirection direction)
+   public static ArrayList<LLALocation> addArcFT (double startAngle, LLALocation center, double endAngle, double radiusFT, ArcDirection direction)
    {
       ArrayList<LLALocation> points = new ArrayList<> ();
       LLALocation start = center.moveFT (startAngle, radiusFT);

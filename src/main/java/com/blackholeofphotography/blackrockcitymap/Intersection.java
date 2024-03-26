@@ -48,6 +48,18 @@ public class Intersection
       annular = a;
    }
    
+      /**
+    * Create an intersection
+    * @param r Radial Street
+    * @param ch Annular Street
+    */
+   public Intersection (RadialStreet r, char ch)
+   {
+      radial = r;
+      annular = new AnnularStreet (ch);
+   }
+
+   
    /**
     * Create an intersection at the specified corner.
     * @param hour Hour of the intersection Radial street

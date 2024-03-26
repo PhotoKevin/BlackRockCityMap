@@ -78,7 +78,12 @@ public class AnnularStreet
    
    private char getNextStreetLetter ()
    {
-      switch (this.streetLetter)
+      return getNextStreetLetter (this.streetLetter);
+   }
+   
+   public static char getNextStreetLetter (char street)
+   {
+      switch (street)
       {
       case AnnularStreet.ESPLANADE:
          return 'A';
@@ -91,9 +96,10 @@ public class AnnularStreet
       case AnnularStreet.THE_MAN:
          return AnnularStreet.THE_MAN;
       default:
-         return (char) (streetLetter + 1);
+         return (char) (street + 1);
       }
    }
+   
 
    /**
     * Get the letter of the previous street going toward the man.
