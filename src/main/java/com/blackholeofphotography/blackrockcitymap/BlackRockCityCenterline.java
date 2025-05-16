@@ -46,15 +46,12 @@ public class BlackRockCityCenterline
     * This year's data set.
     */
    private final BurningData d;
-   /**
-    * Location of the Golden Spike.
-    */
-   private LLALocation GoldenSpike = null;
 
-   public BlackRockCityCenterline (int year)
+   public BlackRockCityCenterline (int year, LLALocation relocate)
    {
       d = new BurningData (year);
-      GoldenSpike = d.GS ();
+      if (relocate != null)
+         d.setGoldenSpikeOverride (relocate);
    }
    
    public ArrayList<Path> drawCity ()
@@ -98,7 +95,7 @@ public class BlackRockCityCenterline
          drawing.add (centerCamp);
 
          Path man = new Path ("Man", Color.BLACK);
-         man.addCircle (GoldenSpike, d.getManPlazaRadius ());
+         man.addCircle (d.GS (), d.getManPlazaRadius ());
          drawing.add (man);
          
          Path temple = new Path ("Temple", Color.BLACK);
@@ -134,11 +131,11 @@ public class BlackRockCityCenterline
    {
       LLALocation P1 = d.P1 ();
 
-      double radius = GoldenSpike.distanceFT (P1);
-      double p1Bearing = GoldenSpike.getBearing (P1);
+      double radius = d.GS ().distanceFT (P1);
+      double p1Bearing = d.GS ().getBearing (P1);
       Path ppp = new Path ("Perimeter");
       for (int i = 0; i < 5; i++)
-         ppp.addPoint (GoldenSpike.moveFT (72 * i + p1Bearing, radius));
+         ppp.addPoint (d.GS ().moveFT (72 * i + p1Bearing, radius));
 
       ppp.closePath ();
       return ppp;
@@ -185,11 +182,11 @@ public class BlackRockCityCenterline
          {
             LLALocation p1 = start.corner (d);
             if (d.isPlaza (start))
-               p1 = p1.moveFT (GoldenSpike.getBearing (p1), d.getPlazaRadius ());
+               p1 = p1.moveFT (d.GS ().getBearing (p1), d.getPlazaRadius ());
 
             LLALocation p2 = end.corner (d);
             if (d.isPlaza (end))
-               p2 = p2.moveFT (p2.getBearing (GoldenSpike), d.getPlazaRadius ());
+               p2 = p2.moveFT (p2.getBearing (d.GS ()), d.getPlazaRadius ());
 
             Path radial = new Path (String.format ("%d:%02d", hour, minute));
             radial.addLineSegment (p1, p2);
@@ -240,16 +237,16 @@ public class BlackRockCityCenterline
             if (d.isPlaza (start))
             {
                if (pr) System.out.println ("isPlaza");
-               p1 = p1.moveFT (GoldenSpike.getBearing (p1)+90, d.getPlazaRadius ());
+               p1 = p1.moveFT (d.GS ().getBearing (p1)+90, d.getPlazaRadius ());
             }
             else if (d.isMidPlazaPortal (start))
             {
                if (pr) System.out.println ("isMidPlazaPortal");
-               p1 = p1.moveFT (GoldenSpike.getBearing (p1)+90, d.getPlazaRadius ());
+               p1 = p1.moveFT (d.GS ().getBearing (p1)+90, d.getPlazaRadius ());
                
                Intersection esp = new Intersection (start.radial, AnnularStreet.ESPLANADE);
                ArrayList<LLALocation> portalEdge = getPortalEdge (esp, ManDirection.CLOCKWISE);
-               ArrayList<LLALocation> points = LLAGeometry.Intersection (GoldenSpike, GoldenSpike.distanceFT (start.corner (d)), portalEdge.get (0), portalEdge.get(1));
+               ArrayList<LLALocation> points = LLAGeometry.Intersection (d.GS (), d.GS ().distanceFT (start.corner (d)), portalEdge.get (0), portalEdge.get(1));
                p1 = p1.getClosest (points);
             }
             else if (d.isPlazaPortal (start))
@@ -257,41 +254,41 @@ public class BlackRockCityCenterline
                if (pr) System.out.println ("isPlazaPortal");
 
                ArrayList<LLALocation> portalEdge = getPortalEdge (start, ManDirection.CLOCKWISE);
-               ArrayList<LLALocation> points = LLAGeometry.Intersection (GoldenSpike, GoldenSpike.distanceFT (start.corner (d)), portalEdge.get (0), portalEdge.get(1));
-               p1 = p1.moveFT (GoldenSpike.getBearing (p1)+90, d.getPortalWidth ()/2);
+               ArrayList<LLALocation> points = LLAGeometry.Intersection (d.GS (), d.GS ().distanceFT (start.corner (d)), portalEdge.get (0), portalEdge.get(1));
+               p1 = p1.moveFT (d.GS ().getBearing (p1)+90, d.getPortalWidth ()/2);
                p1 = p1.getClosest (points);
             }
             else if (d.isPortal (start))
             {
                if (pr) System.out.println ("isPortal");
-               p1 = p1.moveFT (GoldenSpike.getBearing (p1)+90, d.getPortalWidth ()/2);
+               p1 = p1.moveFT (d.GS ().getBearing (p1)+90, d.getPortalWidth ()/2);
             }
 
             LLALocation p2 = end.corner (d);
             if (d.isPlaza (end))
-               p2 = p2.moveFT (p2.getBearing (GoldenSpike)+90, d.getPlazaRadius ());
+               p2 = p2.moveFT (p2.getBearing (d.GS ())+90, d.getPlazaRadius ());
             else if (d.isMidPlazaPortal (end))
             {
                Intersection esp = new Intersection (end.radial, AnnularStreet.ESPLANADE);
                ArrayList<LLALocation> portalEdge = getPortalEdge (esp, ManDirection.COUNTER_CLOCKWISE);
-               ArrayList<LLALocation> points = LLAGeometry.Intersection (GoldenSpike, GoldenSpike.distanceFT (start.corner (d)), portalEdge.get (0), portalEdge.get(1));
-               p2 = p2.moveFT (p2.getBearing (GoldenSpike)+90, d.getPlazaRadius ());
+               ArrayList<LLALocation> points = LLAGeometry.Intersection (d.GS (), d.GS ().distanceFT (start.corner (d)), portalEdge.get (0), portalEdge.get(1));
+               p2 = p2.moveFT (p2.getBearing (d.GS ())+90, d.getPlazaRadius ());
                p2 = p2.getClosest (points);
             }
             else if (d.isPlazaPortal (end))
             {
                ArrayList<LLALocation> portalEdge = getPortalEdge (end, ManDirection.COUNTER_CLOCKWISE);
-               ArrayList<LLALocation> points = LLAGeometry.Intersection (GoldenSpike, GoldenSpike.distanceFT (start.corner (d)), portalEdge.get (0), portalEdge.get(1));
-//                        p2 = p2.moveFT (p2.getBearing (GoldenSpike)+90, d.getPortalWidth ()/2);
+               ArrayList<LLALocation> points = LLAGeometry.Intersection (d.GS (), d.GS ().distanceFT (start.corner (d)), portalEdge.get (0), portalEdge.get(1));
+//                        p2 = p2.moveFT (p2.getBearing (d.GS ())+90, d.getPortalWidth ()/2);
                p2 = p2.getClosest (points);
             }
             else if (d.isPortal (end))
-               p2 = p2.moveFT (p2.getBearing (GoldenSpike)+90, d.getPortalWidth ()/2);
+               p2 = p2.moveFT (p2.getBearing (d.GS ())+90, d.getPortalWidth ()/2);
 
             if (pr)
                System.out.printf ("Annular %s -> %s\n", start.toString (), end.toString ());
             Path annular = new Path (String.valueOf (ch), Color.BLACK);
-            annular.addArcSegment (GoldenSpike, p1, p2, ArcDirection.CLOCKWISE);
+            annular.addArcSegment (d.GS (), p1, p2, ArcDirection.CLOCKWISE);
             segments.add (annular);
          }
 
@@ -307,7 +304,7 @@ public class BlackRockCityCenterline
    {
       System.out.printf ("getPortalEdge: %s %s\n", intersection.toString (), edge.toString ());
       ArrayList<LLALocation> points = new ArrayList<> ();
-      double bearing = GoldenSpike.getBearing (intersection.corner (d));
+      double bearing = d.GS ().getBearing (intersection.corner (d));
       double sidewise = bearing;
       if (edge == ManDirection.CLOCKWISE)
          sidewise += 90;
@@ -323,7 +320,7 @@ public class BlackRockCityCenterline
          LLALocation p2 = intersection.getNextIntersection (ManDirection.FROM_MAN).corner (d, IntersectionOffset.Manside);
          p2 = p2.moveFT (sidewise, d.getRegularStreetWidth ()/2);
          
-         ArrayList<LLALocation> pts = LLAGeometry.Intersection (GoldenSpike, d.getEsplanadeRadius (), p2, p1);
+         ArrayList<LLALocation> pts = LLAGeometry.Intersection (d.GS (), d.getEsplanadeRadius (), p2, p1);
          points.add (p1.getClosest (pts));
          points.add (p2.getClosest (pts));
       }
@@ -338,7 +335,7 @@ public class BlackRockCityCenterline
          p2 = p2.moveFT (bearing+180, d.getPlazaRadius ()/2);
          p2 = p2.moveFT (sidewise, d.getRegularStreetWidth ()/2);
 
-         ArrayList<LLALocation> pts = LLAGeometry.Intersection (GoldenSpike, GoldenSpike.distanceFT (intersection.corner (d)), p1, p2);
+         ArrayList<LLALocation> pts = LLAGeometry.Intersection (d.GS (), d.GS ().distanceFT (intersection.corner (d)), p1, p2);
          if (!pts.isEmpty ())
          {
             System.out.printf ("Dist: %f\n", p1.distanceFT (p1.getClosest (pts)));
@@ -367,11 +364,11 @@ public class BlackRockCityCenterline
       LLALocation i900Esp = new Intersection (9, 00, AnnularStreet.ESPLANADE).corner (d);      
       LLALocation i600Esp = new Intersection (6, 00, AnnularStreet.ESPLANADE).corner (d);
 
-      ArrayList<LLALocation> man300 = LLAGeometry.Intersection (GoldenSpike, d.getManPlazaRadius (), GoldenSpike, i300Esp);
-      ArrayList<LLALocation> man600 = LLAGeometry.Intersection (GoldenSpike, d.getManPlazaRadius (), GoldenSpike, i600Esp);
-      ArrayList<LLALocation> central600 = LLAGeometry.Intersection (d.getCenterCampLLA (), d.getCenterThemeCampOuterRadius (), d.getCenterCampLLA (), GoldenSpike);
+      ArrayList<LLALocation> man300 = LLAGeometry.Intersection (d.GS (), d.getManPlazaRadius (), d.GS (), i300Esp);
+      ArrayList<LLALocation> man600 = LLAGeometry.Intersection (d.GS (), d.getManPlazaRadius (), d.GS (), i600Esp);
+      ArrayList<LLALocation> central600 = LLAGeometry.Intersection (d.getCenterCampLLA (), d.getCenterThemeCampOuterRadius (), d.getCenterCampLLA (), d.GS ());
 
-      ArrayList<LLALocation> temple600 = LLAGeometry.Intersection (d.getTempleLLA (), d.getTemplePlazaRadius (), d.getCenterCampLLA (), GoldenSpike);
+      ArrayList<LLALocation> temple600 = LLAGeometry.Intersection (d.getTempleLLA (), d.getTemplePlazaRadius (), d.getCenterCampLLA (), d.GS ());
       
       Path p = new Path ("3:00Man", Color.BLACK);
       p.addLineSegment (i300Esp, i300Esp.getClosest (man300));
@@ -409,8 +406,8 @@ public class BlackRockCityCenterline
       ArrayList<LLALocation> earlyPortalEdge = getPortalEdge (portal, ManDirection.COUNTER_CLOCKWISE);
       ArrayList<LLALocation> latePortalEdge = getPortalEdge (portal, ManDirection.CLOCKWISE);
       
-      ArrayList<LLALocation> earlyPoints = LLAGeometry.Intersection (GoldenSpike, GoldenSpike.distanceFT (portal.corner (d)), earlyPortalEdge.get (0), earlyPortalEdge.get(1));
-      ArrayList<LLALocation> latePoints = LLAGeometry.Intersection (GoldenSpike, GoldenSpike.distanceFT (portal.corner (d)), latePortalEdge.get (0), latePortalEdge.get(1));
+      ArrayList<LLALocation> earlyPoints = LLAGeometry.Intersection (d.GS (), d.GS ().distanceFT (portal.corner (d)), earlyPortalEdge.get (0), earlyPortalEdge.get(1));
+      ArrayList<LLALocation> latePoints = LLAGeometry.Intersection (d.GS (), d.GS ().distanceFT (portal.corner (d)), latePortalEdge.get (0), latePortalEdge.get(1));
 
       LLALocation p1 = portal.corner (d, IntersectionOffset.CounterClockwise);
       p1 = p1.getClosest (latePoints);
@@ -492,7 +489,7 @@ public class BlackRockCityCenterline
 
       LLALocation p5 = i600C.corner (d);
       ArrayList<LLALocation> centralIntersection = LLAGeometry.Intersection (d.getCenterCampLLA (), d.getCenterThemeCampInnerRadius (),
-              p5, GoldenSpike);
+              p5, d.GS ());
 
       p = new Path ("lateBC", Color.BLACK);
       p.addPoint (p5);

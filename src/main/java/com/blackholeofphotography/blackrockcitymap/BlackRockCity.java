@@ -32,6 +32,8 @@ import com.blackholeofphotography.llalocation.LLALocation;
 import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Represent BlackRockCity
@@ -44,16 +46,14 @@ public class BlackRockCity
    /**
     * This year's data set.
     */
-   private BurningData d;   
-   /**
-    * Location of the Golden Spike.
-    */
-   private LLALocation GoldenSpike = null;
+   private final BurningData d;   
    
-   public BlackRockCity (int year)
+   
+   public BlackRockCity (int year, LLALocation relocate)
    {
       d = new BurningData (year);
-      GoldenSpike = d.GS ();
+      if (relocate != null)
+         d.setGoldenSpikeOverride (relocate);
    }
    
    
@@ -166,8 +166,8 @@ public class BlackRockCity
       double midBearing =  earlyBearing + (lateBearing - earlyBearing) /2;
 
       // First work out the starting point
-      double streetEdge = lateInside.corner (d, IntersectionOffset.Outside).distanceFT (GoldenSpike);
-      LLALocation startingPoint = GoldenSpike.moveFT (midBearing, streetEdge);
+      double streetEdge = lateInside.corner (d, IntersectionOffset.Outside).distanceFT (d.GS ());
+      LLALocation startingPoint = d.GS ().moveFT (midBearing, streetEdge);
       LLALocation current = startingPoint;
 
       Path CityBlock = new Path (folderPath, Color.BLACK);
@@ -184,7 +184,7 @@ public class BlackRockCity
 
          // Two arcs. First the radial road from start to p1
          // Then the curve around the plaza to p2.
-         CityBlock.addArcSegment (GoldenSpike, current, p1, ArcDirection.CLOCKWISE);
+         CityBlock.addArcSegment (d.GS (), current, p1, ArcDirection.CLOCKWISE);
          CityBlock.addArcSegment (lateInside.corner(d), p1, p2, ArcDirection.CLOCKWISE);
       }
       else if (d.isPlazaPortal (lateInside)) // aka 3:00 or 9:00
@@ -192,14 +192,14 @@ public class BlackRockCity
          LLALocation p1;
          // Lazy math. Not taking arcs into account
          p1 = lateInside.corner(d, IntersectionOffset.Outside).moveFT (lateBearing-90.0, d.getPortalWidth () );
-//         p1 = moveAroundFT (GoldenSpike, lateInside.corner (d, IntersectionOffset.Outside), d.getPortalWidth (lateInside.radial.getHour ()));
-         CityBlock.addArcSegment (GoldenSpike, current, p1, ArcDirection.CLOCKWISE);
+//         p1 = moveAroundFT (d.GS (), lateInside.corner (d, IntersectionOffset.Outside), d.getPortalWidth (lateInside.radial.getHour ()));
+         CityBlock.addArcSegment (d.GS (), current, p1, ArcDirection.CLOCKWISE);
       }
       else if (d.isPortal (lateInside) && earlyInside.annular.getStreetLetter () == AnnularStreet.ESPLANADE)
       {
          // Lazy math. Not taking arcs into account
          LLALocation realCorner = lateInsideCorner.moveFT (lateBearing-90, d.getPortalWidth ()/2);
-         CityBlock.addArcSegment (GoldenSpike, startingPoint, realCorner, ArcDirection.CLOCKWISE);
+         CityBlock.addArcSegment (d.GS (), startingPoint, realCorner, ArcDirection.CLOCKWISE);
       }
       else
       {
@@ -219,7 +219,7 @@ public class BlackRockCity
             realCorner = g;
          }
          
-         CityBlock.addArcSegment (GoldenSpike, startingPoint, realCorner, ArcDirection.CLOCKWISE);
+         CityBlock.addArcSegment (d.GS (), startingPoint, realCorner, ArcDirection.CLOCKWISE);
       }
       // End of center inside to lateinside
       
@@ -252,7 +252,7 @@ public class BlackRockCity
          double portalWidth = Degrees.tan (PlazaPortalAngle (lateInside)) * AblockFT;
 
          g = lateOutside.corner(d, IntersectionOffset.Manside);
-         g = g.moveFT (GoldenSpike, -portalWidth); // Negative to move counter clockwise
+         g = g.moveFT (d.GS (), -portalWidth); // Negative to move counter clockwise
 
          CityBlock.addPoint (g);
 
@@ -276,7 +276,7 @@ public class BlackRockCity
          p1 = earlyOutsideCorner.moveFT (earlyBearing+90.0, d.getPlazaRadius ());
          p2 = earlyOutsideCorner.moveFT (earlyBearing+180, d.getPlazaRadius ());
 
-         CityBlock.addArcSegment (GoldenSpike, current, p1, ArcDirection.COUNTER_CLOCKWISE);
+         CityBlock.addArcSegment (d.GS (), current, p1, ArcDirection.COUNTER_CLOCKWISE);
          CityBlock.addArcSegment (earlyOutside.corner(d), p1, p2, ArcDirection.CLOCKWISE);
       }
       else if (d.isPlazaPortal (earlyInside)) // Yes, earlyInside. Need to deal with the odd corners at 3:00A and 9:00A
@@ -289,13 +289,13 @@ public class BlackRockCity
          double PortalWidth = Degrees.tan (PlazaPortalAngle (earlyInside)) * AblockFT;
 
          g = earlyOutside.corner(d, IntersectionOffset.Manside);
-         g = g.moveFT (GoldenSpike, PortalWidth);
+         g = g.moveFT (d.GS (), PortalWidth);
 
-         CityBlock.addArcSegment (GoldenSpike, current, g, ArcDirection.COUNTER_CLOCKWISE);
+         CityBlock.addArcSegment (d.GS (), current, g, ArcDirection.COUNTER_CLOCKWISE);
       }
       else
       {
-         CityBlock.addArcSegment (GoldenSpike, current, earlyOutsideCorner, ArcDirection.COUNTER_CLOCKWISE);
+         CityBlock.addArcSegment (d.GS (), current, earlyOutsideCorner, ArcDirection.COUNTER_CLOCKWISE);
       }
       // End of lateOutside to earlyOutside
 
@@ -329,7 +329,7 @@ public class BlackRockCity
       else if (d.isPortal (earlyInside) && earlyInside.annular.getStreetLetter () == AnnularStreet.ESPLANADE)
       {
          LLALocation realCorner = earlyInsideCorner.moveFT (earlyBearing + 90, d.getPortalWidth ()/2);
-         //points.addAll (genArc (GoldenSpike, startingPoint, realCorner, ArcDirection.CLOCKWISE));
+         //points.addAll (genArc (d.GS (), startingPoint, realCorner, ArcDirection.CLOCKWISE));
          CityBlock.addPoint (realCorner);
          current = realCorner;
       }
@@ -355,7 +355,7 @@ public class BlackRockCity
       }
       // End of earlyOutside to earlyInside
       
-      CityBlock.addArcSegment (GoldenSpike, current, startingPoint, ArcDirection.CLOCKWISE);
+      CityBlock.addArcSegment (d.GS (), current, startingPoint, ArcDirection.CLOCKWISE);
       CityBlock.closePath ();
       return CityBlock;
    }
@@ -400,11 +400,11 @@ public class BlackRockCity
    {
       LLALocation P1 = d.P1 ();
       
-      double radius = GoldenSpike.distanceFT (P1);
-      double p1Bearing = GoldenSpike.getBearing (P1);
+      double radius = d.GS ().distanceFT (P1);
+      double p1Bearing = d.GS ().getBearing (P1);
       Path ppp = new Path ("Perimeter");
       for (int i=0; i<5; i++)
-         ppp.addPoint (GoldenSpike.moveFT (72*i+p1Bearing, radius));
+         ppp.addPoint (d.GS ().moveFT (72*i+p1Bearing, radius));
       ppp.closePath ();
       return ppp;
    }
@@ -426,14 +426,14 @@ public class BlackRockCity
          LLALocation p530B = new Intersection (5,30,'B').corner (d, IntersectionOffset.ClockwiseOutside);
          LLALocation p530C = new Intersection (5,30,'C').corner (d, IntersectionOffset.ClockwiseManside);
 
-         double radiusC = p530C.distanceFT (GoldenSpike);
-         ArrayList<LLALocation> RodsRoadCIntersection = LLAGeometry.Intersection (GoldenSpike, radiusC, d.getCenterCampLLA (), radiusRROutside);
+         double radiusC = p530C.distanceFT (d.GS ());
+         ArrayList<LLALocation> RodsRoadCIntersection = LLAGeometry.Intersection (d.GS (), radiusC, d.getCenterCampLLA (), radiusRROutside);
          ArrayList<LLALocation> RodsRoad530Intersection = LLAGeometry.Intersection (d.getCenterCampLLA (), radiusRROutside, p530B, p530C);
 
          LLALocation p1 = p530C.getClosest (RodsRoadCIntersection);
          LLALocation p3 = p530B.getClosest (RodsRoad530Intersection);         
 
-         CityBlock.addArcSegment (GoldenSpike, p1, p530C, ArcDirection.COUNTER_CLOCKWISE);
+         CityBlock.addArcSegment (d.GS (), p1, p530C, ArcDirection.COUNTER_CLOCKWISE);
          CityBlock.addLineSegment (p530C, p3);
 
          CityBlock.addArcSegment (d.getCenterCampLLA (), p3, p1, ArcDirection.CLOCKWISE);
@@ -443,14 +443,14 @@ public class BlackRockCity
          LLALocation p630B = new Intersection (6,30,'B').corner (d, IntersectionOffset.CounterClockwiseOutside);
          LLALocation p630C = new Intersection (6,30,'C').corner (d, IntersectionOffset.CounterClockwiseManside);
 
-         double radiusC = p630C.distanceFT (GoldenSpike);
-         ArrayList<LLALocation> RodsRoadCIntersection = LLAGeometry.Intersection (GoldenSpike, radiusC, d.getCenterCampLLA (), radiusRROutside);
+         double radiusC = p630C.distanceFT (d.GS ());
+         ArrayList<LLALocation> RodsRoadCIntersection = LLAGeometry.Intersection (d.GS (), radiusC, d.getCenterCampLLA (), radiusRROutside);
          ArrayList<LLALocation> RodsRoad630Intersection = LLAGeometry.Intersection (d.getCenterCampLLA (), radiusRROutside, p630B, p630C);
         
          LLALocation p1 = p630C.getClosest (RodsRoadCIntersection);
          LLALocation p3 = p630B.getClosest (RodsRoad630Intersection);         
 
-         CityBlock.addArcSegment (GoldenSpike, p1, p630C, ArcDirection.CLOCKWISE);
+         CityBlock.addArcSegment (d.GS (), p1, p630C, ArcDirection.CLOCKWISE);
          CityBlock.addLineSegment (p630C, p3);
 
          CityBlock.addArcSegment (d.getCenterCampLLA (), p3, p1, ArcDirection.COUNTER_CLOCKWISE);
@@ -479,18 +479,18 @@ public class BlackRockCity
          LLALocation p530D = new Intersection (5,30,'D').corner (d, IntersectionOffset.ClockwiseManside);
          LLALocation p530C = new Intersection (5,30,'C').corner (d, IntersectionOffset.ClockwiseOutside);
 
-         double radiusC = p530C.distanceFT (GoldenSpike);
-         double radiusD = p530D.distanceFT (GoldenSpike);
+         double radiusC = p530C.distanceFT (d.GS ());
+         double radiusD = p530D.distanceFT (d.GS ());
          
-         ArrayList<LLALocation> RodsRoadDIntersection = LLAGeometry.Intersection (GoldenSpike, radiusD, d.getCenterCampLLA (), radiusRROutside);
-         ArrayList<LLALocation> RodsRoadCIntersection = LLAGeometry.Intersection (GoldenSpike, radiusC, d.getCenterCampLLA (), radiusRROutside);
+         ArrayList<LLALocation> RodsRoadDIntersection = LLAGeometry.Intersection (d.GS (), radiusD, d.getCenterCampLLA (), radiusRROutside);
+         ArrayList<LLALocation> RodsRoadCIntersection = LLAGeometry.Intersection (d.GS (), radiusC, d.getCenterCampLLA (), radiusRROutside);
 
          LLALocation p1 = p530D.getClosest (RodsRoadDIntersection);
          LLALocation p4 = p530C.getClosest (RodsRoadCIntersection);         
 
-         CityBlock.addArcSegment (GoldenSpike, p1, p530D, ArcDirection.COUNTER_CLOCKWISE);
+         CityBlock.addArcSegment (d.GS (), p1, p530D, ArcDirection.COUNTER_CLOCKWISE);
          CityBlock.addLineSegment (p530D, p530C);
-         CityBlock.addArcSegment (GoldenSpike, p530C, p4, ArcDirection.CLOCKWISE);
+         CityBlock.addArcSegment (d.GS (), p530C, p4, ArcDirection.CLOCKWISE);
          CityBlock.addArcSegment (d.getCenterCampLLA (), p4, p1, ArcDirection.CLOCKWISE);
       }
       else
@@ -498,18 +498,18 @@ public class BlackRockCity
          LLALocation p630C = new Intersection (6,30,'C').corner (d, IntersectionOffset.CounterClockwiseOutside);
          LLALocation p630D = new Intersection (6,30,'D').corner (d, IntersectionOffset.CounterClockwiseManside);
 
-         double radiusC = p630C.distanceFT (GoldenSpike);
-         double radiusD = p630D.distanceFT (GoldenSpike);
+         double radiusC = p630C.distanceFT (d.GS ());
+         double radiusD = p630D.distanceFT (d.GS ());
          
-         ArrayList<LLALocation> RodsRoadDIntersection = LLAGeometry.Intersection (GoldenSpike, radiusD, d.getCenterCampLLA (), radiusRROutside);
-         ArrayList<LLALocation> RodsRoadCIntersection = LLAGeometry.Intersection (GoldenSpike, radiusC, d.getCenterCampLLA (), radiusRROutside);
+         ArrayList<LLALocation> RodsRoadDIntersection = LLAGeometry.Intersection (d.GS (), radiusD, d.getCenterCampLLA (), radiusRROutside);
+         ArrayList<LLALocation> RodsRoadCIntersection = LLAGeometry.Intersection (d.GS (), radiusC, d.getCenterCampLLA (), radiusRROutside);
 
          LLALocation p1 = p630D.getClosest (RodsRoadDIntersection);
          LLALocation p4 = p630C.getClosest (RodsRoadCIntersection);         
 
-         CityBlock.addArcSegment (GoldenSpike, p1, p630D, ArcDirection.CLOCKWISE);
+         CityBlock.addArcSegment (d.GS (), p1, p630D, ArcDirection.CLOCKWISE);
          CityBlock.addLineSegment (p630D, p630C);
-         CityBlock.addArcSegment (GoldenSpike, p630C, p4, ArcDirection.COUNTER_CLOCKWISE);
+         CityBlock.addArcSegment (d.GS (), p630C, p4, ArcDirection.COUNTER_CLOCKWISE);
          CityBlock.addArcSegment (d.getCenterCampLLA (), p4, p1, ArcDirection.COUNTER_CLOCKWISE);
       }
       
@@ -548,14 +548,14 @@ public class BlackRockCity
 
       Path OuterPlaya = new Path (folderPath, Color.BLACK);
 
-      OuterPlaya.addArcSegment (GoldenSpike, p200Esp, p300Esp, ArcDirection.CLOCKWISE);
-      OuterPlaya.addArcSegment (GoldenSpike, p300Man, p1200ManA, ArcDirection.COUNTER_CLOCKWISE);
+      OuterPlaya.addArcSegment (d.GS (), p200Esp, p300Esp, ArcDirection.CLOCKWISE);
+      OuterPlaya.addArcSegment (d.GS (), p300Man, p1200ManA, ArcDirection.COUNTER_CLOCKWISE);
       OuterPlaya.addPoint (p600TempleA);
       OuterPlaya.addArcSegment (d.getTempleLLA (), p600TempleA, p600TempleB, ArcDirection.COUNTER_CLOCKWISE);
       OuterPlaya.addPoint (p600TempleB);
-      OuterPlaya.addArcSegment (GoldenSpike, p1200ManB, p900Man, ArcDirection.COUNTER_CLOCKWISE);
-      OuterPlaya.addArcSegment (GoldenSpike, p900Esp, p1000Esp, ArcDirection.CLOCKWISE);
-      OuterPlaya.addArcSegment (GoldenSpike, p1000L, p200L, ArcDirection.COUNTER_CLOCKWISE);
+      OuterPlaya.addArcSegment (d.GS (), p1200ManB, p900Man, ArcDirection.COUNTER_CLOCKWISE);
+      OuterPlaya.addArcSegment (d.GS (), p900Esp, p1000Esp, ArcDirection.CLOCKWISE);
+      OuterPlaya.addArcSegment (d.GS (), p1000L, p200L, ArcDirection.COUNTER_CLOCKWISE);
       
       OuterPlaya.addPoint (p200Esp);
 
@@ -577,13 +577,13 @@ public class BlackRockCity
 
          double radiusESP = d.getEsplanadeRadius () - d.getRegularStreetWidth ()/2;
 
-         ArrayList<LLALocation> RodsRoadCIntersection = LLAGeometry.Intersection (GoldenSpike, radiusESP, d.getCenterCampLLA (), radiusRROutside);
+         ArrayList<LLALocation> RodsRoadCIntersection = LLAGeometry.Intersection (d.GS (), radiusESP, d.getCenterCampLLA (), radiusRROutside);
          
          LLALocation p1 = p300Esp.getClosest (RodsRoadCIntersection);
 
-         InnerPlaya.addArcSegment (GoldenSpike, p300Esp, p1, ArcDirection.CLOCKWISE);
+         InnerPlaya.addArcSegment (d.GS (), p300Esp, p1, ArcDirection.CLOCKWISE);
          InnerPlaya.addArcSegment (d.getCenterCampLLA (), p1, p1200RR, ArcDirection.COUNTER_CLOCKWISE);
-         InnerPlaya.addArcSegment (GoldenSpike, p600Man, p300Man, ArcDirection.COUNTER_CLOCKWISE);
+         InnerPlaya.addArcSegment (d.GS (), p600Man, p300Man, ArcDirection.COUNTER_CLOCKWISE);
          InnerPlaya.addPoint (p300Esp);
       }
       else
@@ -595,14 +595,14 @@ public class BlackRockCity
 
          double radiusESP = d.getEsplanadeRadius () - d.getRegularStreetWidth ()/2;
 
-         ArrayList<LLALocation> RodsRoadCIntersection = LLAGeometry.Intersection (GoldenSpike, radiusESP, d.getCenterCampLLA (), radiusRROutside);
+         ArrayList<LLALocation> RodsRoadCIntersection = LLAGeometry.Intersection (d.GS (), radiusESP, d.getCenterCampLLA (), radiusRROutside);
 
          LLALocation p2 = p900Esp.getClosest (RodsRoadCIntersection);
 
-         InnerPlaya.addArcSegment (GoldenSpike, p900Esp, p2, ArcDirection.COUNTER_CLOCKWISE);
+         InnerPlaya.addArcSegment (d.GS (), p900Esp, p2, ArcDirection.COUNTER_CLOCKWISE);
 
          InnerPlaya.addArcSegment (d.getCenterCampLLA (), p2, p1200RR, ArcDirection.CLOCKWISE);
-         InnerPlaya.addArcSegment (GoldenSpike, p600Man, p900Man, ArcDirection.CLOCKWISE);
+         InnerPlaya.addArcSegment (d.GS (), p600Man, p900Man, ArcDirection.CLOCKWISE);
          InnerPlaya.addPoint (p900Esp);
       }
       
@@ -615,13 +615,13 @@ public class BlackRockCity
       Intersection HOVCorner = new Intersection (new RadialStreet (6, 15), new AnnularStreet ('I'));
       LLALocation start = HOVCorner.corner (d, IntersectionOffset.CounterClockwiseManside);
       p.addPoint (start);
-      p.addArcSegment (GoldenSpike, start, start.moveFT (GoldenSpike, -400), ArcDirection.COUNTER_CLOCKWISE);
-      double p1Bearing = GoldenSpike.getBearing (p.currentPoint ());
+      p.addArcSegment (d.GS (), start, start.moveFT (d.GS (), -400), ArcDirection.COUNTER_CLOCKWISE);
+      double p1Bearing = d.GS ().getBearing (p.currentPoint ());
 
       p.addLineSegment (p.currentPoint (), p.currentPoint ().moveFT (p1Bearing, -150));
       
-      p1Bearing = GoldenSpike.getBearing (start);
-      p.addArcSegment (GoldenSpike, p.currentPoint (), start.moveFT (p1Bearing, -150), ArcDirection.CLOCKWISE);
+      p1Bearing = d.GS ().getBearing (start);
+      p.addArcSegment (d.GS (), p.currentPoint (), start.moveFT (p1Bearing, -150), ArcDirection.CLOCKWISE);
 
       return p;
    }

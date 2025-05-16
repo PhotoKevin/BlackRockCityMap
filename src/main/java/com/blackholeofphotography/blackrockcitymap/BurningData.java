@@ -58,13 +58,17 @@ public class BurningData
    private Map<String,String> Description = new HashMap<>();
    private StreetMap strMap;
    private int year;
+   private LLALocation goldenSpike;
    /**
     * Location of the GoldenSpike
     * @return Location of GoldenSpike
     */
    public LLALocation GS ()
    {
-      return getLLALocation ("GS");
+      if (goldenSpike == null)
+         goldenSpike = getLLALocation ("GS");
+
+      return goldenSpike;
    } 
 
    /**
@@ -73,7 +77,12 @@ public class BurningData
     */
    public LLALocation P1 () 
    {
-      return getLLALocation ("P1");
+      LLALocation rawGS = getLLALocation ("GS");
+      LLALocation rawP1 = getLLALocation ("P1");
+      double bearing = rawGS.getBearing (rawP1);
+      double distanceKM = rawGS.distanceKM (rawP1);
+      
+      return GS ().moveKM (bearing, distanceKM);
    }
    
    public int getYear ()
@@ -405,6 +414,11 @@ public class BurningData
            return 0;
       
       return getDoubleValue  ("BD"+roadLetter);
+   }
+   
+   public void setGoldenSpikeOverride (LLALocation gs)
+   {
+      goldenSpike = gs;
    }
 
 
