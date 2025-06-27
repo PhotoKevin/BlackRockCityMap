@@ -9,6 +9,7 @@
     <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
   </SyntheticProperties>
   <Events>
+    <EventHandler event="windowClosing" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowClosing"/>
     <EventHandler event="windowOpened" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowOpened"/>
   </Events>
   <AuxValues>
@@ -47,25 +48,19 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Component id="cbYear" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
                   <Component id="chkCenterline" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
                   <Component id="chkRelocate" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="lblLatitude" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="txtLatitude" min="-2" pref="96" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="lblLongitude" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="txtLongitude" min="-2" pref="134" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtLongitude" pref="394" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Component id="btnDrawMap" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -78,9 +73,6 @@
                       <Component id="cbYear" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="chkCenterline" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="chkRelocate" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblLatitude" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txtLatitude" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblLongitude" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="txtLongitude" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnDrawMap" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -134,28 +126,11 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkRelocateActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="lblLatitude">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Latitude"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="txtLatitude">
-          <Properties>
-            <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[164, 22]"/>
-            </Property>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="lblLongitude">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Longitude"/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JTextField" name="txtLongitude">
         </Component>
         <Component class="javax.swing.JButton" name="btnDrawMap">
           <Properties>
-            <Property name="text" type="java.lang.String" value="jButton1"/>
+            <Property name="text" type="java.lang.String" value="Generate"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDrawMapActionPerformed"/>

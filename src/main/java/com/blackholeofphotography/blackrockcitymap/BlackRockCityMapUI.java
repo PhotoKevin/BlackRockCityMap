@@ -39,6 +39,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.prefs.Preferences;
 import org.apache.batik.anim.dom.SAXSVGDocumentFactory;
 import org.apache.batik.swing.gvt.GVTTreeRendererAdapter;
 import org.apache.batik.swing.gvt.GVTTreeRendererEvent;
@@ -60,12 +61,6 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
    public BlackRockCityMapUI ()
    {
       initComponents ();
-      cbYear.setSelectedItem ("2024");
-      chkCenterline.setSelected (false);
-      chkRelocate.setSelected (true);
-      txtLongitude.setText ("-83.7850");
-      txtLatitude.setText ("42.288900");
-      fixupControls ();
    }
 
    /**
@@ -83,9 +78,6 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
       cbYear = new javax.swing.JComboBox<>();
       chkCenterline = new javax.swing.JCheckBox();
       chkRelocate = new javax.swing.JCheckBox();
-      lblLatitude = new javax.swing.JLabel();
-      txtLatitude = new javax.swing.JTextField();
-      lblLongitude = new javax.swing.JLabel();
       txtLongitude = new javax.swing.JTextField();
       btnDrawMap = new javax.swing.JButton();
       jSVGCanvas1 = new org.apache.batik.swing.JSVGCanvas();
@@ -93,6 +85,10 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
       setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
       addWindowListener(new java.awt.event.WindowAdapter()
       {
+         public void windowClosing(java.awt.event.WindowEvent evt)
+         {
+            formWindowClosing(evt);
+         }
          public void windowOpened(java.awt.event.WindowEvent evt)
          {
             formWindowOpened(evt);
@@ -128,13 +124,7 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
          }
       });
 
-      lblLatitude.setText("Latitude");
-
-      txtLatitude.setMinimumSize(new java.awt.Dimension(164, 22));
-
-      lblLongitude.setText("Longitude");
-
-      btnDrawMap.setText("jButton1");
+      btnDrawMap.setText("Generate");
       btnDrawMap.addActionListener(new java.awt.event.ActionListener()
       {
          public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -156,14 +146,8 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
             .addComponent(chkCenterline)
             .addGap(18, 18, 18)
             .addComponent(chkRelocate)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(lblLatitude)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(txtLatitude, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addComponent(lblLongitude)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addComponent(txtLongitude, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(18, 18, 18)
+            .addComponent(txtLongitude, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(btnDrawMap)
             .addContainerGap())
@@ -177,9 +161,6 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
                .addComponent(cbYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                .addComponent(chkCenterline)
                .addComponent(chkRelocate)
-               .addComponent(lblLatitude)
-               .addComponent(txtLatitude, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-               .addComponent(lblLongitude)
                .addComponent(txtLongitude, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                .addComponent(btnDrawMap))
             .addContainerGap(7, Short.MAX_VALUE))
@@ -247,6 +228,15 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
 
    private void formWindowOpened(java.awt.event.WindowEvent evt)//GEN-FIRST:event_formWindowOpened
    {//GEN-HEADEREND:event_formWindowOpened
+      Settings.load ();
+      cbYear.setSelectedItem (Settings.year);
+      txtLongitude.setText (Settings.latitudeLongitude);
+      this.setLocation (Settings.WindowPreferences.location);
+      this.setSize (Settings.WindowPreferences.size);
+      chkCenterline.setSelected (Settings.centerline);
+      chkRelocate.setSelected (Settings.relocate);
+      fixupControls ();
+
       this.jSVGCanvas1.addGVTTreeRendererListener(new GVTTreeRendererAdapter() 
          {
             @Override
@@ -282,9 +272,6 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
       }
       
       boolean relocate = chkRelocate.isSelected ();
-      lblLatitude.setEnabled (relocate);
-      lblLongitude.setEnabled (relocate);
-      txtLatitude.setEnabled (relocate);
       txtLongitude.setEnabled (relocate);
 
    }
@@ -335,7 +322,7 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
 
    private void chkCenterlineActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_chkCenterlineActionPerformed
    {//GEN-HEADEREND:event_chkCenterlineActionPerformed
-      //DrawMap ();
+      fixupControls ();
    }//GEN-LAST:event_chkCenterlineActionPerformed
 
    private void chkRelocateActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_chkRelocateActionPerformed
@@ -347,6 +334,17 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
    {//GEN-HEADEREND:event_btnDrawMapActionPerformed
       DrawMap ();
    }//GEN-LAST:event_btnDrawMapActionPerformed
+
+   private void formWindowClosing(java.awt.event.WindowEvent evt)//GEN-FIRST:event_formWindowClosing
+   {//GEN-HEADEREND:event_formWindowClosing
+      Settings.WindowPreferences.location = this.getLocation ();
+      Settings.WindowPreferences.size = this.getSize ();
+      Settings.latitudeLongitude = this.txtLongitude.getText ();
+      Settings.relocate = this.chkRelocate.isSelected ();
+      Settings.centerline = this.chkCenterline.isSelected ();
+      Settings.year = (String) cbYear.getSelectedItem ().toString ();
+      Settings.save ();
+   }//GEN-LAST:event_formWindowClosing
 
    private void rescale ()
    {
@@ -380,9 +378,14 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
       {
          try
          {
-            float lat = Float.parseFloat (txtLatitude.getText ());
-            float lon = Float.parseFloat (txtLongitude.getText ());
+//            float lat = Float.parseFloat (txtLatitude.getText ());
+//            float lon = Float.parseFloat (txtLongitude.getText ());
+//            relocate = new LLALocation (lat, lon, 0);
+            String[] split = txtLongitude.getText ().split (",");
+            float lat = Float.parseFloat (split[0].trim ());
+            float lon = Float.parseFloat (split[1].trim ());
             relocate = new LLALocation (lat, lon, 0);
+            
          
          }
          catch (NumberFormatException ex)
@@ -521,9 +524,6 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
    private javax.swing.JLabel jLabel1;
    private javax.swing.JPanel jPanel1;
    private org.apache.batik.swing.JSVGCanvas jSVGCanvas1;
-   private javax.swing.JLabel lblLatitude;
-   private javax.swing.JLabel lblLongitude;
-   private javax.swing.JTextField txtLatitude;
    private javax.swing.JTextField txtLongitude;
    // End of variables declaration//GEN-END:variables
 }

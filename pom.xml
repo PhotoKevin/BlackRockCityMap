@@ -9,7 +9,7 @@
       <dependency>
     <groupId>mil.nga.sf</groupId>
     <artifactId>sf-geojson</artifactId>
-    <version>3.3.2</version>
+    <version>3.3.3</version>
 </dependency>
       <!-- https://mvnrepository.com/artifact/de.micromata.jak/JavaAPIforKml -->
       <!-- https://mvnrepository.com/artifact/org.apache.xmlgraphics/batik-svggen -->
@@ -17,51 +17,52 @@
       <dependency>
          <groupId>org.apache.xmlgraphics</groupId>
          <artifactId>batik-transcoder</artifactId>
-         <version>1.17</version>
+         <version>1.19</version>
       </dependency>
 
       <!-- https://mvnrepository.com/artifact/org.jfree/org.jfree.svg -->
       <dependency>
          <groupId>org.jfree</groupId>
          <artifactId>org.jfree.svg</artifactId>
-         <version>5.0.5</version>
+         <version>5.0.7</version>
       </dependency>
       <!-- https://mvnrepository.com/artifact/org.apache.xmlgraphics/batik-all -->
       <dependency>
          <groupId>org.apache.xmlgraphics</groupId>
          <artifactId>batik-all</artifactId>
-         <version>1.17</version>
+         <version>1.19</version>
          <type>pom</type>
       </dependency>
       <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
       <dependency>
          <groupId>org.junit.jupiter</groupId>
          <artifactId>junit-jupiter-api</artifactId>
-         <version>5.10.0</version>
+         <version>5.12.2</version>
          <scope>test</scope>
       </dependency>
       <dependency>
          <groupId>org.apache.xmlgraphics</groupId>
          <artifactId>batik-swing</artifactId>
-         <version>1.17</version>
+         <version>1.19</version>
          <type>jar</type>
       </dependency>
+      <!-- https://mvnrepository.com/artifact/uk.m0nom/javaapiforkml -->
       <dependency>
-         <groupId>de.micromata.jak</groupId>
-         <artifactId>JavaAPIforKml</artifactId>
-         <version>2.3.0-SNAPSHOT</version>
+          <groupId>uk.m0nom</groupId>
+          <artifactId>javaapiforkml</artifactId>
+          <version>3.0.10</version>
       </dependency>
       <!-- https://mvnrepository.com/artifact/org.bremersee/geojson -->
       <dependency>
          <groupId>org.bremersee</groupId>
          <artifactId>geojson</artifactId>
-         <version>2.4.1</version>
+         <version>3.1.1</version>
       </dependency>
       <!-- https://mvnrepository.com/artifact/org.apache.xmlgraphics/batik-svggen -->
       <dependency>
           <groupId>org.apache.xmlgraphics</groupId>
           <artifactId>batik-svggen</artifactId>
-          <version>1.17</version>
+          <version>1.19</version>
       </dependency>
    </dependencies>
    <build>
@@ -126,7 +127,7 @@
 
    <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-      <maven.compiler.source>1.8</maven.compiler.source>
-      <maven.compiler.target>1.8</maven.compiler.target>
+      <maven.compiler.source>23</maven.compiler.source>
+      <maven.compiler.target>23</maven.compiler.target>
    </properties>
 </project>
