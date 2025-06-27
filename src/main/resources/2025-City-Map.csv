@@ -1,0 +1,65 @@
+GS_LAT,40.786958,Golden Spike Latitude
+GS_LON,-119.202994,Golden Spike Longitude
+GS_ELEV,3904,Elevation Above Sea Level in feet
+P1_LAT,40.783388,Pentagon Point 1 Latitude
+P1_LON,-119.232725,Pentagon Point 1 Longitude
+MPC_DDD,315,"Man Polar Coordinate True North-South Axis, man degrees (if at man, north is at 10:30 oclock)"
+
+MCCR,3026,Man - Center Camp Center Radial Distance 
+MTR,2500,Man - Temple Radial Distance
+MPR,825,Man Plaza Radius
+TPR,250,Temple Plaza Radius
+
+; Street widths
+CSW, 40, "Width of a clock street"
+PSW, 20, "Width of a pedestrian street"
+
+; Annular street widths
+ASWZ,40, Width  Z
+ASWA,30, Width  A
+ASWB,30, Width  B
+ASWC,30, Width  C
+ASWD,30, Width  D
+ASWE,40, Width  E
+ASWF,30, Width  F
+ASWG,30, Width  G
+ASWH,30, Width  H
+ASWI,30, Width  I
+ASWJ,30, Width  J
+ASWK,50, Width  K
+ASWR,40, Rods Road - Fake for 2024, must be same as Z
+ASWW,40, The Man
+
+CTCIR,320,Center Theme Camp Inner Radius
+CTCOR,763,Center Theme Camp Outer Radius
+PCCPKW,317,Plaza Center Camp Portal Keyhole Widest
+PCCPKN,120,Plaza Center Camp Keyhole Narrowest
+PW,120,Portal Mouth Width
+PR,100,Plaza Radius
+
+ERCR,2500,Esplanade Road Center Radius
+BDZ,400,"Block Depth A"
+BDA,250,"Block Depth A"
+BDB,250,"Block Depth B"
+BDC,250,"Block Depth C"
+BDD,250,"Block Depth D"
+BDE,450,"Block Depth E"
+BDF,250,"Block Depth F"
+BDG,250,"Block Depth G"
+BDH,250,"Block Depth H"
+BDI,150,"Block Depth I"
+BDJ,150,"Block Depth J"
+xBDK,150,"Block Depth K"
+
+xARN,Atwood,"""A"" Road Name"
+xBRN,Bradbury,"""B"" Road Name"
+xCRN,Cherry ,"""C"" Road Name"
+xDRN,Dick ,"""D"" Road Name"
+xERN,Ellison ,"""E"" Road Name"
+xFRN,Farmer ,"""F"" Road Name"
+xGRN,Gibson ,"""G"" Road Name"
+xHRN,Herbert ,"""H"" Road Name"
+xIRN,Ishiguro ,"""I"" Road Name"
+xJRN,Jemisin,"""J"" Road Name"
+xKRN,Kilgore,"""K"" Road Name"
+
