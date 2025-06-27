@@ -103,9 +103,9 @@ public class Intersection
    {
       LLALocation g;
       double bearing = dataSet.getBearing (radial);
-      double halfWidth = dataSet.getRegularStreetWidth () /2 ;
+      
+      double annularHalfWidth = this.annular.isNormalStreet () ? dataSet.getAnnularWidth (this.annular.getStreetLetter ()) /2 : 0;
 
- 
       if (this.annular.isCenterCamp ())
       {
          double bearing530A = dataSet.getCenterCampLLA ().getBearing (new Intersection (5, 30, 'A').corner (dataSet));
@@ -113,7 +113,7 @@ public class Intersection
 
          g = dataSet.getCenterCampLLA ();
          if (this.annular.getStreetLetter () == AnnularStreet.RODS_ROAD)
-            g = g.moveFT (bearing, dataSet.getCenterThemeCampOuterRadius () + halfWidth);
+            g = g.moveFT (bearing, dataSet.getCenterThemeCampOuterRadius () + annularHalfWidth);
          else
          {
             // Center is special. 3:00 and 9:00 are offset to follow a line from 
@@ -135,43 +135,46 @@ public class Intersection
          g = dataSet.GS ().moveFT (bearing, ft);
       }
 
+      double radialHalfWidth = dataSet.getRadialWidth () /2;
+      if (dataSet.isPedistrianWalkway (this, ManDirection.FROM_MAN) || dataSet.isPedistrianWalkway (this, ManDirection.TOWARD_MAN))
+         radialHalfWidth = dataSet.getPedestrianWidth () / 2;
 
       switch (io)
       {
       case ClockwiseManside:
-         g = g.moveFT (bearing, -halfWidth);          
-         g = g.moveFT (bearing+90.0, halfWidth);
+         g = g.moveFT (bearing, -annularHalfWidth);
+         g = g.moveFT (bearing+90.0, radialHalfWidth);
          break;
 
       case CounterClockwiseManside:
-         g = g.moveFT (bearing, -halfWidth);     
-         g = g.moveFT (bearing+90.0, -halfWidth);
+         g = g.moveFT (bearing, -annularHalfWidth);     
+         g = g.moveFT (bearing+90.0, -radialHalfWidth);
          break;
 
       case ClockwiseOutside:
-         g = g.moveFT (bearing, halfWidth);
-         g = g.moveFT (bearing+90.0, halfWidth);
+         g = g.moveFT (bearing, annularHalfWidth);
+         g = g.moveFT (bearing+90.0, radialHalfWidth);
          break;
 
       case CounterClockwiseOutside:
-         g = g.moveFT (bearing, halfWidth);
-         g = g.moveFT (bearing+90.0, -halfWidth);
+         g = g.moveFT (bearing, annularHalfWidth);
+         g = g.moveFT (bearing+90.0, -radialHalfWidth);
          break;
          
       case Manside:
-         g = g.moveFT (bearing, -halfWidth);          
+         g = g.moveFT (bearing, -annularHalfWidth);          
          break;
          
       case Outside:
-         g = g.moveFT (bearing, halfWidth);          
+         g = g.moveFT (bearing, annularHalfWidth);
          break;
          
       case Clockwise:
-         g = g.moveFT (bearing+90.0, halfWidth);
+         g = g.moveFT (bearing+90.0, radialHalfWidth);
          break;
          
       case CounterClockwise:
-         g = g.moveFT (bearing+90.0, -halfWidth);
+         g = g.moveFT (bearing+90.0, -radialHalfWidth);
          break;
          
       case Center:

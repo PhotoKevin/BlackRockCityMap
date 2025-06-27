@@ -98,7 +98,10 @@ public class BurningData
    {
       String s = Value.get (key);
       if (s == null)
+      {
          System.out.println ("Key value " + key + " not found");
+         return 0;
+      }
       
       return Double.parseDouble (s);
    }
@@ -154,7 +157,32 @@ public class BurningData
     * @apiNote 2014 (and possibly earlier years) had regular streets and skinny streets. 
     * Hence the name here. 
     */
-   public double getRegularStreetWidth () {return getDoubleValue  ("RSW");}
+   public double getRegularStreetWidth () 
+   {
+      return 40;
+      // return getDoubleValue  ("RSW");
+   }
+   
+   public double getAnnularWidth (char roadLetter)
+   {
+      if (this.year >= 2024)
+         return getDoubleValue ("ASW"+roadLetter);
+      else
+         return this.getRegularStreetWidth ();
+   }
+
+   public double getRadialWidth ()
+   {
+      if (this.year >= 2024)
+         return getDoubleValue ("CSW");
+      else
+         return this.getRegularStreetWidth ();
+   }
+
+   public double getPedestrianWidth ()
+   {
+      return getDoubleValue ("PSW");
+   }
    
    /**
     * Get the LLALocation of Center Camp.
@@ -222,11 +250,11 @@ public class BurningData
          return this.getManPlazaRadius ();
       default:
          dist += getBlockDepth (AnnularStreet.ESPLANADE);
-         dist += getRegularStreetWidth ();
+         dist += getAnnularWidth (AnnularStreet.ESPLANADE);
          for (char ch='A'; ch<roadLetter; ch++)
          {
             dist += getBlockDepth (ch);
-            dist += getRegularStreetWidth ();
+            dist += getAnnularWidth (ch); // getRegularStreetWidth ();
          }
       }
       return dist;
@@ -359,6 +387,11 @@ public class BurningData
    {
       return this.strMap.existsClockwiseRoad (intersection);
    }
+   
+   public boolean isPedistrianWalkway (Intersection intersection, ManDirection direction)
+   {
+      return this.strMap.isPedistrianWalkway (intersection, direction);
+   }
 
    /**
     * Get the corners of the block where the supplied intersection is the 
@@ -437,10 +470,11 @@ public class BurningData
          for (String s : in)
          {
             ArrayList<String> columns = CSVHandler.parseCSVLine (s);
-            if (columns.get(0).length() > 0 && columns.get(1).length() > 0)
+            if (columns.size () > 1 && columns.get(0).length() > 0 && columns.get(1).length() > 0)
             {
                Value.put (columns.get(0), columns.get(1));
-               Description.put (columns.get(0), columns.get(2));
+               if (columns.size () > 2)
+                  Description.put (columns.get(0), columns.get(2));
             }
          }
          

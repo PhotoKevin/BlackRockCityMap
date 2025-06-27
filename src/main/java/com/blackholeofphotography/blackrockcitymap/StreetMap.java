@@ -217,6 +217,41 @@ public class StreetMap
       return false;
    }
    
+   public boolean isPedistrianWalkway (Intersection i, ManDirection dir)
+   {
+      if (i.annular.getStreetLetter () > 'K')
+         return false;
+      
+      int row = row (i.annular);
+      int col = column (i.radial);
+      
+      switch (dir)
+      {
+      case TOWARD_MAN: 
+         if (this.existsMansideRoad (i))
+            return data[row-1][col] == '.';
+         break;
+
+      case FROM_MAN:
+         if (this.existsOutsideRoad (i))
+            return data[row+1][col] == '.';
+         break;
+
+      case COUNTER_CLOCKWISE: 
+         if (this.existsCounterClockwiseRoad (i))
+            return data[row][col+1] == '.';
+         break;
+         
+      case CLOCKWISE: 
+         if (this.existsClockwiseRoad (i))
+            return data[row][col-1] == '.';
+         break;
+      }
+      
+      return false;
+      
+   }
+   
    /**
     * Determine if this intersection is a Plaza
     * @param intersection The intersection of interest.

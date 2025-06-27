@@ -318,7 +318,7 @@ public class BlackRockCityCenterline
         
          
          LLALocation p2 = intersection.getNextIntersection (ManDirection.FROM_MAN).corner (d, IntersectionOffset.Manside);
-         p2 = p2.moveFT (sidewise, d.getRegularStreetWidth ()/2);
+         p2 = p2.moveFT (sidewise, d.getRadialWidth () /2);
          
          ArrayList<LLALocation> pts = LLAGeometry.Intersection (d.GS (), d.getEsplanadeRadius (), p2, p1);
          points.add (p1.getClosest (pts));
@@ -333,7 +333,7 @@ public class BlackRockCityCenterline
          Intersection plaza = new Intersection (intersection.radial, 'B');
          LLALocation p2 = plaza.corner (d);
          p2 = p2.moveFT (bearing+180, d.getPlazaRadius ()/2);
-         p2 = p2.moveFT (sidewise, d.getRegularStreetWidth ()/2);
+         p2 = p2.moveFT (sidewise, d.getRadialWidth ()/2);
 
          ArrayList<LLALocation> pts = LLAGeometry.Intersection (d.GS (), d.GS ().distanceFT (intersection.corner (d)), p1, p2);
          if (!pts.isEmpty ())

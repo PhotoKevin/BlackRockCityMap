@@ -155,6 +155,11 @@ public class AnnularStreet
              this.streetLetter == AnnularStreet.RODS_ROAD;
    }
    
+   public boolean isNormalStreet ()
+   {
+      return (this.streetLetter >= 'A' && this.streetLetter <= 'L') || this.streetLetter == AnnularStreet.ESPLANADE;
+   }
+   
    /**
     * Determine if this street is the same as some other
     * @param a The street to compare against
@@ -190,9 +195,9 @@ public class AnnularStreet
    {
       double radius = getRadius (d);
       if (edge == AnnularOffset.MANSIDE)
-         radius -= d.getRegularStreetWidth () / 2;
+         radius -= d.getAnnularWidth ('A') / 2; //   d.getRegularStreetWidth () / 2;
       else if (edge == AnnularOffset.OUTSIDE)
-         radius -= d.getRegularStreetWidth () / 2;
+         radius -= d.getAnnularWidth ('A') / 2; // d.getRegularStreetWidth () / 2;
       
       return radius;
    }

@@ -97,7 +97,7 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
 
       jLabel1.setText("Year:");
 
-      cbYear.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2014", "2015", "2016", "2017", "2018", "2019", "2022", "2023", "2024" }));
+      cbYear.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2014", "2015", "2016", "2017", "2018", "2019", "2022", "2023", "2024", "2025" }));
       cbYear.addActionListener(new java.awt.event.ActionListener()
       {
          public void actionPerformed(java.awt.event.ActionEvent evt)
