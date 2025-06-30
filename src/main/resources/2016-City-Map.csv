@@ -7,7 +7,7 @@ MPC_DDD,315,"Man Polar Coordinate True North-South Axis, man degrees (if at man,
 
 MCCR,2907,Man - Center Camp Center Radial Distance 
 MTR,2500,Man - Temple Radial Distance 
-MPR,825,Man Plaza Radius
+MPR,785,Man Plaza Radius
 TPR,500,Temple Plaza Radius
 
 RRCR,752,Rod's Road Center Radius about center of center camp
