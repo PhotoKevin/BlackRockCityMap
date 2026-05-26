@@ -90,7 +90,7 @@
         <Component class="javax.swing.JComboBox" name="cbYear">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="9">
+              <StringArray count="11">
                 <StringItem index="0" value="2014"/>
                 <StringItem index="1" value="2015"/>
                 <StringItem index="2" value="2016"/>
@@ -100,6 +100,8 @@
                 <StringItem index="6" value="2022"/>
                 <StringItem index="7" value="2023"/>
                 <StringItem index="8" value="2024"/>
+                <StringItem index="9" value="2025"/>
+                <StringItem index="10" value="2026"/>
               </StringArray>
             </Property>
           </Properties>

@@ -1,8 +1,8 @@
-GS_LAT,40.786958,Golden Spike Latitude
-GS_LON,-119.202994,Golden Spike Longitude
+GS_LAT,40.783242,Golden Spike Latitude
+GS_LON,-119.207871,Golden Spike Longitude
 GS_ELEV,3904,Elevation Above Sea Level in feet
-P1_LAT,40.783388,Pentagon Point 1 Latitude
-P1_LON,-119.232725,Pentagon Point 1 Longitude
+P1_LAT,40.779710,Pentagon Point 1 Latitude
+P1_LON,-119.237421,Pentagon Point 1 Longitude
 MPC_DDD,315,"Man Polar Coordinate True North-South Axis, man degrees (if at man, north is at 10:30 oclock)"
 
 MCCR,2999,Man - Center Camp Center Radial Distance 

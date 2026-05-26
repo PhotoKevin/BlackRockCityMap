@@ -276,7 +276,8 @@ public class BurningData
     */
    public double getManPlazaRadius ()
    {
-      return getDoubleValue  ("MPR");
+      // The CSV claims radius, but checking G Earth, it's diameter.
+      return getDoubleValue  ("MPR") / 2;
    }
 
    /**
@@ -305,6 +306,11 @@ public class BurningData
    public boolean isPlaza (Intersection intersection)
    {
       return this.strMap.isPlaza (intersection);
+   }
+   
+   public boolean isBPlaza (Intersection intersection)
+   {
+      return this.strMap.isBPlaza (intersection);
    }
    
    /**
@@ -388,9 +394,9 @@ public class BurningData
       return this.strMap.existsClockwiseRoad (intersection);
    }
    
-   public boolean isPedistrianWalkway (Intersection intersection, ManDirection direction)
+   public boolean isPedestrianWalkway (Intersection intersection, ManDirection direction)
    {
-      return this.strMap.isPedistrianWalkway (intersection, direction);
+      return this.strMap.isPedestrianWalkway (intersection, direction);
    }
 
    /**

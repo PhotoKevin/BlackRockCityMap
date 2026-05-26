@@ -217,7 +217,7 @@ public class StreetMap
       return false;
    }
    
-   public boolean isPedistrianWalkway (Intersection i, ManDirection dir)
+   public boolean isPedestrianWalkway (Intersection i, ManDirection dir)
    {
       if (i.annular.getStreetLetter () > 'K')
          return false;
@@ -263,6 +263,20 @@ public class StreetMap
       int col = column (intersection.radial);
 
       return data[row][col] == 'Z';
+   }
+   
+   
+   /**
+    * Determine if this intersection is a B Plaza
+    * @param intersection The intersection of interest.
+    * @return true/false
+    */
+   public boolean isBPlaza (Intersection intersection)
+   {
+      int row = row (intersection.annular);
+      int col = column (intersection.radial);
+
+      return data[row][col] == 'B';
    }
    
    /**

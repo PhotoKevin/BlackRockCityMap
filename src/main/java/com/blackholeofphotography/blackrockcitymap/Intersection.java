@@ -104,7 +104,7 @@ public class Intersection
       LLALocation g;
       double bearing = dataSet.getBearing (radial);
       
-      double annularHalfWidth = this.annular.isNormalStreet () ? dataSet.getAnnularWidth (this.annular.getStreetLetter ()) /2 : 0;
+      double annularHalfWidth = this.annular.isNormalStreet () || this.annular.isCenterCamp () ? dataSet.getAnnularWidth (this.annular.getStreetLetter ()) /2 : 0;
 
       if (this.annular.isCenterCamp ())
       {
@@ -136,7 +136,7 @@ public class Intersection
       }
 
       double radialHalfWidth = dataSet.getRadialWidth () /2;
-      if (dataSet.isPedistrianWalkway (this, ManDirection.FROM_MAN) || dataSet.isPedistrianWalkway (this, ManDirection.TOWARD_MAN))
+      if (dataSet.isPedestrianWalkway (this, ManDirection.FROM_MAN) || dataSet.isPedestrianWalkway (this, ManDirection.TOWARD_MAN))
          radialHalfWidth = dataSet.getPedestrianWidth () / 2;
 
       switch (io)

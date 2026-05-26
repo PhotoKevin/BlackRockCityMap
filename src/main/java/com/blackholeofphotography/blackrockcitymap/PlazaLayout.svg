@@ -2,20 +2,20 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="210mm"
    height="297mm"
    viewBox="0 0 210 297"
    version="1.1"
    id="svg8"
-   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
-   sodipodi:docname="PlazaLayout.svg">
+   inkscape:version="1.4.4 (dcaf3e7, 2026-05-05)"
+   sodipodi:docname="PlazaLayout.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -26,16 +26,19 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.182992"
-     inkscape:cx="289.52737"
-     inkscape:cy="757.10366"
+     inkscape:cx="289.09747"
+     inkscape:cy="498.31275"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1920"
-     inkscape:window-height="1137"
-     inkscape:window-x="-6"
-     inkscape:window-y="-6"
-     inkscape:window-maximized="1" />
+     inkscape:window-height="1011"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:showpageshadow="2"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1" />
   <metadata
      id="metadata5">
     <rdf:RDF>
@@ -166,7 +169,7 @@
        r="22.608591" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.58333302px;line-height:125%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5833px;line-height:125%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="158.6954"
        y="21.519236"
        id="text962"><tspan
@@ -174,7 +177,7 @@
          id="tspan960"
          x="158.6954"
          y="21.519236"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:sans-serif;-inkscape-font-specification:sans-serif;stroke-width:0.26458332px">earlyInside</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:sans-serif;stroke-width:0.264583px">earlyInside</tspan></text>
     <circle
        style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:2, 1;stroke-dashoffset:0;stroke-opacity:1"
        id="path902-8"
@@ -201,7 +204,7 @@
        r="2.3345828" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.58333302px;line-height:125%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5833px;line-height:125%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="167.47128"
        y="131.30666"
        id="text962-2"><tspan
@@ -209,10 +212,10 @@
          id="tspan960-3"
          x="167.47128"
          y="131.30666"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:sans-serif;-inkscape-font-specification:sans-serif;stroke-width:0.26458332px">earlyOutside</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:sans-serif;stroke-width:0.264583px">earlyOutside</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.58333302px;line-height:125%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5833px;line-height:125%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="20.117165"
        y="132.28963"
        id="text962-2-3"><tspan
@@ -220,10 +223,10 @@
          id="tspan960-3-3"
          x="20.117165"
          y="132.28963"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:sans-serif;-inkscape-font-specification:sans-serif;stroke-width:0.26458332px">lateOutside</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:sans-serif;stroke-width:0.264583px">lateOutside</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.58333302px;line-height:125%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5833px;line-height:125%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="29.929556"
        y="20.639977"
        id="text962-2-3-7"><tspan
@@ -231,7 +234,7 @@
          id="tspan960-3-3-2"
          x="29.929556"
          y="20.639977"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:sans-serif;-inkscape-font-specification:sans-serif;stroke-width:0.26458332px">lateInside</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:sans-serif;stroke-width:0.264583px">lateInside</tspan></text>
     <g
        id="g885"
        transform="rotate(-27.790153,87.425793,48.659139)">
@@ -261,7 +264,7 @@
     </g>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.58333302px;line-height:125%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5833px;line-height:125%;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="101.13848"
        y="55.451443"
        id="text889"><tspan
@@ -269,10 +272,10 @@
          id="tspan887"
          x="101.13848"
          y="55.451443"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:sans-serif;-inkscape-font-specification:sans-serif;stroke-width:0.26458332px">Start</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;font-family:sans-serif;-inkscape-font-specification:sans-serif;stroke-width:0.264583px">Start</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="63.787918"
        y="46.952511"
        id="text893"><tspan
@@ -280,10 +283,10 @@
          id="tspan891"
          x="63.787918"
          y="46.952511"
-         style="stroke-width:0.26458332px">p1</tspan></text>
+         style="stroke-width:0.264583px">p1</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="49.473927"
        y="56.12241"
        id="text897"><tspan
@@ -291,10 +294,10 @@
          id="tspan895"
          x="49.473927"
          y="56.12241"
-         style="stroke-width:0.26458332px">p2</tspan></text>
+         style="stroke-width:0.264583px">p2</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="72.734161"
        y="24.363249"
        id="text901"><tspan
@@ -302,10 +305,10 @@
          id="tspan899"
          x="72.734161"
          y="24.363249"
-         style="stroke-width:0.26458332px">corner</tspan></text>
+         style="stroke-width:0.264583px">corner</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="72.510498"
        y="64.844994"
        id="text905"><tspan
@@ -313,46 +316,128 @@
          id="tspan903"
          x="72.510498"
          y="64.844994"
-         style="stroke-width:0.26458332px">The outline begins at Start</tspan><tspan
+         style="stroke-width:0.264583px">The outline begins at Start</tspan><tspan
          sodipodi:role="line"
          x="72.510498"
          y="70.136658"
-         style="stroke-width:0.26458332px"
+         style="stroke-width:0.264583px"
          id="tspan907">and goes counterclockwise</tspan><tspan
          sodipodi:role="line"
          x="72.510498"
          y="75.428329"
-         style="stroke-width:0.26458332px"
+         style="stroke-width:0.264583px"
          id="tspan909">around the block.</tspan><tspan
          sodipodi:role="line"
          x="72.510498"
          y="80.719994"
-         style="stroke-width:0.26458332px"
+         style="stroke-width:0.264583px"
          id="tspan911">At each corner, it checks to</tspan><tspan
          sodipodi:role="line"
          x="72.510498"
          y="86.011658"
-         style="stroke-width:0.26458332px"
+         style="stroke-width:0.264583px"
          id="tspan913">see if there is a plaza, a plaza </tspan><tspan
          sodipodi:role="line"
          x="72.510498"
          y="91.303322"
-         style="stroke-width:0.26458332px"
+         style="stroke-width:0.264583px"
          id="tspan915">portal, or is just a normal corner.</tspan><tspan
          sodipodi:role="line"
          x="72.510498"
          y="96.594994"
-         style="stroke-width:0.26458332px"
+         style="stroke-width:0.264583px"
          id="tspan917">This diagram shows plazas and </tspan><tspan
          sodipodi:role="line"
          x="72.510498"
          y="101.88666"
-         style="stroke-width:0.26458332px"
+         style="stroke-width:0.264583px"
          id="tspan919">normal corners. Plaza Portals </tspan><tspan
          sodipodi:role="line"
          x="72.510498"
          y="107.17832"
-         style="stroke-width:0.26458332px"
+         style="stroke-width:0.264583px"
          id="tspan921">are in PlazaPortal.svg</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="70.05513"
+       y="150.66634"
+       id="text905-4"><tspan
+         sodipodi:role="line"
+         x="70.05513"
+         y="150.66634"
+         style="stroke-width:0.264583px"
+         id="tspan921-5">The dotted line around the block is the</tspan><tspan
+         sodipodi:role="line"
+         x="70.05513"
+         y="155.95799"
+         style="stroke-width:0.264583px"
+         id="tspan8">center of the road. The solid line is the </tspan><tspan
+         sodipodi:role="line"
+         x="70.05513"
+         y="161.24966"
+         style="stroke-width:0.264583px"
+         id="tspan9">edge of the road. Early means a lower</tspan><tspan
+         sodipodi:role="line"
+         x="70.05513"
+         y="166.54132"
+         style="stroke-width:0.264583px"
+         id="tspan10">time value. i.e. 2:00 is earlier than 2:15.</tspan><tspan
+         sodipodi:role="line"
+         x="70.05513"
+         y="171.83298"
+         style="stroke-width:0.264583px"
+         id="tspan11">Inside is also called Man Side i.e. toward</tspan><tspan
+         sodipodi:role="line"
+         x="70.05513"
+         y="177.12465"
+         style="stroke-width:0.264583px"
+         id="tspan12">the man or a lower street letter. Outside,</tspan><tspan
+         sodipodi:role="line"
+         x="70.05513"
+         y="182.41631"
+         style="stroke-width:0.264583px"
+         id="tspan13">of course, is the reverse.</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.9389px;line-height:1.25;font-family:'Liberation Sans';-inkscape-font-specification:'Liberation Sans';text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;stroke-width:0.264583"
+       x="79.397896"
+       y="194.80443"
+       id="text14"><tspan
+         sodipodi:role="line"
+         id="tspan14"
+         style="stroke-width:0.264583"
+         x="79.397896"
+         y="194.80443" /></text>
+    <g
+       id="layer1-1"
+       transform="translate(-1.8990127,126.8202)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         x="72.510498"
+         y="64.844994"
+         id="text905-7"><tspan
+           sodipodi:role="line"
+           x="72.510498"
+           y="64.844994"
+           style="stroke-width:0.264583px"
+           id="tspan911-2">This diagram does not show the B plazas</tspan><tspan
+           sodipodi:role="line"
+           x="72.510498"
+           y="70.136658"
+           style="stroke-width:0.264583px"
+           id="tspan17">that were added in 2026. They are done</tspan><tspan
+           sodipodi:role="line"
+           x="72.510498"
+           y="75.428314"
+           style="stroke-width:0.264583px"
+           id="tspan18">like a round plaza but are rectangles.</tspan><tspan
+           sodipodi:role="line"
+           x="72.510498"
+           y="80.719978"
+           style="stroke-width:0.264583px"
+           id="tspan921-2" /></text>
+    </g>
   </g>
 </svg>

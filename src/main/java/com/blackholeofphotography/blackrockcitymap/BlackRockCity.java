@@ -32,8 +32,6 @@ import com.blackholeofphotography.llalocation.LLALocation;
 import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Represent BlackRockCity
@@ -43,6 +41,9 @@ import java.util.Set;
  */
 public class BlackRockCity
 {
+   private final static double B_WIDTH = 250;
+   private final static double B_DEPTH = 150- 30;
+   
    /**
     * This year's data set.
     */
@@ -68,7 +69,9 @@ public class BlackRockCity
          // https://innovate.burningman.org/dataset/2017-golden-spike-and-general-city-map-data/
 
          drawing.add (Perimeter ());
-
+//         for (Path p : DistanceScale.DrawScale (d))
+//            drawing.add (p);
+         
          // Do the ESPLANADE blocks.
          for (int hour=2; hour<10; hour++)
          {
@@ -186,6 +189,7 @@ public class BlackRockCity
          // Then the curve around the plaza to p2.
          CityBlock.addArcSegment (d.GS (), current, p1, ArcDirection.CLOCKWISE);
          CityBlock.addArcSegment (lateInside.corner(d), p1, p2, ArcDirection.CLOCKWISE);
+         current = p2;
       }
       else if (d.isPlazaPortal (lateInside)) // aka 3:00 or 9:00
       {
@@ -194,12 +198,34 @@ public class BlackRockCity
          p1 = lateInside.corner(d, IntersectionOffset.Outside).moveFT (lateBearing-90.0, d.getPortalWidth () );
 //         p1 = moveAroundFT (d.GS (), lateInside.corner (d, IntersectionOffset.Outside), d.getPortalWidth (lateInside.radial.getHour ()));
          CityBlock.addArcSegment (d.GS (), current, p1, ArcDirection.CLOCKWISE);
+         current = p1;
       }
       else if (d.isPortal (lateInside) && earlyInside.annular.getStreetLetter () == AnnularStreet.ESPLANADE)
       {
          // Lazy math. Not taking arcs into account
          LLALocation realCorner = lateInsideCorner.moveFT (lateBearing-90, d.getPortalWidth ()/2);
          CityBlock.addArcSegment (d.GS (), startingPoint, realCorner, ArcDirection.CLOCKWISE);
+         current = realCorner;
+      }
+      else if (d.isBPlaza (lateInside))
+      {
+         LLALocation p1; // Begining of the curve around the plaza
+         LLALocation p2; // End of the curve around the plaza.
+
+         // Lazy math. Not taking arcs into account
+         //p1 = lateInsideCorner.moveFT (lateBearing-90.0, B_WIDTH);
+         p1 = lateInsideCorner.moveFT (d.GS (), -B_WIDTH);
+         p2 = lateInsideCorner.moveFT (lateBearing, B_DEPTH);
+         double manBearing = p1.getBearing (d.GS ());
+         LLALocation g = p1.moveFT (manBearing, -B_DEPTH);
+         
+         // First draw the radial road from current to p1
+         CityBlock.addArcSegment (d.GS (), current, p1, ArcDirection.CLOCKWISE);
+         
+
+         CityBlock.addLineSegment (p1, g);
+         CityBlock.addArcSegment (d.GS (), g, p2, ArcDirection.CLOCKWISE);
+         current = p2;
       }
       else
       {
@@ -220,6 +246,7 @@ public class BlackRockCity
          }
          
          CityBlock.addArcSegment (d.GS (), startingPoint, realCorner, ArcDirection.CLOCKWISE);
+         current = realCorner;
       }
       // End of center inside to lateinside
       
@@ -258,6 +285,28 @@ public class BlackRockCity
 
          current = g;
       }
+      else if (d.isBPlaza (lateOutside))
+      {
+         LLALocation p1; // Begining of the curve around the plaza
+         LLALocation p2; // End of the curve around the plaza.
+         
+         // A straight line goes from the last point to p1.
+         // This is implicit by adding the arc around the plaza.
+
+         // Lazy math. Not taking arcs into account
+         p1 = lateOutsideCorner.moveFT (lateBearing+180, B_DEPTH);
+         p2 = lateOutsideCorner.moveFT (d.GS (), -B_WIDTH);
+         
+         double manBearing = p2.getBearing (d.GS ());
+         
+         LLALocation g = p2.moveFT (manBearing, B_DEPTH);
+
+         CityBlock.addLineSegment (current, p1);
+         CityBlock.addLineSegment (p1, g);
+         CityBlock.addLineSegment (g, p2);
+         current = p2;
+         
+      }
       else
       {
          CityBlock.addPoint (lateOutsideCorner);
@@ -292,6 +341,23 @@ public class BlackRockCity
          g = g.moveFT (d.GS (), PortalWidth);
 
          CityBlock.addArcSegment (d.GS (), current, g, ArcDirection.COUNTER_CLOCKWISE);
+      }
+      else if (d.isBPlaza (earlyOutside))
+      {
+         LLALocation p1; // Begining of the curve around the plaza
+         LLALocation p2; // End of the curve around the plaza.
+         
+         // Lazy math. Not taking arcs into account
+         p1 = earlyOutsideCorner.moveFT (d.GS (), B_WIDTH);
+         p2 = earlyOutsideCorner.moveFT (earlyBearing+180, B_DEPTH);
+         
+         double manBearing = p1.getBearing (d.GS ());
+         LLALocation g = p1.moveFT (manBearing, B_DEPTH);
+
+         CityBlock.addArcSegment (d.GS (), current, p1, ArcDirection.COUNTER_CLOCKWISE);
+         CityBlock.addLineSegment (p1, g);
+         CityBlock.addArcSegment (d.GS (), g, p2, ArcDirection.COUNTER_CLOCKWISE);
+         
       }
       else
       {
@@ -333,6 +399,26 @@ public class BlackRockCity
          CityBlock.addPoint (realCorner);
          current = realCorner;
       }
+      else if (d.isBPlaza (earlyInside))
+      {
+         LLALocation p1; // Begining of the curve around the plaza
+         LLALocation p2; // End of the curve around the plaza.
+         
+         LLALocation g;
+
+         // Lazy math. Not taking arcs into account
+         p1 = earlyInsideCorner.moveFT (earlyBearing, B_DEPTH);
+         p2 = earlyInsideCorner.moveFT (d.GS (), B_WIDTH);
+         
+         double manBearing = p2.getBearing (d.GS ());
+         g = p2.moveFT (manBearing, -B_DEPTH);
+
+         CityBlock.addArcSegment (d.GS (), p1, g, ArcDirection.CLOCKWISE);
+         //CityBlock.addLineSegment (p1, g);
+         CityBlock.addLineSegment (g, p2);  
+         
+         current = p2;
+      }
       else
       {
          LLALocation realCorner = earlyInsideCorner;
@@ -355,6 +441,7 @@ public class BlackRockCity
       }
       // End of earlyOutside to earlyInside
       
+      // Now back to the start
       CityBlock.addArcSegment (d.GS (), current, startingPoint, ArcDirection.CLOCKWISE);
       CityBlock.closePath ();
       return CityBlock;
@@ -546,20 +633,24 @@ public class BlackRockCity
       ArrayList<LLALocation> outsideBIntersection = LLAGeometry.Intersection (d.GS (), d.getStreetRadiusFT ('B')+d.getAnnularWidth ('B')/2,
                d.getCenterCampLLA (), d.getCenterThemeCampInnerRadius ());
 
+      // p1 and p2 are closer into the middle of center camp
       LLALocation p1 = KeyHolePoint (d.getCenterCampLLA (), d.getBearing (new RadialStreet ("12:00")), d.getCenterThemeCampInnerRadius (), -d.getCenterCampKeyholeNarrowest ());
       LLALocation p2 = p1.getClosest (mansideAIntersection);
       LLALocation p3 = i530A.corner (d, IntersectionOffset.ClockwiseManside);
       LLALocation p4 = KeyHolePoint (d.getCenterCampLLA (), d.getBearing (new RadialStreet ("12:00")), d.getCenterThemeCampOuterRadius (), -d.getCenterCampKeyholeWidest ());
       
-      // Wedge between 12 and 3
+      double distanceFT = d.getCenterCampLLA ().distanceFT (p4);
+      
+      
+      // Wedge between 12 and 3 aka the extended bit beyond A toward the man
       Path p = new Path ("EarlyWedge", Color.BLACK);
       p.addArcSegment (d.getCenterCampLLA (), p1, p2, ArcDirection.CLOCKWISE);
-      p.addArcSegment (d.GS (), p2, p3, ArcDirection.COUNTER_CLOCKWISE);
+      p.addArcSegment (d.GS (), p2, p3, ArcDirection.COUNTER_CLOCKWISE); // Edge of A road
       p.addArcSegment (d.getCenterCampLLA (), p3, p4, ArcDirection.COUNTER_CLOCKWISE);
       p.closePath ();
       
       drawing.add (p);
-      
+     
       // earlyInside, (arc) lateInside, lateOutside, (arc) earlyOutside
       // Wedge between 9 and 12
       p1 = KeyHolePoint (d.getCenterCampLLA (), d.getBearing (new RadialStreet ("12:00")), d.getCenterThemeCampInnerRadius (), d.getCenterCampKeyholeNarrowest ());
