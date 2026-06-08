@@ -1,6 +1,6 @@
 # Black Rock City Map
-Generate maps of Black Rock City from data files in SVG (Inkscape) and KML (Google Earth) formats.
-Covers 2014 to 2023.
+Generate maps of Black Rock City from data files in SVG (Inkscape), KML (Google Earth), and GeoJSON formats.
+Covers 2014 to 2026.
 
 ### Note
 You don't need to build or run the program yourself. The generated maps are attached to the releases. 

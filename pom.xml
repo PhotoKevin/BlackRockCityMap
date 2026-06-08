@@ -64,6 +64,13 @@
           <artifactId>batik-svggen</artifactId>
           <version>1.19</version>
       </dependency>
+      <!-- Source: https://mvnrepository.com/artifact/org.json/json -->
+      <dependency>
+         <groupId>org.json</groupId>
+         <artifactId>json</artifactId>
+         <version>20260522</version>
+         <scope>compile</scope>
+      </dependency>
    </dependencies>
    <build>
       <pluginManagement>

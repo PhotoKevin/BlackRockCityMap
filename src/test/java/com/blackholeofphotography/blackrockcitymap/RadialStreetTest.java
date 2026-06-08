@@ -37,11 +37,11 @@ import org.junit.jupiter.api.Test;
  */
 public class RadialStreetTest
 {
-   private static BurningData dataSet;
+   private static BurningDataJson dataSet;
    
    public RadialStreetTest ()
    {
-      dataSet = new BurningData (2018);
+      dataSet = new BurningDataJson (2018);
    }
    
    @BeforeAll

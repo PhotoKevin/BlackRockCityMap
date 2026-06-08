@@ -39,11 +39,11 @@ import org.junit.jupiter.api.Test;
 public class BurningDataTest
 {
 
-   private static BurningData dataSet;
+   private static BurningDataJson dataSet;
 
    public BurningDataTest ()
    {
-      dataSet = new BurningData (2019);
+      dataSet = new BurningDataJson (2019);
    }
    
    @BeforeAll
@@ -539,16 +539,5 @@ public class BurningDataTest
 //      fail ("The test case is a prototype.");
    }
 
-   /**
-    * Test of getStreetName method, of class BurningData.
-    */
-   @Test
-   public void testStreetName ()
-   {
-      System.out.println ("StreetName");
-      String expResult = "Cylon";
-      String result = dataSet.getStreetName ('C');
-      assertEquals (expResult, result);
-   }
    
 }

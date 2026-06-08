@@ -1,0 +1,42 @@
+{
+   "golden_spike": {"latitude" : 40.7864, "longitude" :-119.2065, "elevation" : 3904},
+   "p1": {"latitude" : 40.7830, "longitude" : -119.2357},
+   "center_camp_man_distance" : 2907,
+   "temple_man_distance" : 2500,
+   "man_plaza_radius" : 785,
+   "temple_plaza_radius" : 500,
+   "plaza_radius" : 125,
+   "portal_mouth_width" : 120,
+
+   "street_width_radial" : 40,
+   "street_width_pedestrian" : 20,
+   "esplanade_radius" : 2500,
+   "annular_streets" : 
+   {
+      "esplanade" : { "width": 40, "depth" : 400},
+      "a" : { "width": 30, "depth" : 200},
+      "b" : { "width": 30, "depth" : 200},
+      "c" : { "width": 30, "depth" : 200},
+      "d" : { "width": 30, "depth" : 200},
+      "e" : { "width": 40, "depth" : 200},
+      "f" : { "width": 30, "depth" : 200},
+      "g" : { "width": 30, "depth" : 200},
+      "h" : { "width": 30, "depth" : 200},
+      "i" : { "width": 30, "depth" : 200},
+      "j" : { "width": 30, "depth" : 200},
+      "k" : { "width": 30, "depth" : 200},
+      "l" : { "width": 30, "depth" : 200},
+      "r" : { "width": 30, "depth" : 752},
+      "s" : { "width": 30, "depth" : 50}
+   },
+
+   "center_camp" :
+   {
+      "inner_radius" : 330,
+      "outer_radius" : 732,
+      "keyhole_widest" : 264,
+      "keyhole_narrowest" : 120
+   }
+}
+
+

@@ -47,12 +47,12 @@ public class BlackRockCity
    /**
     * This year's data set.
     */
-   private final BurningData d;   
+   private final BurningDataJson d;   
    
    
    public BlackRockCity (int year, LLALocation relocate)
    {
-      d = new BurningData (year);
+      d = new BurningDataJson (year);
       if (relocate != null)
          d.setGoldenSpikeOverride (relocate);
    }
@@ -122,10 +122,12 @@ public class BlackRockCity
       }
       catch (IOException | NumberFormatException e)
       {
+         e.printStackTrace ();
          System.out.println (e.toString ());
       }
       catch (Exception e)
       {
+         e.printStackTrace ();
          System.out.println (e.toString ());
       }
          

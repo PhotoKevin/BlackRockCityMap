@@ -45,11 +45,11 @@ public class BlackRockCityCenterline
    /**
     * This year's data set.
     */
-   private final BurningData d;
+   private final BurningDataJson d;
 
    public BlackRockCityCenterline (int year, LLALocation relocate)
    {
-      d = new BurningData (year);
+      d = new BurningDataJson (year);
       if (relocate != null)
          d.setGoldenSpikeOverride (relocate);
    }

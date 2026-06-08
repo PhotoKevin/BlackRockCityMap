@@ -88,7 +88,7 @@ public class Intersection
     * @param dataSet The Dataset to use for city dimensions. 
     * @return an LLALocation
     */
-   public LLALocation corner (BurningData dataSet)
+   public LLALocation corner (BurningDataJson dataSet)
    {
       return corner (dataSet, IntersectionOffset.Center);
    }
@@ -99,7 +99,7 @@ public class Intersection
     * @param io Intersection offset.
     * @return an LLALocation
     */
-   public LLALocation corner (BurningData dataSet, IntersectionOffset io)
+   public LLALocation corner (BurningDataJson dataSet, IntersectionOffset io)
    {
       LLALocation g;
       double bearing = dataSet.getBearing (radial);
