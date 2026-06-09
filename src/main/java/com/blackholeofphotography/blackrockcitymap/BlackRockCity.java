@@ -41,9 +41,6 @@ import java.util.ArrayList;
  */
 public class BlackRockCity
 {
-   private final static double B_WIDTH = 250;
-   private final static double B_DEPTH = 150- 30;
-   
    /**
     * This year's data set.
     */
@@ -216,10 +213,11 @@ public class BlackRockCity
 
          // Lazy math. Not taking arcs into account
          //p1 = lateInsideCorner.moveFT (lateBearing-90.0, B_WIDTH);
-         p1 = lateInsideCorner.moveFT (d.GS (), -B_WIDTH);
-         p2 = lateInsideCorner.moveFT (lateBearing, B_DEPTH);
+         ;
+         p1 = lateInsideCorner.moveFT (d.GS (), -d.getBPlazaWidth ());
+         p2 = lateInsideCorner.moveFT (lateBearing, d.getBPlazaDepth ());
          double manBearing = p1.getBearing (d.GS ());
-         LLALocation g = p1.moveFT (manBearing, -B_DEPTH);
+         LLALocation g = p1.moveFT (manBearing, -d.getBPlazaDepth ());
          
          // First draw the radial road from current to p1
          CityBlock.addArcSegment (d.GS (), current, p1, ArcDirection.CLOCKWISE);
@@ -296,12 +294,12 @@ public class BlackRockCity
          // This is implicit by adding the arc around the plaza.
 
          // Lazy math. Not taking arcs into account
-         p1 = lateOutsideCorner.moveFT (lateBearing+180, B_DEPTH);
-         p2 = lateOutsideCorner.moveFT (d.GS (), -B_WIDTH);
+         p1 = lateOutsideCorner.moveFT (lateBearing+180, d.getBPlazaDepth ());
+         p2 = lateOutsideCorner.moveFT (d.GS (), -d.getBPlazaWidth ());
          
          double manBearing = p2.getBearing (d.GS ());
          
-         LLALocation g = p2.moveFT (manBearing, B_DEPTH);
+         LLALocation g = p2.moveFT (manBearing, d.getBPlazaDepth ());
 
          CityBlock.addLineSegment (current, p1);
          CityBlock.addLineSegment (p1, g);
@@ -350,11 +348,11 @@ public class BlackRockCity
          LLALocation p2; // End of the curve around the plaza.
          
          // Lazy math. Not taking arcs into account
-         p1 = earlyOutsideCorner.moveFT (d.GS (), B_WIDTH);
-         p2 = earlyOutsideCorner.moveFT (earlyBearing+180, B_DEPTH);
+         p1 = earlyOutsideCorner.moveFT (d.GS (), d.getBPlazaWidth ());
+         p2 = earlyOutsideCorner.moveFT (earlyBearing+180, d.getBPlazaDepth ());
          
          double manBearing = p1.getBearing (d.GS ());
-         LLALocation g = p1.moveFT (manBearing, B_DEPTH);
+         LLALocation g = p1.moveFT (manBearing, d.getBPlazaDepth ());
 
          CityBlock.addArcSegment (d.GS (), current, p1, ArcDirection.COUNTER_CLOCKWISE);
          CityBlock.addLineSegment (p1, g);
@@ -409,11 +407,11 @@ public class BlackRockCity
          LLALocation g;
 
          // Lazy math. Not taking arcs into account
-         p1 = earlyInsideCorner.moveFT (earlyBearing, B_DEPTH);
-         p2 = earlyInsideCorner.moveFT (d.GS (), B_WIDTH);
+         p1 = earlyInsideCorner.moveFT (earlyBearing, d.getBPlazaDepth ());
+         p2 = earlyInsideCorner.moveFT (d.GS (), d.getBPlazaWidth ());
          
          double manBearing = p2.getBearing (d.GS ());
-         g = p2.moveFT (manBearing, -B_DEPTH);
+         g = p2.moveFT (manBearing, -d.getBPlazaDepth ());
 
          CityBlock.addArcSegment (d.GS (), p1, g, ArcDirection.CLOCKWISE);
          //CityBlock.addLineSegment (p1, g);

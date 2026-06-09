@@ -340,7 +340,17 @@ public class BurningDataJson
    {
       return cityData.getDouble ("plaza_radius");
    }
-  
+   
+   public double getBPlazaDepth ()
+   {
+      return cityData.getDouble ("b_plaza_depth");
+   }
+
+   public double getBPlazaWidth ()
+   {
+      return cityData.getDouble ("b_plaza_width");
+   }
+
 
    /**
     * Radius of  plaza around man

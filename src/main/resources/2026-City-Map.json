@@ -7,6 +7,9 @@
    "temple_plaza_radius" : 250,
    "plaza_radius" : 100,
    "portal_mouth_width" : 120,
+   
+   "b_plaza_depth" : 120,
+   "b_plaza_width" : 250,
 
    "street_width_radial" : 40,
    "street_width_pedestrian" : 20,
