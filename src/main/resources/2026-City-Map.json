@@ -6,10 +6,10 @@
    "man_plaza_radius" : 550,
    "temple_plaza_radius" : 250,
    "plaza_radius" : 100,
-   "portal_mouth_width" : 120,
+   "portal_mouth_width" : 70,
    
-   "b_plaza_depth" : 120,
-   "b_plaza_width" : 250,
+   "b_plaza_depth" : 100,
+   "b_plaza_width" : 200,
 
    "street_width_radial" : 40,
    "street_width_pedestrian" : 20,
@@ -27,17 +27,17 @@
       "h" : { "width": 30, "depth" : 250},
       "i" : { "width": 30, "depth" : 150},
       "j" : { "width": 30, "depth" : 150},
-      "k" : { "width": 30, "depth" : 150},
+      "k" : { "width": 50, "depth" : 150},
       "r" : { "width": 30, "depth" : 150}
       
    },
 
    "center_camp" :
    {
-      "inner_radius" : 320,
+      "inner_radius" : 260,
       "outer_radius" : 763,
-      "keyhole_widest" : 317,
-      "keyhole_narrowest" : 120
+      "keyhole_widest" : 210,
+      "keyhole_narrowest" : 75
    }
 }
 
