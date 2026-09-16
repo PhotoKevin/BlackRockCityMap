@@ -105,7 +105,10 @@ public class BlackRockCityCenterline
          
          drawing.addAll (drawRoadsToMan ());
          
-         if (d.getYear () >= 2024)
+         if (d.getYear () >= 2026)
+            drawing.addAll (drawCentralPlaza2026 ());
+         
+         else if (d.getYear () >= 2024)
             drawing.addAll (drawCentralPlaza2024 ());
 
       }
@@ -494,6 +497,129 @@ public class BlackRockCityCenterline
       p = new Path ("lateBC", Color.BLACK);
       p.addPoint (p5);
       p.addLineSegment (p5, p5.getClosest (centralIntersection));
+      drawing.add (p);
+
+      return drawing;
+   }
+   
+   
+   
+   /**
+    * Draw the 2026 Central Plaza blocks.
+    * This is all very tedious working out where the points are
+    * and drawing arcs and lines. I don't see a way to boil this
+    * down to some common routines.
+    * @return A set of Path's
+    */
+   ArrayList<Path> drawCentralPlaza2026 ()
+   {
+      ArrayList<Path> drawing = new ArrayList<> ();
+      
+      // Various normal intersections we need.
+      Intersection i530A = new Intersection (5, 30, 'A');
+      Intersection i630A = new Intersection (6, 30, 'A');
+      Intersection i530B = new Intersection (5, 30, 'B');
+      Intersection i630B = new Intersection (6, 30, 'B');
+      Intersection i600C = new Intersection (6, 00, 'C');
+      
+      LLALocation earlyKeyholeInner = KeyHolePoint (d.getCenterCampLLA (), d.getBearing (new RadialStreet ("12:00")), d.getCenterThemeCampInnerRadius (), -d.getCenterCampKeyholeNarrowest ());
+      LLALocation earlyKeyholeOuter = KeyHolePoint (d.getCenterCampLLA (), d.getBearing (new RadialStreet ("12:00")), d.getCenterThemeCampOuterRadius (), -d.getCenterCampKeyholeWidest ());
+      LLALocation lateKeyholeInner = KeyHolePoint (d.getCenterCampLLA (), d.getBearing (new RadialStreet ("12:00")), d.getCenterThemeCampInnerRadius (), d.getCenterCampKeyholeNarrowest ());
+      LLALocation lateKeyholeOuter = KeyHolePoint (d.getCenterCampLLA (), d.getBearing (new RadialStreet ("12:00")), d.getCenterThemeCampOuterRadius (), d.getCenterCampKeyholeWidest ());
+
+      
+      // places where the A and B roads intersect with center camp.
+      ArrayList<LLALocation> centerAIntersection = LLAGeometry.Intersection (d.GS (), d.getStreetRadiusFT ('A'),
+              d.getCenterCampLLA (), d.getCenterThemeCampInnerRadius ());
+
+      ArrayList<LLALocation> centerBIntersection = LLAGeometry.Intersection (d.GS (), d.getStreetRadiusFT ('B'),
+               d.getCenterCampLLA (), d.getCenterThemeCampInnerRadius ());
+
+      LLALocation p1 = KeyHolePoint (d.getCenterCampLLA (), d.getBearing (new RadialStreet ("12:00")), d.getCenterThemeCampInnerRadius (), -d.getCenterCampKeyholeNarrowest ());
+      LLALocation p2 = p1.getClosest (centerAIntersection);
+      LLALocation p3 = i530A.corner (d);
+      LLALocation p4 = KeyHolePoint (d.getCenterCampLLA (), d.getBearing (new RadialStreet ("12:00")), d.getCenterThemeCampOuterRadius (), -d.getCenterCampKeyholeWidest ());
+      
+      // Wedge between 12 and 3
+      Path p = new Path ("EarlyWedge", Color.BLACK);
+      p.addArcSegment (d.GS (), p2, p3, ArcDirection.COUNTER_CLOCKWISE);
+      p.addArcSegment (d.getCenterCampLLA (), p3, p4, ArcDirection.COUNTER_CLOCKWISE);
+      p.addLineSegment (p4, p1);
+      drawing.add (p);
+      
+      // Wedge between 9 and 12
+      p1 = KeyHolePoint (d.getCenterCampLLA (), d.getBearing (new RadialStreet ("12:00")), d.getCenterThemeCampInnerRadius (), d.getCenterCampKeyholeNarrowest ());
+      p2 = p1.getClosest (centerAIntersection);
+      p3 = i630A.corner (d); //, IntersectionOffset); //.CounterClockwiseManside);
+      p4 = KeyHolePoint (d.getCenterCampLLA (), d.getBearing (new RadialStreet ("12:00")), d.getCenterThemeCampOuterRadius (), d.getCenterCampKeyholeWidest ());
+      
+      p = new Path ("LateWedge", Color.BLACK);
+      p.addArcSegment (d.GS (), p2, p3, ArcDirection.CLOCKWISE);
+      p.addArcSegment (d.getCenterCampLLA (), p3, p4, ArcDirection.CLOCKWISE);
+      p.addLineSegment (p4, p1);
+      drawing.add (p);
+
+      // Block between A and B on early side
+      p4 = i530B.corner (d);
+      p3 = p4.getClosest (centerBIntersection);
+      
+      p = new Path ("earlyAB", Color.BLACK);
+      p.addArcSegment (d.GS (), p3, p4, ArcDirection.COUNTER_CLOCKWISE);
+      drawing.add (p);
+
+      p4 = i630B.corner (d);
+      p3 = p4.getClosest (centerBIntersection);
+      
+      p = new Path ("lateAB", Color.BLACK);
+      p.addArcSegment (d.GS (), p3, p4, ArcDirection.CLOCKWISE);
+      drawing.add (p);
+      
+
+      LLALocation p5 = i600C.corner (d);
+      ArrayList<LLALocation> centralIntersection = LLAGeometry.Intersection (d.getCenterCampLLA (), d.getCenterThemeCampInnerRadius (),
+              p5, d.GS ());
+
+      p = new Path ("lateBC", Color.BLACK);
+      p.addPoint (p5);
+      p.addLineSegment (p5, p5.getClosest (centralIntersection));
+      drawing.add (p);
+      
+      
+
+      int r66Radius = 480;
+      
+      // This is where A crosses 6:00
+      LLALocation aCenter = d.GS ().moveFT (d.GS ().getBearing (d.getCenterCampLLA ()), d.getStreetRadiusFT ('A'));
+      LLALocation pA66Early = aCenter.moveFT (d.GS (), -r66Radius);
+      LLALocation pA66Late = aCenter.moveFT (d.GS (), r66Radius);
+      
+      double earlyBearing = d.GS ().getBearing (pA66Early);
+      double lateBearing = d.GS ().getBearing (pA66Late);
+
+      
+      LLALocation pB66Late = d.GS ().moveFT (lateBearing, d.getStreetRadiusFT ('B'));
+      LLALocation pC66Late = d.GS ().moveFT (lateBearing, d.getStreetRadiusFT ('C'));
+      
+      LLALocation pB66Early = d.GS ().moveFT (earlyBearing, d.getStreetRadiusFT ('B'));
+      LLALocation pC66Early = d.GS ().moveFT (earlyBearing, d.getStreetRadiusFT ('C'));
+      
+      LLALocation r66KeyholeEarly = LLAGeometry.Intersection (d.getCenterCampLLA (), r66Radius, earlyKeyholeInner, earlyKeyholeOuter).getLast ();
+      
+      
+      p = new Path ("r66Early", Color.BLACK);
+      p.addPoint (pC66Early);
+      p.addPoint (pB66Early);
+      p.addPoint (pA66Early);
+      p.addArcSegment (d.getCenterCampLLA (), pA66Early, r66KeyholeEarly, ArcDirection.COUNTER_CLOCKWISE);
+      drawing.add (p);
+
+      LLALocation r66KeyholeLate = LLAGeometry.Intersection (d.getCenterCampLLA (), r66Radius, lateKeyholeInner, lateKeyholeOuter).getLast ();
+      
+      p = new Path ("r66Late", Color.BLACK);
+      p.addPoint (pC66Late);
+      p.addPoint (pB66Late);
+      p.addPoint (pA66Late);
+      p.addArcSegment (d.getCenterCampLLA (), pA66Late, r66KeyholeLate, ArcDirection.CLOCKWISE);
       drawing.add (p);
 
       return drawing;
