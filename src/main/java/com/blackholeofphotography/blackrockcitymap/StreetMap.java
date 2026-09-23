@@ -143,6 +143,24 @@ public class StreetMap
       // There are two letters per street
       return  (char) (maxLetter/2 + 'A'-1);
    }
+   
+   public boolean existsIntersection (Intersection intersection)
+   {
+      int row = row (intersection.annular);
+      int col = column (intersection.radial);
+      
+      if ((intersection.annular.getStreetLetter () > maxRoadLetter()) && intersection.annular.getStreetLetter () != AnnularStreet.ESPLANADE)
+         return false;
+      
+      if (data[row][0] == '\0')
+          return false;
+
+      if (row > data.length - 2)
+         return false;
+         
+      else 
+         return data[row][col] != ' ';
+   }
 
    /**
     * Determine if there is a road away from the man from

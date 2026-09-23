@@ -117,6 +117,14 @@ public class LLAGeometry
    }
    
    
+   /**
+    * Get the intersection of circle c0 and the line that goes through p0 and p1
+    * @param center Center of c0
+    * @param radius Radius of c0 in feet
+    * @param pointA A point on the line
+    * @param pointB Another point on the line
+    * @return List of points of intersection. May be 0, 1, or 2 points.
+    */
    public static ArrayList<LLALocation> Intersection ( LLALocation center, double radius,
            LLALocation pointA, LLALocation pointB) 
    {
@@ -184,4 +192,53 @@ public class LLAGeometry
 //      System.out.println (p2);
       return points;
    }
+
+   /**
+    * Intersection of two lines A and B.
+    * @param pointA1 a point on line A
+    * @param pointA2 a point on line A
+    * @param pointB1 a point on line B
+    * @param pointB2 a point on line B
+    * @return The point of intersection or null if the lines don't
+    * intersect within the boundaries of BRC.
+    */
+   public static LLALocation Intersection (LLALocation pointA1, LLALocation pointA2,
+                                                      LLALocation pointB1, LLALocation pointB2)
+   {
+      // https://www.ambrbit.com/TrigoCalc/Line2D/TwoLinesIntersection/TwoLinesIntersection.htm
+      /*
+            (x2y1-x1y2)(x4-x3)-(x4y3-x3y4)(x2-x1)
+       x =  -------------------------------------
+            (x2-x1)(y4-y3)-(x4-x3)(y2-y1)
+
+            (x2y1-x1y2)(y4-y3)-(x4y3-x3y4)(y2-y1)
+       y =  -------------------------------------
+            (x2-x1)(y4-y3)-(x4-x3)(y2-y1)
+
+       */
+
+      double x1 = pointA1.getLongitude ();
+      double y1 = pointA1.getLatitude ();
+      double x2 = pointA2.getLongitude ();
+      double y2 = pointA2.getLatitude ();
+      double x3 = pointB1.getLongitude ();
+      double y3 = pointB1.getLatitude ();
+      double x4 = pointB2.getLongitude ();
+      double y4 = pointB2.getLatitude ();
+
+      double denominator = (x2-x1)*(y4-y3)-(x4-x3)*(y2-y1);
+      double x = (x2*y1-x1*y2)*(x4-x3)-(x4*y3-x3*y4)*(x2-x1);
+      x /= denominator;
+
+      double y = (x2*y1-x1*y2)*(y4-y3)-(x4*y3-x3*y4)*(y2-y1);
+      y /= denominator;
+
+//      if (Math.abs (denominator) < 0.0000001)
+//         return null;
+
+      return new LLALocation (y, x, pointA1.getAltitude ());
+   }
+
 }
+
+

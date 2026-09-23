@@ -86,6 +86,22 @@ public class IntersectionTest
 //      assertEquals (lat, result.getLatitude (), 0.0001);
 //      assertEquals (lon, result.getLongitude (), 0.0001);
    }
+   
+   @Test
+   public void testDistance ()
+   {
+      Intersection a2a = Intersection.of ("2:00A");
+      Intersection a2z = Intersection.of ("2:00Z");
+      
+      LLALocation l2a  = a2a.corner (dataSet);
+      LLALocation l2z  = a2z.corner (dataSet);
+      
+      double distance = l2a.distanceFT (l2z);
+      assertEquals (440, distance, 1);
+      
+      distance = l2a.distance (l2z);
+      assertEquals (440 /  3.28084 , distance, 1);
+   }
 
 
 

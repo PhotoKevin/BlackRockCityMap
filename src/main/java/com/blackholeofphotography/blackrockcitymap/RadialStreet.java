@@ -35,10 +35,9 @@ package com.blackholeofphotography.blackrockcitymap;
 public class RadialStreet 
 {
    /**
-    * The street in quarter hours. i.e. 5 for 2:15. This is the 
-    * internal representation.
+    * The street in minutes. 
     */
-   private final int quarterHours;
+   private final int mMinutes;
 
    /**
     * Create a new Radial street from the supplied getHour/minute.
@@ -47,16 +46,16 @@ public class RadialStreet
     */
    public RadialStreet (int hour, int minute)
    {
-      quarterHours = hour * 4 + minute / 15;
+      mMinutes = hour * 60 + minute;
    }
    
    /**
-    * Create a new Radial street from the supplied getMinutes.
+    * Create a new Radial street from the supplied minutes.
     * @param minutes Radial street getMinutes. i.e. 120 is 2:00
     */
    public RadialStreet (int minutes)
    {
-      quarterHours = minutes / 15;
+      mMinutes = minutes;
    }
    
    /**
@@ -66,18 +65,18 @@ public class RadialStreet
    public RadialStreet (String timeStr)
    {
       String[] split = timeStr.split (":");
-      int _hour = Integer.parseInt (split[0]);
-      int _minute = Integer.parseInt (split[1]);
-      quarterHours = _hour * 4 + _minute / 15;
+      int hour = Integer.parseInt (split[0]);
+      int minute = Integer.parseInt (split[1]);
+      mMinutes = hour * 60 + minute;
    }
    
    /**
-    * Get the hour portion of the Radial street. i.e. return 2 for "2:30"
+    * Get the Radial Street as a fractional hour. i.e. 2:30 is 2.5
     * @return The hour
     */
    public double getHour ()
    {
-      return quarterHours / 4.0;
+      return mMinutes / 60.0;
    }
    
    /**
@@ -86,7 +85,7 @@ public class RadialStreet
     */
    public int getMinutes ()
    {
-      return quarterHours * 15;
+      return mMinutes;
    }
 
    /**
@@ -110,9 +109,9 @@ public class RadialStreet
    @Override
    public String toString ()
    {
-      int _hour = this.quarterHours / 4;
-      int _minute = this.quarterHours % 4;
-      return String.format ("%d:%02d", _hour, _minute*15);
+      int _hour = mMinutes / 60;
+      int _minute = mMinutes % 60;
+      return String.format ("%d:%02d", _hour, _minute);
    }
    
    public boolean equals (RadialStreet r)

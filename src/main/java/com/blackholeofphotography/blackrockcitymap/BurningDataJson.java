@@ -171,6 +171,12 @@ public class BurningDataJson
    {
       return cityData.getDouble ("temple_man_distance");
    }
+   
+   public int getRoute66Radius ()
+   {
+      JSONObject centerCamp = cityData.getJSONObject ("center_camp");
+      return centerCamp.getInt ("route66_radius");
+   }
    /**
     * Inner radius of the center theme camps
     * @return Inner radius in feet
@@ -245,6 +251,19 @@ public class BurningDataJson
       
       return streetData.getDouble ("width");
    }
+   
+   public boolean hasAnnularStreet (char roadLetter)
+   {
+      if (roadLetter == 'S')
+         System.out.print ("");
+
+      JSONObject annularStreets = cityData.getJSONObject ("annular_streets");
+      if (roadLetter == AnnularStreet.ESPLANADE)
+         return annularStreets.has (String.valueOf ("esplanade"));
+      else
+         return annularStreets.has (String.valueOf (roadLetter).toLowerCase ());
+   }
+
 
    public double getRadialWidth ()
    {
@@ -289,14 +308,14 @@ public class BurningDataJson
     */
    public double getBearing (RadialStreet radial)
    {
-      double timeVal = radial.getHour ();
+      double hours = radial.getMinutes () / 60.0;
       double offset = TrueNorthOffset ();
       // 10.5 = 0.0
       // 4.5 = 180
       // 1 getHour = 360 / 12 = 30 degrees
       // 10:30 = 
 
-      return ((timeVal * 360.0 / 12.0) % 360) + offset;
+      return ((hours * 360.0 / 12.0) % 360) + offset;
    }
 
    /**
@@ -314,6 +333,8 @@ public class BurningDataJson
          return dist;
       case AnnularStreet.RODS_ROAD:
          return this.getRodsRoadRadius ();
+      case AnnularStreet.ROUTE_66:
+         return this.getRoute66Radius ();
       case AnnularStreet.INNER_CIRCLE:
          return this.getCenterThemeCampOuterRadius ();
       case AnnularStreet.TEMPLE:
@@ -426,7 +447,7 @@ public class BurningDataJson
       return this.strMap.isMidPlazaPortal (intersection);
    }
 
-   public char maxRoadLetter ()
+   public char getMaxRoadLetter ()
    {
        return strMap.maxRoadLetter();
    }
@@ -479,6 +500,65 @@ public class BurningDataJson
    public boolean isPedestrianWalkway (Intersection intersection, ManDirection direction)
    {
       return this.strMap.isPedestrianWalkway (intersection, direction);
+   }
+   
+   public boolean existsIntersection (Intersection i)
+   {
+      return this.strMap.existsIntersection (i);
+   }
+           
+   public boolean isCorner (Intersection i)
+   {
+      if (! this.strMap.existsIntersection (i))
+         return false;
+      
+      return ((existsOutsideRoad (i) || existsMansideRoad (i)) &&
+              ((existsClockwiseRoad (i) || existsCounterClockwiseRoad (i))));
+   }
+   
+
+
+   public Intersection getIntersection (int hour, int minute, char streetLetter)
+   {
+      //return new Intersection (this, hour, minute, streetLetter);
+      return new Intersection (hour, minute, streetLetter);
+   }
+
+   public ArrayList<Intersection> getAllIntersections ()
+   {
+
+      ArrayList<Intersection> intersections = new ArrayList<> ();
+      //noinspection CollectionAddAllCanBeReplacedWithConstructor
+//      intersections.addAll (getCenterCampIntersections ());
+
+      for (int hour=2; hour<10; hour++)
+      {
+         for (int quarterHour = 0; quarterHour < 4; quarterHour++)
+         {
+            Intersection startCorner = getIntersection (hour, quarterHour * 15, AnnularStreet.ESPLANADE);
+            if (existsIntersection (startCorner))
+               intersections.add (startCorner);
+         }
+      }
+
+      for (char ch = 'A'; ch<= getMaxRoadLetter (); ch++)
+      {
+         for (int hour = 2; hour < 10; hour++)
+         {
+            for (int quarterHour = 0; quarterHour < 4; quarterHour++)
+            {
+               Intersection i = getIntersection (hour, quarterHour * 15, ch);
+               if (existsIntersection (i))
+                  intersections.add (i);
+            }
+         }
+         Intersection edge = getIntersection (10, 0, ch);
+         intersections.add (edge);
+
+      }
+      Intersection edge = getIntersection (10, 0, AnnularStreet.ESPLANADE);
+      intersections.add (edge);
+      return intersections;
    }
 
    /**

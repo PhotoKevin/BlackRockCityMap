@@ -27,10 +27,11 @@ package com.blackholeofphotography.llalocation;
 
 import de.micromata.opengis.kml.v_2_2_0.Coordinate;
 import java.util.ArrayList;
+import org.json.JSONObject;
 
 /**
  * Represent a location on Earth as a Latitude, Longitude, and Altitude.
- * 
+ *
  * @author Kevin Nickerson (kevin@blackholeofphotography.com)
  */
 public class LLALocation
@@ -39,9 +40,9 @@ public class LLALocation
    public static final  int LATITUDE             =  2;
    public static final  int LONGITUDE_DEG        =  3;
    public static final  int LATITUDE_DEG         =  4;
-   public static final  int LONGITUDE_HEMISPHERE =  5; 
+   public static final  int LONGITUDE_HEMISPHERE =  5;
    public static final  int LATITUDE_HEMISPHERE  =  6;
-   
+
    private static final  double MILES_PER_KM =  0.621371192;
    private static final  double R_KM            =  6371.0; // Radius of Earth in Kilometers
 
@@ -49,7 +50,7 @@ public class LLALocation
    private final double    latitude;
    private final double    longitude;
    private final double    altitude; // Meters
-   
+
    /**
     * Create a new location.
     * @param lat Latitude in degrees
@@ -79,10 +80,8 @@ public class LLALocation
 
       lat1                 =  Math.toRadians (this.latitude);
       lon1                 =  Math.toRadians (this.longitude);
-      if (lla == null)
-         System.out.println ();
 
-      lat2                 =  Math.toRadians (lla.latitude);  
+      lat2                 =  Math.toRadians (lla.latitude);
       lon2                 =  Math.toRadians (lla.longitude);
 
       dLon                 =  lon2 - lon1;
@@ -92,11 +91,22 @@ public class LLALocation
                                  Math.sin(lat1)*Math.cos(lat2)*Math.cos(dLon);
 
       bearing              =  Math.toDegrees (Math.atan2(y, x));
-      
+
       while (bearing > 360) bearing -= 360;
       while (bearing < 0) bearing += 360;
 
       return (bearing);
+   }
+
+
+   /**
+    * Calculate the distance from here to the specified location.
+    * @param lla The location.
+    * @return Distance to the location in meters.
+    */
+   public double distance (LLALocation lla)
+   {
+      return distanceKM (lla) * 1000;
    }
 
    /**
@@ -117,12 +127,12 @@ public class LLALocation
       lon1                 =  Math.toRadians (this.longitude);
 
 
-      lat2                 =  Math.toRadians (lla.latitude);  
-      lon2                 =  Math.toRadians (lla.longitude); 
+      lat2                 =  Math.toRadians (lla.latitude);
+      lon2                 =  Math.toRadians (lla.longitude);
 
-      // If you just do the math in place, you'll get 
-      // rounding errors when the two points are too close 
-      // together and end up taking an acos of something 
+      // If you just do the math in place, you'll get
+      // rounding errors when the two points are too close
+      // together and end up taking an acos of something
       // like 1.000000002
 //      tmp   =    (Math.sin(lat1)*Math.sin(lat2) +
 //                  Math.cos(lat1)*Math.cos(lat2) *
@@ -139,7 +149,7 @@ public class LLALocation
       km    =  Math.acos(tmp) * LLALocation.R_KM;
       if (Double.isNaN(km))
       {
-//         System.out.println ("lat: " + this.latitude); 
+//         System.out.println ("lat: " + this.latitude);
 //         System.out.println ("lon: " + this.longitude);
 //
 //         System.out.println ("lat: " + g.latitude);
@@ -160,7 +170,7 @@ public class LLALocation
          km  = 0.0;
       }
 
-               
+
       return Math.abs(km);
    }
 
@@ -173,7 +183,7 @@ public class LLALocation
    {
       return (distanceKM (lla) * LLALocation.MILES_PER_KM);
    }
-   
+
    /**
     * Calculate the distance from here to the specified location.
     * @param lla The location.
@@ -183,13 +193,13 @@ public class LLALocation
    {
       return distanceMI (lla) * 5280;
    }
-   
+
    public double distanceNSFT (LLALocation lla)
    {
       LLALocation pt = new LLALocation (lla.getLatitude (), getLongitude (), lla.getAltitude ());
       return distanceFT (pt);
    }
-   
+
    public double distanceEWFT (LLALocation lla)
    {
       LLALocation pt = new LLALocation (getLatitude (), lla.getLongitude (), lla.getAltitude ());
@@ -220,9 +230,9 @@ public class LLALocation
       lon2                 =  lon1 + Math.atan2(Math.sin(bearing)*Math.sin(km/radiusKM)*Math.cos(lat1),
                                  Math.cos(km/radiusKM)-Math.sin(lat1)*Math.sin(lat2));
 
-      return (new LLALocation (Math.toDegrees(lat2), Math.toDegrees(lon2), this.altitude));      
+      return (new LLALocation (Math.toDegrees(lat2), Math.toDegrees(lon2), this.altitude));
    }
-   
+
 
    /**
     * Move from here the given direction and distance.
@@ -241,33 +251,33 @@ public class LLALocation
     * @param feet The distance to move.
     * @return The new location
     */
-   
+
    public LLALocation moveFT (double bearing, double feet)
    {
       return moveMI (bearing, feet / 5280.0);
    }
-   
+
    /**
     * Move some distance around a circle centered on 'center'
     * @param center The center of the circle we're moving around.
-    * @param km Distance to move. Positive is clockwise, Negative is counter clockwise
+    * @param km Distance to move. Positive is clockwise, Negative is counterclockwise
     * @return The new location.
     */
-   
+
    public LLALocation moveKM (LLALocation center, double km)
    {
       double radius = this.distanceKM (center);
       double circumference = radius * 2 * Math.PI;
       double degrees = 360.0 * km / circumference;
       double newBearing = center.getBearing (this) + degrees;
-            
+
       return center.moveKM (newBearing, radius);
    }
 
    /**
     * Move some distance around a circle centered on 'center'
     * @param center The center of the circle we're moving around.
-    * @param miles Distance to move. Positive is clockwise, Negative is counter clockwise
+    * @param miles Distance to move. Positive is clockwise, Negative is counterclockwise
     * @return The new location.
     */
    public LLALocation moveMI (LLALocation center, double miles)
@@ -278,14 +288,14 @@ public class LLALocation
    /**
     * Move some distance around a circle centered on 'center'
     * @param center The center of the circle we're moving around.
-    * @param feet Distance to move. Positive is clockwise, Negative is counter clockwise
+    * @param feet Distance to move. Positive is clockwise, Negative is counterclockwise
     * @return The new location.
     */
    public LLALocation moveFT (LLALocation center, double feet)
    {
       return moveMI (center, feet / 5280.0);
    }
-   
+
    /**
     * Search the list of supplied points and find the one closest to here.
     * @param points List of points to search
@@ -307,10 +317,10 @@ public class LLALocation
             }
          }
       }
-      
+
       return result;
    }
-   
+
    /**
     * Search the list of supplied points and find the one furthest from here.
     * @param points List of points to search
@@ -332,7 +342,7 @@ public class LLALocation
             }
          }
       }
-      
+
       return result;
    }
 
@@ -349,12 +359,12 @@ public class LLALocation
     * Get the longitude of this location
     * @return Longitude in degrees
     */
-   
+
    public double getLongitude ()
    {
       return (longitude);
-   }   
-   
+   }
+
    /**
     * Get the Altitude of this location.
     * @return Altitude in meters.
@@ -363,7 +373,7 @@ public class LLALocation
    {
       return altitude;
    }
-   
+
    /**
     * Convert this location to a KML coordinate
     * @return This location as a KML coordinate.
@@ -371,11 +381,28 @@ public class LLALocation
    public Coordinate toCoordinate ()
    {
       return new Coordinate (this.longitude, this.latitude);
-   }   
-   
+   }
+
    @Override
    public String toString ()
    {
       return String.format ("%.5f, %.5f", getLatitude (), getLongitude ());
+   }
+
+   public JSONObject toJSON ()
+   {
+      JSONObject jo = new JSONObject ();
+      jo.put ("latitude", this.latitude);
+      jo.put ("longitude", this.longitude);
+      jo.put ("altitude", this.altitude);
+      return jo;
+   }
+
+   public LLALocation fromJSON (JSONObject jo)
+   {
+      double lat = jo.getDouble ("latitude");
+      double lon = jo.getDouble ("longitude");
+      double alt = jo.getDouble ("altitude");
+      return new LLALocation (lat, lon, alt);
    }
 }

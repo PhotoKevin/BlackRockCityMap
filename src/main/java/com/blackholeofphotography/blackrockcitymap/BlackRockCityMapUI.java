@@ -29,10 +29,15 @@ import com.blackholeofphotography.blackrockcitymap.path.Path;
 import com.blackholeofphotography.blackrockcitymap.path.PathBounds;
 import com.blackholeofphotography.llalocation.LLALocation;
 import java.awt.BasicStroke;
+import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Path2D;
+import java.awt.geom.Point2D;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -41,9 +46,11 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.prefs.Preferences;
 import org.apache.batik.anim.dom.SAXSVGDocumentFactory;
+import org.apache.batik.swing.JSVGCanvas;
 import org.apache.batik.swing.gvt.GVTTreeRendererAdapter;
 import org.apache.batik.swing.gvt.GVTTreeRendererEvent;
 import org.apache.batik.util.XMLResourceDescriptor;
+import org.json.JSONArray;
 import org.w3c.dom.svg.SVGDocument;
 
 /**
@@ -52,9 +59,8 @@ import org.w3c.dom.svg.SVGDocument;
  */
 public class BlackRockCityMapUI extends javax.swing.JFrame
 {
+//   double docHeight = 1;
 
-   double docWidth = 1;
-   double docHeight = 1;
    /**
     * Creates new form BlackRockCityMap
     */
@@ -80,6 +86,7 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
       chkRelocate = new javax.swing.JCheckBox();
       txtLongitude = new javax.swing.JTextField();
       btnDrawMap = new javax.swing.JButton();
+      chkNodeMap = new javax.swing.JCheckBox();
       jSVGCanvas1 = new org.apache.batik.swing.JSVGCanvas();
 
       setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -133,6 +140,15 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
          }
       });
 
+      chkNodeMap.setText("Graph");
+      chkNodeMap.addActionListener(new java.awt.event.ActionListener()
+      {
+         public void actionPerformed(java.awt.event.ActionEvent evt)
+         {
+            chkNodeMapActionPerformed(evt);
+         }
+      });
+
       javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
       jPanel1.setLayout(jPanel1Layout);
       jPanel1Layout.setHorizontalGroup(
@@ -144,10 +160,12 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
             .addComponent(cbYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGap(18, 18, 18)
             .addComponent(chkCenterline)
-            .addGap(18, 18, 18)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(chkNodeMap)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(chkRelocate)
             .addGap(18, 18, 18)
-            .addComponent(txtLongitude, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
+            .addComponent(txtLongitude, javax.swing.GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(btnDrawMap)
             .addContainerGap())
@@ -162,24 +180,11 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
                .addComponent(chkCenterline)
                .addComponent(chkRelocate)
                .addComponent(txtLongitude, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-               .addComponent(btnDrawMap))
+               .addComponent(btnDrawMap)
+               .addComponent(chkNodeMap))
             .addContainerGap(7, Short.MAX_VALUE))
       );
 
-      jSVGCanvas1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter()
-      {
-         public void mouseDragged(java.awt.event.MouseEvent evt)
-         {
-            jSVGCanvas1MouseDragged(evt);
-         }
-      });
-      jSVGCanvas1.addMouseWheelListener(new java.awt.event.MouseWheelListener()
-      {
-         public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt)
-         {
-            jSVGCanvas1MouseWheelMoved(evt);
-         }
-      });
       jSVGCanvas1.addHierarchyBoundsListener(new java.awt.event.HierarchyBoundsListener()
       {
          public void ancestorMoved(java.awt.event.HierarchyEvent evt)
@@ -188,17 +193,6 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
          public void ancestorResized(java.awt.event.HierarchyEvent evt)
          {
             jSVGCanvas1AncestorResized(evt);
-         }
-      });
-      jSVGCanvas1.addMouseListener(new java.awt.event.MouseAdapter()
-      {
-         public void mousePressed(java.awt.event.MouseEvent evt)
-         {
-            jSVGCanvas1MousePressed(evt);
-         }
-         public void mouseReleased(java.awt.event.MouseEvent evt)
-         {
-            jSVGCanvas1MouseReleased(evt);
          }
       });
 
@@ -235,18 +229,33 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
       this.setSize (Settings.WindowPreferences.size);
       chkCenterline.setSelected (Settings.centerline);
       chkRelocate.setSelected (Settings.relocate);
+      chkNodeMap.setSelected (Settings.nodemap);
+      //zoomLevel = 25;
       fixupControls ();
 
-      this.jSVGCanvas1.addGVTTreeRendererListener(new GVTTreeRendererAdapter() 
+      this.jSVGCanvas1.addGVTTreeRendererListener (new GVTTreeRendererAdapter ()
+      {
+         @Override
+         public void gvtRenderingCompleted (GVTTreeRendererEvent e)
          {
-            @Override
-            public void gvtRenderingCompleted(GVTTreeRendererEvent e) 
-            {
-                rescale ();
-            }
-         });      
-      //DrawMap ();
-      rescale ();
+            Dimension2D svgDocumentSize = jSVGCanvas1.getSVGDocumentSize ();
+            AffineTransform at = jSVGCanvas1.getRenderingTransform ();
+            double scaleFactorX = jSVGCanvas1.getWidth () / svgDocumentSize.getWidth ();
+            double scaleFactorY = jSVGCanvas1.getHeight () / svgDocumentSize.getHeight ();
+            double scaleFactor = Math.min (scaleFactorX, scaleFactorY);
+
+            at.setToScale (scaleFactor, scaleFactor);
+            jSVGCanvas1.setRenderingTransform (at, true);
+         }
+      });
+
+      jSVGCanvas1.setDocumentState (JSVGCanvas.ALWAYS_DYNAMIC);
+
+      SVGPanZoomListener listener = new SVGPanZoomListener (jSVGCanvas1);
+      jSVGCanvas1.addMouseListener (listener);
+      jSVGCanvas1.addMouseMotionListener (listener);
+      jSVGCanvas1.addMouseWheelListener (listener);
+
    }//GEN-LAST:event_formWindowOpened
 
    private int getYear ()
@@ -254,13 +263,17 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
       String y = (String) cbYear.getSelectedItem ().toString ();
       return Integer.parseInt (y);
    }
-   
+
    private boolean doCenterline ()
    {
       return chkCenterline.isEnabled () && chkCenterline.isSelected ();
-      
    }
-   
+
+   private boolean doNodeMap ()
+   {
+      return chkNodeMap.isEnabled () && chkNodeMap.isSelected ();
+   }
+
    private void fixupControls ()
    {
       if (getYear () >= 2024)
@@ -270,58 +283,22 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
          chkCenterline.setEnabled (false);
          chkCenterline.setSelected (false);
       }
-      
+
       boolean relocate = chkRelocate.isSelected ();
       txtLongitude.setEnabled (relocate);
 
    }
-   
+
    private void jSVGCanvas1AncestorResized(java.awt.event.HierarchyEvent evt)//GEN-FIRST:event_jSVGCanvas1AncestorResized
    {//GEN-HEADEREND:event_jSVGCanvas1AncestorResized
-      rescale ();
+
    }//GEN-LAST:event_jSVGCanvas1AncestorResized
 
-   private int zoomLevel = 25;
-   private void jSVGCanvas1MouseWheelMoved(java.awt.event.MouseWheelEvent evt)//GEN-FIRST:event_jSVGCanvas1MouseWheelMoved
-   {//GEN-HEADEREND:event_jSVGCanvas1MouseWheelMoved
-      zoomLevel -= evt.getWheelRotation ();
-      rescale ();
-   }//GEN-LAST:event_jSVGCanvas1MouseWheelMoved
-
-   private double centerTranslateX, centerTranslateY;
-   private int dragStartX, dragStartY;
-   private int dragDistanceX, dragDistanceY;
-   
-   private void jSVGCanvas1MouseDragged(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jSVGCanvas1MouseDragged
-   {//GEN-HEADEREND:event_jSVGCanvas1MouseDragged
-      dragDistanceX = (evt.getX () - dragStartX);
-      dragDistanceY = (evt.getY () - dragStartY);
-      //System.out.printf ("D: %d, %d\n", dragDistanceX, dragDistanceY);
-   }//GEN-LAST:event_jSVGCanvas1MouseDragged
-
-   Rectangle currentRect;
-   private void jSVGCanvas1MousePressed(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jSVGCanvas1MousePressed
-   {//GEN-HEADEREND:event_jSVGCanvas1MousePressed
-      dragStartX = evt.getX ();
-      dragStartY = evt.getY ();
-      dragDistanceX = 0;
-      dragDistanceY = 0;
-      //System.out.printf ("P: %d, %d\n", dragStartX, dragStartY);
-      rescale ();
-   }//GEN-LAST:event_jSVGCanvas1MousePressed
-
-   private void jSVGCanvas1MouseReleased(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jSVGCanvas1MouseReleased
-   {//GEN-HEADEREND:event_jSVGCanvas1MouseReleased
-      centerTranslateX += dragDistanceX;
-      centerTranslateY += dragDistanceY;
-      System.out.printf ("R: %f, %f, %d\n", centerTranslateX, centerTranslateY, zoomLevel);
-      dragDistanceX = 0;
-      dragDistanceY = 0;
-      rescale ();
-   }//GEN-LAST:event_jSVGCanvas1MouseReleased
 
    private void chkCenterlineActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_chkCenterlineActionPerformed
    {//GEN-HEADEREND:event_chkCenterlineActionPerformed
+      if (chkCenterline.isSelected ())
+         this.chkNodeMap.setSelected (false);
       fixupControls ();
    }//GEN-LAST:event_chkCenterlineActionPerformed
 
@@ -342,81 +319,74 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
       Settings.latitudeLongitude = this.txtLongitude.getText ();
       Settings.relocate = this.chkRelocate.isSelected ();
       Settings.centerline = this.chkCenterline.isSelected ();
+      Settings.nodemap = this.chkNodeMap.isSelected ();
       Settings.year = (String) cbYear.getSelectedItem ().toString ();
       Settings.save ();
    }//GEN-LAST:event_formWindowClosing
 
-   private void rescale ()
-   {
-      AffineTransform at = this.jSVGCanvas1.getRenderingTransform ();
-      double scaleFactorX = this.jSVGCanvas1.getWidth () / docWidth;
-      double scaleFactorY = this.jSVGCanvas1.getHeight () / docHeight;
-      double scaleFactor = Math.min (scaleFactorX, scaleFactorY);
-      scaleFactor *= zoomLevel * 4 / 100.0;
-      at.setToScale (scaleFactor, scaleFactor);
-      double translateX = (centerTranslateX + dragDistanceX) * 1/scaleFactor;
-      double translateY = (centerTranslateY + dragDistanceY) * 1/scaleFactor;
-      
-      at.translate (translateX, translateY);
-      this.jSVGCanvas1.setRenderingTransform (at, true);
-   }
-
-   
-
-
+   private void chkNodeMapActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_chkNodeMapActionPerformed
+   {//GEN-HEADEREND:event_chkNodeMapActionPerformed
+      if (chkNodeMap.isSelected ())
+         this.chkCenterline.setSelected (false);
+      fixupControls ();
+   }//GEN-LAST:event_chkNodeMapActionPerformed
 
    private void DrawMap ()
    {
-//      centerTranslateX = -521.000000;
-//      centerTranslateY = -1244.000000;
-//      zoomLevel = 125;
       int year = getYear ();
-//      boolean loRes = this.chkCenterline.isSelected ();
-
       LLALocation relocate = null;
       if (chkRelocate.isSelected ())
       {
          try
          {
-//            float lat = Float.parseFloat (txtLatitude.getText ());
-//            float lon = Float.parseFloat (txtLongitude.getText ());
-//            relocate = new LLALocation (lat, lon, 0);
             String[] split = txtLongitude.getText ().split (",");
             float lat = Float.parseFloat (split[0].trim ());
             float lon = Float.parseFloat (split[1].trim ());
             relocate = new LLALocation (lat, lon, 0);
-            
-         
          }
          catch (NumberFormatException ex)
          {
-            
+
          }
       }
-      
-      
+
       BlackRockCity city = new BlackRockCity (year, relocate);
-      
-      BlackRockCityCenterline centerlineCity = new BlackRockCityCenterline (year, relocate);
-      
-      ArrayList<Path> map = doCenterline () ? centerlineCity.drawCity () : city.drawCity  ();
-      String baseFilename = String.format ("%d_BRC%s", year, doCenterline () ? "-Centerline" : "");
-      
-      BurningKML.createKML (baseFilename, year, map);
-      BurningGeoJSON.createGeoJSON (baseFilename, year, map);
+      String baseFilename = String.format ("%d_BRC", year);
+
+      ArrayList<Path> map = new ArrayList<> ();
+      if (doCenterline ())
+      {
+         BlackRockCityCenterline centerlineCity = new BlackRockCityCenterline (year, relocate);
+
+         map.addAll (centerlineCity.drawCity ());
+         baseFilename = String.format ("%d_BRC-Centerline", year);
+         BurningKML.createKML (baseFilename, year, map);
+         BurningGeoJSON.createGeoJSON (baseFilename, year, map);
+      }
+      else if (doNodeMap ())
+      {
+         CityGraph nodeMap = new CityGraph (year, relocate);
+         map.addAll (nodeMap.drawCity ());
+         map.addAll (city.drawCity ());
+         
+         baseFilename = String.format ("%d_BRC-Graph", year);
+         nodeMap.write (baseFilename);
+      }
+      else
+      {
+         map.addAll (city.drawCity ());
+
+         BurningKML.createKML (baseFilename, year, map);
+         BurningGeoJSON.createGeoJSON (baseFilename, year, map);
+      }
 
       PathBounds b = city.Perimeter ().getBounds ();
       LLALocation base = b.UpperLeft;
-      SVGGPSCoordinate ul = new SVGGPSCoordinate (base, b.UpperLeft);      
       SVGGPSCoordinate lr = new SVGGPSCoordinate (base, b.LowerRight);
 
       int x = (int) lr.xCoordinate ();
       int y = (int) lr.yCoordinate ();
       org.jfree.svg.SVGGraphics2D g2 = new org.jfree.svg.SVGGraphics2D (y, x);
-      
-      docWidth = lr.xCoordinate () - ul.xCoordinate ();
-      docHeight = lr.yCoordinate () - ul.yCoordinate ();
-
 
       g2.setStroke (new BasicStroke (10));
       g2.setColor (Color.PINK);
@@ -438,42 +408,39 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
       String svgElement = g2.getSVGElement ();
 
 //      System.out.println (svgElement);
-
-
       String filename = String.format ("%s.svg", baseFilename);
       File ko = new File (filename);
-      try (BufferedWriter writer = new BufferedWriter(new FileWriter(ko)))
+      try (BufferedWriter writer = new BufferedWriter (new FileWriter (ko)))
       {
          writer.write (svgElement);
-      }      
+      }
       catch (IOException ex)
       {
       }
 
       displaySVG (svgElement);
    }
-   
-   
+
    private void displaySVG (String svgElement)
    {
-      StringReader reader = new StringReader(svgElement);
+      StringReader reader = new StringReader (svgElement);
       String uri = "";
-      try 
+      try
       {
-         String parser = XMLResourceDescriptor.getXMLParserClassName();
-         SAXSVGDocumentFactory f = new SAXSVGDocumentFactory(parser);
-         SVGDocument doc = f.createSVGDocument(uri,reader);
+         String parser = XMLResourceDescriptor.getXMLParserClassName ();
+         SAXSVGDocumentFactory f = new SAXSVGDocumentFactory (parser);
+         SVGDocument doc = f.createSVGDocument (uri, reader);
          this.jSVGCanvas1.setDocument (doc);
-      } 
-      catch (IOException ex) 
+      }
+      catch (IOException ex)
       {
-      } 
-      finally 
+      }
+      finally
       {
-         reader.close();
-      }  
+         reader.close ();
+      }
    }
-   
+
    /**
     * @param args the command line arguments
     */
@@ -520,6 +487,7 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
    private javax.swing.JButton btnDrawMap;
    private javax.swing.JComboBox<String> cbYear;
    private javax.swing.JCheckBox chkCenterline;
+   private javax.swing.JCheckBox chkNodeMap;
    private javax.swing.JCheckBox chkRelocate;
    private javax.swing.JLabel jLabel1;
    private javax.swing.JPanel jPanel1;

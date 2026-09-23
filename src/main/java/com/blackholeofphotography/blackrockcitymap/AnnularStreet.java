@@ -44,6 +44,7 @@ public class AnnularStreet
     * Constant to represent Rod's Road
     */
    public final static char RODS_ROAD = 'R';
+   public final static char ROUTE_66 = 'U';
    /**
     * Constant to represent the Inner Circle (The road going around the center camp tent).
     */
@@ -152,7 +153,8 @@ public class AnnularStreet
    public boolean isCenterCamp ()
    {
       return this.streetLetter == AnnularStreet.INNER_CIRCLE ||
-             this.streetLetter == AnnularStreet.RODS_ROAD;
+             this.streetLetter == AnnularStreet.RODS_ROAD ||
+             this.streetLetter == AnnularStreet.ROUTE_66;
    }
    
    public boolean isNormalStreet ()

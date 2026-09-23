@@ -39,6 +39,7 @@ public final class Settings
    public static String year;
    public static boolean relocate;
    public static boolean centerline;
+   public static boolean nodemap;
 
 //
 //   public final static double SYMBOL_PROPORTION = 0.5;
@@ -54,6 +55,7 @@ public final class Settings
    private static final String KEY_CENTERLINE = "centerline";
    private static final String KEY_LATLON = "latitude_longitude";
    private static final String KEY_YEAR = "year";
+   private static final String KEY_NODEMAP = "nodemap";
 
 
    private static final String COLUMN = "column";
@@ -82,6 +84,7 @@ public final class Settings
       latitudeLongitude = prefs.get (KEY_LATLON, "");
       relocate = prefs.getBoolean (KEY_RELOCATE, false);
       centerline = prefs.getBoolean (KEY_CENTERLINE, false);
+      nodemap = prefs.getBoolean (KEY_NODEMAP, false);
       year = prefs.get (KEY_YEAR, "2024");
       WindowPreferences = getWindowPrefs ("main");
    }
@@ -93,6 +96,7 @@ public final class Settings
       prefs.put (KEY_LATLON, latitudeLongitude);
       prefs.putBoolean (KEY_RELOCATE, relocate);
       prefs.putBoolean (KEY_CENTERLINE, centerline);
+      prefs.putBoolean (KEY_NODEMAP, nodemap);
       prefs.put (KEY_YEAR, year);
 
       saveWindowPrefs ("main", WindowPreferences);

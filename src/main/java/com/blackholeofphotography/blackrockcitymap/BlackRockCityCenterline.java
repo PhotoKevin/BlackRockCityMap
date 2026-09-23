@@ -66,7 +66,7 @@ public class BlackRockCityCenterline
                drawing.addAll (drawRadialFrom (hour, qhour * 15));
          }
 
-         for (char ch = AnnularStreet.ESPLANADE; ch != d.maxRoadLetter () + 1; ch = AnnularStreet.getNextStreetLetter (ch))
+         for (char ch = AnnularStreet.ESPLANADE; ch != d.getMaxRoadLetter () + 1; ch = AnnularStreet.getNextStreetLetter (ch))
          {
             drawing.addAll (drawAnnular (ch));
 
@@ -87,7 +87,7 @@ public class BlackRockCityCenterline
          }
 
          Path tenOclock = new Path ("10:00", Color.BLACK);
-         tenOclock.addLineSegment (new Intersection (10, 00, AnnularStreet.ESPLANADE).corner (d), new Intersection (10, 00, d.maxRoadLetter ()).corner (d));
+         tenOclock.addLineSegment (new Intersection (10, 00, AnnularStreet.ESPLANADE).corner (d), new Intersection (10, 00, d.getMaxRoadLetter ()).corner (d));
          drawing.add (tenOclock);
 
          Path centerCamp = new Path ("CenterCamp", Color.BLACK);
@@ -167,10 +167,10 @@ public class BlackRockCityCenterline
       while (d.isPlazaPortal (start) || d.isPortal (start) || d.isMidPlazaPortal (start))
          start = start.getNextIntersection (ManDirection.FROM_MAN);
 
-      while (!d.existsOutsideRoad (start) && !d.isPortal (start) && start.annular.getStreetLetter () != d.maxRoadLetter ())
+      while (!d.existsOutsideRoad (start) && !d.isPortal (start) && start.annular.getStreetLetter () != d.getMaxRoadLetter ())
          start = start.getNextIntersection (ManDirection.FROM_MAN);
 
-      while (start.annular.getStreetLetter () != d.maxRoadLetter ())
+      while (start.annular.getStreetLetter () != d.getMaxRoadLetter ())
       {
          Intersection end = start;
          while (d.existsOutsideRoad (end))
@@ -198,7 +198,7 @@ public class BlackRockCityCenterline
 
          start = end;
          // Skip over missing roads
-         while (!d.existsOutsideRoad (start) && start.annular.getStreetLetter () != d.maxRoadLetter ())
+         while (!d.existsOutsideRoad (start) && start.annular.getStreetLetter () != d.getMaxRoadLetter ())
             start = start.getNextIntersection (ManDirection.FROM_MAN);
 
       }
@@ -586,7 +586,7 @@ public class BlackRockCityCenterline
       
       
 
-      int r66Radius = 480;
+      int r66Radius = d.getRoute66Radius ();
       
       // This is where A crosses 6:00
       LLALocation aCenter = d.GS ().moveFT (d.GS ().getBearing (d.getCenterCampLLA ()), d.getStreetRadiusFT ('A'));

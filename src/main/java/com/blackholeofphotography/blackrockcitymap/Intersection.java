@@ -27,6 +27,8 @@
 package com.blackholeofphotography.blackrockcitymap;
 
 import com.blackholeofphotography.llalocation.LLALocation;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Define the intersection of a an Annular street and a Radial street.
@@ -104,7 +106,13 @@ public class Intersection
       LLALocation g;
       double bearing = dataSet.getBearing (radial);
       
-      double annularHalfWidth = this.annular.isNormalStreet () || this.annular.isCenterCamp () ? dataSet.getAnnularWidth (this.annular.getStreetLetter ()) /2 : 0;
+      double annularHalfWidth = 0;
+      
+      if (dataSet.hasAnnularStreet (this.annular.getStreetLetter ()))
+         annularHalfWidth  = dataSet.getAnnularWidth (this.annular.getStreetLetter ()) / 2;
+      
+//      if (annular.isNormalStreet () || annular.getStreetLetter () == AnnularStreet.RODS_ROAD || annular.getStreetLetter () == AnnularStreet.ROUTE_66)
+//         annularHalfWidth  = dataSet.getAnnularWidth (this.annular.getStreetLetter ()) / 2;
 
       if (this.annular.isCenterCamp ())
       {
@@ -112,10 +120,24 @@ public class Intersection
          double bearing630A = dataSet.getCenterCampLLA ().getBearing (new Intersection (6, 30, 'A').corner (dataSet));
 
          g = dataSet.getCenterCampLLA ();
-         if (this.annular.getStreetLetter () == AnnularStreet.RODS_ROAD)
-            g = g.moveFT (bearing, dataSet.getCenterThemeCampOuterRadius () + annularHalfWidth);
-         else
+         
+         switch (this.annular.getStreetLetter ())
          {
+         case AnnularStreet.RODS_ROAD:
+            g = g.moveFT (bearing, dataSet.getCenterThemeCampOuterRadius () + annularHalfWidth);
+            break;
+            
+         case AnnularStreet.ROUTE_66:
+            // Center is special. 3:00 and 9:00 are offset to follow a line from 
+            // the center of Center Camp and go to where A intersects Rod's Road.
+            if (this.radial.equals (new RadialStreet (3, 0)))
+               bearing = bearing530A;
+            else if (this.radial.equals (new RadialStreet (9, 0)))
+               bearing = bearing630A;
+
+            g = g.moveFT (bearing, dataSet.getRoute66Radius () + annularHalfWidth);
+            break;
+         case AnnularStreet.INNER_CIRCLE:
             // Center is special. 3:00 and 9:00 are offset to follow a line from 
             // the center of Center Camp and go to where A intersects Rod's Road.
             if (this.radial.equals (new RadialStreet (3, 0)))
@@ -123,6 +145,10 @@ public class Intersection
             else if (this.radial.equals (new RadialStreet (9, 0)))
                bearing = bearing630A;
             g = g.moveFT (bearing, dataSet.getCenterThemeCampInnerRadius ());
+            break;
+            
+         default:
+            break;
          }
       }
       else if (this.annular.getStreetLetter () == AnnularStreet.TEMPLE)
@@ -194,6 +220,50 @@ public class Intersection
       return new Intersection (this.radial.getNextStreet (direction), this.annular.getNextStreet (direction));
    }
    
+
+   static final String INTERSECTION_REGEX = "(?<hour>[0-9]?[0-9]):(?<minutes>[0-9][0-9])(?<radial>.*)";
+
+   
+   public static Intersection of (String locationText)
+   {
+      Pattern timePattern = Pattern.compile (INTERSECTION_REGEX);
+      try
+      {
+         Matcher timeMatcher = timePattern.matcher (locationText);
+         if (timeMatcher.matches ())
+         {
+            int hour = getHour (timeMatcher);
+            int minute = getMinutes (timeMatcher);
+            char roadLetter = ' ';
+            String street = timeMatcher.group ("radial");
+            if (street != null)
+               roadLetter = street.charAt (0);
+
+            if (hour >= 0 && minute >= 0 && roadLetter != ' ')
+               return new Intersection (hour, minute, roadLetter);
+         }
+      }
+      catch (NullPointerException ignored)
+      {
+
+      }
+      return null;
+   }
+
+      private static int getHour (Matcher matcher)
+   {
+      String groupText = matcher.group ("hour");
+      assert groupText != null;
+      return Integer.parseInt (groupText);
+   }
+
+   private static int getMinutes (Matcher matcher)
+   {
+      String groupText = matcher.group ("minutes");
+      assert groupText != null;
+      return Integer.parseInt (groupText);
+   }
+
    @Override
    public String toString ()
    {

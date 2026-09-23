@@ -85,7 +85,7 @@ public class BlackRockCity
             } 
          }
 
-         for (char ch='A'; ch<=d.maxRoadLetter (); ch++)
+         for (char ch='A'; ch<=d.getMaxRoadLetter (); ch++)
          {
             for (int hour=2; hour<10; hour++)
             {
@@ -500,8 +500,8 @@ public class BlackRockCity
 
       // It used to be that the outer street was L. Not anymore, but I've left the
       // variable name alone.
-      LLALocation p1000L = new Intersection ("10:00", d.maxRoadLetter ()).corner (d, IntersectionOffset.ClockwiseOutside);
-      LLALocation p200L = new Intersection ("2:00", d.maxRoadLetter ()).corner (d, IntersectionOffset.CounterClockwiseOutside);
+      LLALocation p1000L = new Intersection ("10:00", d.getMaxRoadLetter ()).corner (d, IntersectionOffset.ClockwiseOutside);
+      LLALocation p200L = new Intersection ("2:00", d.getMaxRoadLetter ()).corner (d, IntersectionOffset.CounterClockwiseOutside);
 
 
       LLALocation p200Esp = new Intersection ("2:00", AnnularStreet.ESPLANADE).corner (d, IntersectionOffset.CounterClockwiseManside);
