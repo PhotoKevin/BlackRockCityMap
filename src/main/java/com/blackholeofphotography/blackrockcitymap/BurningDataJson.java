@@ -67,7 +67,7 @@ public class BurningDataJson
          List<String> in;
          ClassLoader classloader = Thread.currentThread().getContextClassLoader();
          
-         URL u = classloader.getResource(String.format ("%d-City-Map.json", year));
+         URL u = classloader.getResource(String.format ("%d_City-Data.json", year));
         
          InputStream resource = u.openStream ();
          StringBuilder sb = new StringBuilder ();
@@ -82,7 +82,7 @@ public class BurningDataJson
 //         while(it.hasNext()) 
 //            System.out.println(it.next());
          
-         strMap = new StreetMap (String.format ("%d-StreetMap.txt", year));
+         strMap = new StreetMap (String.format ("%d_StreetMap.txt", year));
       }
       catch (JSONException | IOException ex)
       {

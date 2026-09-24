@@ -72,7 +72,7 @@ public class StreetMapTest
    public void testExistsMansideRoad ()
    {
       System.out.println ("existsManside");
-      StreetMap instance = new StreetMap ("2018-StreetMap.txt");
+      StreetMap instance = new StreetMap ("2018_StreetMap.txt");
       boolean expResult = true;
       boolean result = instance.existsMansideRoad (new Intersection ("10:00", 'a'));
       assertEquals (expResult, result);
@@ -93,7 +93,7 @@ public class StreetMapTest
    public void testExistsOutsideRoad ()
    {
       System.out.println ("isOutside");
-      StreetMap instance = new StreetMap ("2018-StreetMap.txt");
+      StreetMap instance = new StreetMap ("2018_StreetMap.txt");
       boolean expResult = true;
       boolean result = instance.existsOutsideRoad (new Intersection ( "10:00",   'a'));
       assertEquals (expResult, result);
@@ -118,7 +118,7 @@ public class StreetMapTest
    public void testExistsClockwiseRoad ()
    {
       System.out.println ("isClockwise");
-      StreetMap instance = new StreetMap ("2018-StreetMap.txt");
+      StreetMap instance = new StreetMap ("2018_StreetMap.txt");
       boolean expResult = false;
       boolean result = instance.existsClockwiseRoad (new Intersection ( "10:00",   'a'));
       assertEquals (expResult, result);
@@ -140,7 +140,7 @@ public class StreetMapTest
    public void testExistsCounterClockwiseRoad ()
    {
       System.out.println ("existsCounterClockwise");
-      StreetMap instance = new StreetMap ("2018-StreetMap.txt");
+      StreetMap instance = new StreetMap ("2018_StreetMap.txt");
       boolean expResult = true;
       boolean result = instance.existsCounterClockwiseRoad (new Intersection ( "10:00",   'a'));
       assertEquals (expResult, result);
@@ -160,7 +160,7 @@ public class StreetMapTest
       try
       {
          System.out.println ("blockCorners");
-      StreetMap instance = new StreetMap ("2018-StreetMap.txt");
+      StreetMap instance = new StreetMap ("2018_StreetMap.txt");
 //      boolean expResult = true;
          ArrayList<Intersection> result = instance.getBlockCorners (new Intersection ( "2:00",   'a'));
 
@@ -181,7 +181,7 @@ public class StreetMapTest
       try
       {
          System.out.println ("blockCorners22");
-         StreetMap instance = new StreetMap ("2022-StreetMap.txt");
+         StreetMap instance = new StreetMap ("2022_StreetMap.txt");
          instance.print ();
 //      boolean expResult = true;
          ArrayList<Intersection> result = instance.getBlockCorners (new Intersection ( "3:30",   'i'));
@@ -204,7 +204,7 @@ public class StreetMapTest
    public void testIsPlaza ()
    {
       System.out.println ("isPlaza");
-      StreetMap instance = new StreetMap ("2018-StreetMap.txt");
+      StreetMap instance = new StreetMap ("2018_StreetMap.txt");
       boolean expResult = false;
       boolean result = instance.isPlaza (new Intersection ( "10:00",   'a'));
       assertEquals (expResult, result);
@@ -222,10 +222,10 @@ public class StreetMapTest
    public void testMaxRoad ()
    {
       System.out.println ("maxRoadLetter");
-      StreetMap instance = new StreetMap ("2018-StreetMap.txt");
+      StreetMap instance = new StreetMap ("2018_StreetMap.txt");
       assertEquals ('L', instance.maxRoadLetter ());
       
-      instance = new StreetMap ("2022-StreetMap.txt");
+      instance = new StreetMap ("2022_StreetMap.txt");
       assertEquals ('K', instance.maxRoadLetter ());
    }
 
@@ -237,7 +237,7 @@ public class StreetMapTest
    public void testIsPlazaPortal ()
    {
       System.out.println ("isPlazaPortal");
-      StreetMap instance = new StreetMap ("2018-StreetMap.txt");
+      StreetMap instance = new StreetMap ("2018_StreetMap.txt");
       boolean expResult = false;
       boolean result = instance.isPlazaPortal (new Intersection ( "10:00",   'a'));
       assertEquals (expResult, result);
