@@ -27,10 +27,7 @@
       "h" : { "width": 30, "depth" : 250},
       "i" : { "width": 30, "depth" : 150},
       "j" : { "width": 30, "depth" : 150},
-      "k" : { "width": 50, "depth" : 150},
-      "r" : { "width": 30, "depth" : 150},
-      "s" : { "width": 30, "depth" : 150},
-      "u" : { "width": 30, "depth" : 150}
+      "k" : { "width": 50, "depth" : 150}
    },
 
    "center_camp" :
