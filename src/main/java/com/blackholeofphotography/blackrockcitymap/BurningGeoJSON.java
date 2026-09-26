@@ -35,6 +35,8 @@ import mil.nga.sf.geojson.FeatureConverter;
 import mil.nga.sf.geojson.GeometryCollection;
 import mil.nga.sf.geojson.LineString;
 import mil.nga.sf.geojson.Position;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -42,9 +44,11 @@ import mil.nga.sf.geojson.Position;
  */
 public class BurningGeoJSON
 {
-
+   private static final Logger logger = LoggerFactory.getLogger (BurningGeoJSON.class);
+   
    public static void createGeoJSON (String baseFilename, int year, ArrayList<Path> drawing)
    {
+
       ArrayList<mil.nga.sf.geojson.Geometry> geo = new ArrayList<> ();
 
 
@@ -69,7 +73,6 @@ public class BurningGeoJSON
       String content; // = FeatureConverter.toStringValue(geometry);
       content = FeatureConverter.toStringValue (gc);
       
-      //System.out.println (k.toString());
       File ko = new File (baseFilename + ".json");
       try (BufferedWriter writer = new BufferedWriter(new FileWriter(ko)))
       {
@@ -77,7 +80,7 @@ public class BurningGeoJSON
       }
       catch (IOException ex)
       {
-         
+         logger.error("BurningGeoJSON.createGeoJSON", ex);
       }            
    }   
 }

@@ -35,12 +35,13 @@ import de.micromata.opengis.kml.v_2_2_0.Kml;
 import de.micromata.opengis.kml.v_2_2_0.LineString;
 import de.micromata.opengis.kml.v_2_2_0.LineStyle;
 import de.micromata.opengis.kml.v_2_2_0.Placemark;
-//import de.micromata.opengis.kml.v_2_2_0.Placemark;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -50,13 +51,14 @@ import java.util.ArrayList;
 
 public class BurningKML
 {
+   private static final Logger logger = LoggerFactory.getLogger(BurningKML.class);
+   
    public BurningKML ()
    {
    }
 
    private Folder findFolderByName (Folder rootFolder, String name)
    {
-      
       for (Feature f : rootFolder.getFeature ())
       {
          if (f instanceof Folder == true)
@@ -94,8 +96,7 @@ public class BurningKML
          else
             break;
       }
-      
-//      System.out.println ("Done " + nextLevel + " .. " + rest);
+
       if (nextLevel != null) 
       {
          Folder ff = findFolderByName (rootFolder, nextLevel);
@@ -132,7 +133,6 @@ public class BurningKML
             place.createAndAddStyle ().withLineStyle ( new LineStyle().withColor (pp.getKMLColor ()).withWidth (2.0));        
          }
 
-         //System.out.println (k.toString());
          File ko = new File (baseFilename + ".kml");
          try (BufferedWriter writer = new BufferedWriter(new FileWriter(ko)))
          {
@@ -145,7 +145,7 @@ public class BurningKML
       }
       catch (Exception ex)
       {
-         System.out.println (ex);
+         logger.error ("BurningKML.createKML: ", ex);
       }
    }
 }

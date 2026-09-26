@@ -223,10 +223,10 @@ public class StreetMapTest
    {
       System.out.println ("maxRoadLetter");
       StreetMap instance = new StreetMap ("2018_StreetMap.txt");
-      assertEquals ('L', instance.maxRoadLetter ());
+      assertEquals ('L', instance.getMaxRoadLetter ());
       
       instance = new StreetMap ("2022_StreetMap.txt");
-      assertEquals ('K', instance.maxRoadLetter ());
+      assertEquals ('K', instance.getMaxRoadLetter ());
    }
 
 

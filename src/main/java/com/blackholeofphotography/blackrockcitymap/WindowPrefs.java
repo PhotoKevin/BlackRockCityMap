@@ -28,7 +28,6 @@ package com.blackholeofphotography.blackrockcitymap;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.util.ArrayList;
-//import java.util.logging.Logger;
 
 /**
  * Simple class to hold a set of preferences for a window. Where it is, how big it is, and the widths of the columns.
@@ -36,7 +35,6 @@ import java.util.ArrayList;
  */
 public class WindowPrefs
 {
-//   private final static Logger logger = Logger.getLogger (WindowPrefs.class.getName());
    /**
     * Stores the column widths for the window
     */

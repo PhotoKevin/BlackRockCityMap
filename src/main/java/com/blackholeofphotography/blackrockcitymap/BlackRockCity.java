@@ -32,6 +32,8 @@ import com.blackholeofphotography.llalocation.LLALocation;
 import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Represent BlackRockCity
@@ -41,6 +43,7 @@ import java.util.ArrayList;
  */
 public class BlackRockCity
 {
+   private static final Logger logger = LoggerFactory.getLogger(BlackRockCity.class);
    /**
     * This year's data set.
     */
@@ -117,15 +120,9 @@ public class BlackRockCity
          drawing.add (this.drawInnerPlaya ("InnerPlaya", false));
          
       }
-      catch (IOException | NumberFormatException e)
+      catch (NumberFormatException e)
       {
-         e.printStackTrace ();
-         System.out.println (e.toString ());
-      }
-      catch (Exception e)
-      {
-         e.printStackTrace ();
-         System.out.println (e.toString ());
+         logger.error ("BlackRockCity.drawCity: ", e);
       }
          
       return drawing;
@@ -464,7 +461,7 @@ public class BlackRockCity
     */
    public Path Perimeter ()
    {
-      LLALocation P1 = d.P1 ();
+      LLALocation P1 = d.getP1 ();
       
       double radius = d.GS ().distanceFT (P1);
       double p1Bearing = d.GS ().getBearing (P1);

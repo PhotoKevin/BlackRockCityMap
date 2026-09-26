@@ -32,6 +32,8 @@ import com.blackholeofphotography.llalocation.LLAGeometry;
 import com.blackholeofphotography.llalocation.LLALocation;
 import java.awt.Color;
 import java.util.ArrayList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Class to create a version of the Black Rock City map using the road center
@@ -41,7 +43,7 @@ import java.util.ArrayList;
  */
 public class BlackRockCityCenterline
 {
-
+private static final Logger logger = LoggerFactory.getLogger (BlackRockCityCenterline.class);
    /**
     * This year's data set.
     */
@@ -112,13 +114,10 @@ public class BlackRockCityCenterline
             drawing.addAll (drawCentralPlaza2024 ());
 
       }
-//      catch (IOException | NumberFormatException e)
-//      {
-//         System.out.println (e.toString ());
-//      }
+
       catch (Exception e)
       {
-         System.out.println (e.toString ());
+         logger.error ("BlackRockCityCenterline.drawCity: ", e);
          throw e;
       }
 
@@ -132,7 +131,7 @@ public class BlackRockCityCenterline
     */
    public Path Perimeter ()
    {
-      LLALocation P1 = d.P1 ();
+      LLALocation P1 = d.getP1 ();
 
       double radius = d.GS ().distanceFT (P1);
       double p1Bearing = d.GS ().getBearing (P1);
@@ -211,7 +210,7 @@ public class BlackRockCityCenterline
       boolean pr = (ch == 'c');
       ArrayList<Path> segments = new ArrayList<> ();
       if (pr)
-         System.out.println ("Start Annular");
+         logger.debug ("Start Annular");
 
       Intersection start = new Intersection (2, 0, ch);
 
@@ -231,7 +230,7 @@ public class BlackRockCityCenterline
          }
 
          if (pr)
-            System.out.printf ("\nAnnular segment %s %s\n", start.toString (), end.toString ());
+             logger.debug ("Annular segment {} {}", start.toString (), end.toString ());
          
          if (end != start)
          {
@@ -239,12 +238,12 @@ public class BlackRockCityCenterline
             LLALocation p1 = start.corner (d);
             if (d.isPlaza (start))
             {
-               if (pr) System.out.println ("isPlaza");
+               if (pr) logger.debug ("isPlaza");
                p1 = p1.moveFT (d.GS ().getBearing (p1)+90, d.getPlazaRadius ());
             }
             else if (d.isMidPlazaPortal (start))
             {
-               if (pr) System.out.println ("isMidPlazaPortal");
+               if (pr) logger.debug ("isMidPlazaPortal");
                p1 = p1.moveFT (d.GS ().getBearing (p1)+90, d.getPlazaRadius ());
                
                Intersection esp = new Intersection (start.radial, AnnularStreet.ESPLANADE);
@@ -254,7 +253,7 @@ public class BlackRockCityCenterline
             }
             else if (d.isPlazaPortal (start))
             {
-               if (pr) System.out.println ("isPlazaPortal");
+               if (pr) logger.debug ("isPlazaPortal");
 
                ArrayList<LLALocation> portalEdge = getPortalEdge (start, ManDirection.CLOCKWISE);
                ArrayList<LLALocation> points = LLAGeometry.Intersection (d.GS (), d.GS ().distanceFT (start.corner (d)), portalEdge.get (0), portalEdge.get(1));
@@ -263,7 +262,7 @@ public class BlackRockCityCenterline
             }
             else if (d.isPortal (start))
             {
-               if (pr) System.out.println ("isPortal");
+               if (pr) logger.debug ("isPortal");
                p1 = p1.moveFT (d.GS ().getBearing (p1)+90, d.getPortalWidth ()/2);
             }
 
@@ -289,7 +288,7 @@ public class BlackRockCityCenterline
                p2 = p2.moveFT (p2.getBearing (d.GS ())+90, d.getPortalWidth ()/2);
 
             if (pr)
-               System.out.printf ("Annular %s -> %s\n", start.toString (), end.toString ());
+               logger.debug ("Annular {} -> {}", start.toString (), end.toString ());
             Path annular = new Path (String.valueOf (ch), Color.BLACK);
             annular.addArcSegment (d.GS (), p1, p2, ArcDirection.CLOCKWISE);
             segments.add (annular);
@@ -305,7 +304,7 @@ public class BlackRockCityCenterline
    
    private ArrayList<LLALocation> getPortalEdge (Intersection intersection, ManDirection edge)
    {
-      System.out.printf ("getPortalEdge: %s %s\n", intersection.toString (), edge.toString ());
+      logger.debug ("getPortalEdge: {} {}", intersection.toString (), edge.toString ());
       ArrayList<LLALocation> points = new ArrayList<> ();
       double bearing = d.GS ().getBearing (intersection.corner (d));
       double sidewise = bearing;
@@ -341,7 +340,7 @@ public class BlackRockCityCenterline
          ArrayList<LLALocation> pts = LLAGeometry.Intersection (d.GS (), d.GS ().distanceFT (intersection.corner (d)), p1, p2);
          if (!pts.isEmpty ())
          {
-            System.out.printf ("Dist: %f\n", p1.distanceFT (p1.getClosest (pts)));
+            logger.debug ("Dist: {}\n", p1.distanceFT (p1.getClosest (pts)));
             points.add (p1.getClosest (pts));
 
             pts = LLAGeometry.Intersection (plaza.corner (d), d.getPlazaRadius (), p1, p2);
@@ -350,7 +349,7 @@ public class BlackRockCityCenterline
          }
          else
          {
-            System.out.println ("was empty");
+            logger.debug ("was empty");
             points.add (p1);
             points.add (p2);
          }

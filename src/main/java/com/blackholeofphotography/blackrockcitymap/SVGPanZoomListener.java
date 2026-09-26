@@ -7,18 +7,16 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import org.apache.batik.swing.JSVGCanvas;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SVGPanZoomListener extends MouseAdapter
 {
-
+   private static final Logger logger = LoggerFactory.getLogger(SVGPanZoomListener.class);
+   
    private final JSVGCanvas canvas;
    private Point dragStartScreen = null;
-
-   // --- CONSTRAINT CONFIGURATIONS ---
    private static final double ZOOM_FACTOR = 1.1;
-   private static final double MIN_ZOOM = 0.002;  // 20% size minimum
-   private static final double MAX_ZOOM = 10.0; // 1000% size maximum
-   private static final boolean RESTRICT_PAN = true; // Set false to unbind drag limits
 
    public SVGPanZoomListener (JSVGCanvas canvas)
    {
@@ -50,7 +48,7 @@ public class SVGPanZoomListener extends MouseAdapter
       }
       catch (Exception ex)
       {
-         ex.printStackTrace ();
+         logger.error ("SVGPanZoomListenner: ", ex);
       }
 
    }
@@ -62,8 +60,8 @@ public class SVGPanZoomListener extends MouseAdapter
       {
          dragStartScreen = e.getPoint ();
       }
-      
-      System.out.printf ("Pressed @ %d, %d\n", e.getX (), e.getY ());
+
+      logger.debug ("Pressed @ {}, {}", e.getX (), e.getY ());
    }
 
    @Override
@@ -85,8 +83,8 @@ public class SVGPanZoomListener extends MouseAdapter
 
       canvas.setRenderingTransform (currentAt, true);
       dragStartScreen = dragEndScreen;
-      System.out.printf ("Dragged %f, %f\n", deltaX, deltaY);
-      System.out.printf ("  to %f, %f\n", currentAt.getTranslateX (), currentAt.getTranslateY ());
+      logger.debug ("Dragged {}, {}", deltaX, deltaY);
+      logger.debug ("  to {}, {}", currentAt.getTranslateX (), currentAt.getTranslateY ());
    }
 
    @Override

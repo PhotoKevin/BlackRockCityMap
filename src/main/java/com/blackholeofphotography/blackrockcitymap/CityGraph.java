@@ -36,6 +36,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -43,7 +45,8 @@ import org.json.JSONObject;
  */
 public class CityGraph
 {
-   List<BRCNode> nodes = new ArrayList<> ();
+   private static final Logger logger = LoggerFactory.getLogger(BurningDataJson.class);
+   private final List<BRCNode> nodes = new ArrayList<> ();
    
    /**
     * This year's data set.
@@ -83,8 +86,7 @@ public class CityGraph
    
       catch (Exception ex)
       {
-         System.out.print (i);
-         ex.printStackTrace ();
+         logger.error ("CityGraph.buildNodeMap: {}: ", i, ex);
       }
    }
    
@@ -94,8 +96,6 @@ public class CityGraph
 
       for (Intersection i : allIntersections)
       {
-         if (i.toString ().startsWith ("2:00"))
-            System.out.println ("2:00");
          LLALocation corner = i.corner (d);
          BRCNode nn = new BRCNode (i.toString (), corner);
          nodes.add (nn);

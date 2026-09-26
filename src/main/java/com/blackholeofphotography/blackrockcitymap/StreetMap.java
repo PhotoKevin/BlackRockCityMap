@@ -34,6 +34,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Represent the street layout of Black Rock City.
@@ -43,6 +45,7 @@ import java.util.stream.Collectors;
  */
 public class StreetMap
 {
+   private static final Logger logger = LoggerFactory.getLogger(StreetMap.class);
    private char[][] data;
    
    public StreetMap (String filepath)
@@ -54,11 +57,8 @@ public class StreetMap
          InputStream resource = u.openStream ();
          
          List<String> in = new BufferedReader(new InputStreamReader(resource, StandardCharsets.UTF_8)).lines().collect(Collectors.toList());
-
-         //Path p = Paths.get(u.toURI());      
          
          data = new char[150][100];
-         //List<String> in = Files.readAllLines (p); // Paths.get(f));
          int row = 0;
          for (String s : in)
          {
@@ -75,7 +75,7 @@ public class StreetMap
       }
       catch (IOException e)
       {
-         e.printStackTrace();
+         logger.error ("StreetMap.StreetMap: ",e );
       }
    }
    
@@ -133,7 +133,7 @@ public class StreetMap
          return data[row-1][col] != ' ';
    }
    
-   public char maxRoadLetter ()
+   public char getMaxRoadLetter ()
    {
       char maxLetter = 0;
       for (int r = 0; r<data.length; r++)
@@ -149,7 +149,7 @@ public class StreetMap
       int row = row (intersection.annular);
       int col = column (intersection.radial);
       
-      if ((intersection.annular.getStreetLetter () > maxRoadLetter()) && intersection.annular.getStreetLetter () != AnnularStreet.ESPLANADE)
+      if ((intersection.annular.getStreetLetter () > getMaxRoadLetter()) && intersection.annular.getStreetLetter () != AnnularStreet.ESPLANADE)
          return false;
       
       if (data[row][0] == '\0')
@@ -174,7 +174,7 @@ public class StreetMap
       int row = row (intersection.annular);
       int col = column (intersection.radial);
       
-      if ((intersection.annular.getStreetLetter () >= maxRoadLetter()) && intersection.annular.getStreetLetter () != AnnularStreet.ESPLANADE)
+      if ((intersection.annular.getStreetLetter () >= getMaxRoadLetter()) && intersection.annular.getStreetLetter () != AnnularStreet.ESPLANADE)
          return false;
       
       if (data[row+1][0] == '\0')
@@ -360,9 +360,8 @@ public class StreetMap
     * early inside corner.
     * @param earlyInside
     * @return ArrayList of intersections for the corners.
-    * @throws java.lang.Exception
     */
-   public ArrayList<Intersection> getBlockCorners (Intersection earlyInside) throws Exception
+   public ArrayList<Intersection> getBlockCorners (Intersection earlyInside)
    {
       ManDirection currentDirection;
       ArrayList<Intersection> corners = new ArrayList<> ();
@@ -400,8 +399,8 @@ public class StreetMap
       } while (! p.equals (earlyInside) && corners.size () < 20);
 
       // The code that calls this can only handle rectangular blocks.
-      if (corners.size () != 4)
-         throw new Exception ();
+//      if (corners.size () != 4)
+//         throw new Exception ();
       
       return corners;
    }

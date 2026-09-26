@@ -33,15 +33,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.Map;
-import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -49,18 +47,17 @@ import org.json.JSONObject;
  */
 
 
-public class BurningDataJson
+public class BurningDataJson extends StreetMap 
 {
-//   private Map<String,String> Value = new HashMap<>();
-   private StreetMap strMap;
-   private int year;
+   private static final Logger logger = LoggerFactory.getLogger(BurningDataJson.class);
+   private final int year;
    private LLALocation goldenSpike;
-   JSONObject cityData;
-   
-   
+   private JSONObject cityData;
    
    public BurningDataJson (int aYear) 
    {
+      super (getStreetMap (aYear));
+
       this.year = aYear;
       try
       {
@@ -77,17 +74,16 @@ public class BurningDataJson
             sb.append (s);
          
          cityData = new JSONObject (sb.toString ());
-         
-//         var it =  cityData.keys ();
-//         while(it.hasNext()) 
-//            System.out.println(it.next());
-         
-         strMap = new StreetMap (String.format ("%d_StreetMap.txt", year));
       }
       catch (JSONException | IOException ex)
       {
-         Logger.getLogger (BurningDataJson.class.getName()).log (Level.SEVERE, null, ex);
+         logger.error ("BurningDataJson.BurningDataJson", ex);
       }
+   }
+   
+   private static String getStreetMap (int year)
+   {
+      return String.format ("%d_StreetMap.txt", year);
    }
    
    /**
@@ -111,10 +107,10 @@ public class BurningDataJson
    } 
 
    /**
-    * Location of P1 on the perimeter fence
-    * @return Location of P1
+    * Location of getP1 on the perimeter fence
+    * @return Location of getP1
     */
-   public LLALocation P1 () 
+   public LLALocation getP1 () 
    {
       JSONObject p1 = cityData.getJSONObject ("p1");
       double latitude = p1.getDouble ("latitude");
@@ -128,22 +124,6 @@ public class BurningDataJson
    {
       return year;
    }
-   /**
-    * Get the key value as a double, print an error if it's missing
-    * @param key Key name (first column in CSV)
-    * @return Value as double (second column in CSV)
-    */
-//   private double getDoubleValue (String key)
-//   {
-//      String s = Value.get (key);
-//      if (s == null)
-//      {
-//         System.out.println ("Key value " + key + " not found");
-//         return 0;
-//      }
-//      
-//      return Double.parseDouble (s);
-//   }
 
    /**
     * Radius of center of Esplanade
@@ -239,9 +219,6 @@ public class BurningDataJson
    
    public double getAnnularWidth (char roadLetter)
    {
-      if (roadLetter == 'S')
-         System.out.print ("");
-
       JSONObject annularStreets = cityData.getJSONObject ("annular_streets");
       JSONObject streetData;
       if (roadLetter == AnnularStreet.ESPLANADE)
@@ -254,9 +231,6 @@ public class BurningDataJson
    
    public boolean hasAnnularStreet (char roadLetter)
    {
-      if (roadLetter == 'S')
-         System.out.print ("");
-
       JSONObject annularStreets = cityData.getJSONObject ("annular_streets");
       if (roadLetter == AnnularStreet.ESPLANADE)
          return annularStreets.has (String.valueOf ("esplanade"));
@@ -289,17 +263,29 @@ public class BurningDataJson
       return this.GS ().moveFT (this.getBearing (new RadialStreet ("12:00")), this.getManToTempleRadius ());
    }
 
-   
    /**
     * The offset of True north vs the 12:00 radial street.
+    * This has always been 45 degrees, but we do the math anyway.
     * @return Offset in degrees
     */
    private double TrueNorthOffset ()
    {
-      double bearing = GS ().getBearing (P1 ());
-      // TODO: Do I really need this?
-      return 45;
+      double bearing = GS ().getBearing (getP1 ());
+      bearing += 2 * 360.0 / 5; // 12:00 is at P3 or 2/5 of the circle away
+
+      return normalizeAngle (bearing);
    }
+
+   private double normalizeAngle (double angle)
+   {
+      while (angle < 0.0)
+         angle += 360.0;
+
+      while (angle > 360.0)
+         angle -= 360.0;
+      return angle;
+   }
+
    
    /**
     * Get the compass bearing of the street
@@ -401,115 +387,9 @@ public class BurningDataJson
       return cityData.getDouble ("portal_mouth_width");
    }
 
-   /**
-    * Determine if this intersection is a Plaza
-    * @param intersection
-    * @return true/false
-    */
-   public boolean isPlaza (Intersection intersection)
-   {
-      return this.strMap.isPlaza (intersection);
-   }
-   
-   public boolean isBPlaza (Intersection intersection)
-   {
-      return this.strMap.isBPlaza (intersection);
-   }
-   
-   /**
-    * Determine if this intersection is a Portal.
-    * @param intersection
-    * @return true/false
-    */
-   public boolean isPortal (Intersection intersection)
-   {
-      return this.strMap.isPortal (intersection);
-   }
-   
-   /**
-    * Determine if this intersection is a Plaza Portal.
-    * @param intersection intersection of interest.
-    * @return true/false
-    */
-   public boolean isPlazaPortal (Intersection intersection)
-   {
-      return this.strMap.isPlazaPortal (intersection);
-   }
-   
-      /**
-    * Determine if this intersection is a Mid - Plaza Portal.
-    * That's the intersections between a portal and its plaza
-    * @param intersection intersection of interest.
-    * @return true/false
-    */
-   public boolean isMidPlazaPortal (Intersection intersection)
-   {
-      return this.strMap.isMidPlazaPortal (intersection);
-   }
-
-   public char getMaxRoadLetter ()
-   {
-       return strMap.maxRoadLetter();
-   }
-   /**
-    * Determine if there is a road toward the man from
-    * this intersection
-    * @param intersection The intersection of interest.
-    * @return true/false
-    */
-   
-   public boolean existsMansideRoad (Intersection intersection)
-   {
-      return this.strMap.existsMansideRoad (intersection);
-   }
-
-   /**
-    * Determine if there is a road away from the man from
-    * this intersection
-    * @param intersection The intersection of interest.
-    * @return true/false
-    */
-   
-   public boolean existsOutsideRoad (Intersection intersection)
-   {
-      return this.strMap.existsOutsideRoad (intersection);
-   }
-   
-   /**
-    * Determine if there is a road in the Counter Clockwise direction from
-    * this intersection
-    * @param intersection The intersection of interest.
-    * @return true/false
-    */
-   public boolean existsCounterClockwiseRoad (Intersection intersection)
-   {
-      return this.strMap.existsCounterClockwiseRoad (intersection);
-   }
-
-   /**
-    * Determine if there is a road in the Clockwise direction from
-    * this intersection
-    * @param intersection The intersection of interest.
-    * @return true/false
-    */
-   public boolean existsClockwiseRoad (Intersection intersection)
-   {
-      return this.strMap.existsClockwiseRoad (intersection);
-   }
-   
-   public boolean isPedestrianWalkway (Intersection intersection, ManDirection direction)
-   {
-      return this.strMap.isPedestrianWalkway (intersection, direction);
-   }
-   
-   public boolean existsIntersection (Intersection i)
-   {
-      return this.strMap.existsIntersection (i);
-   }
-           
    public boolean isCorner (Intersection i)
    {
-      if (! this.strMap.existsIntersection (i))
+      if (! existsIntersection (i))
          return false;
       
       return ((existsOutsideRoad (i) || existsMansideRoad (i)) &&
@@ -562,18 +442,6 @@ public class BurningDataJson
    }
 
    /**
-    * Get the corners of the block where the supplied intersection is the 
-    * early inside corner.
-    * @param earlyInside
-    * @return ArrayList of intersections for the corners.
-    * @throws java.lang.Exception
-    */
-   public ArrayList<Intersection> getBlockCorners (Intersection earlyInside) throws Exception
-   {
-      return strMap.getBlockCorners (earlyInside);
-   }
-   
-   /**
     * Name of an annular street
     * @param roadLetter Letter of the street
     * @return Name of the street.
@@ -598,8 +466,6 @@ public class BurningDataJson
     */
    public double getBlockDepth (char roadLetter)
    {
-      if (roadLetter == 'S')
-         System.out.print ("");
       JSONObject annularStreets = cityData.getJSONObject ("annular_streets");
       JSONObject streetData;
       if (roadLetter == AnnularStreet.ESPLANADE)

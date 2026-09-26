@@ -29,29 +29,24 @@ import com.blackholeofphotography.blackrockcitymap.path.Path;
 import com.blackholeofphotography.blackrockcitymap.path.PathBounds;
 import com.blackholeofphotography.llalocation.LLALocation;
 import java.awt.BasicStroke;
-import java.awt.Canvas;
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Path2D;
-import java.awt.geom.Point2D;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.prefs.Preferences;
 import org.apache.batik.anim.dom.SAXSVGDocumentFactory;
 import org.apache.batik.swing.JSVGCanvas;
 import org.apache.batik.swing.gvt.GVTTreeRendererAdapter;
 import org.apache.batik.swing.gvt.GVTTreeRendererEvent;
 import org.apache.batik.util.XMLResourceDescriptor;
-import org.json.JSONArray;
 import org.w3c.dom.svg.SVGDocument;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -59,7 +54,7 @@ import org.w3c.dom.svg.SVGDocument;
  */
 public class BlackRockCityMapUI extends javax.swing.JFrame
 {
-//   double docHeight = 1;
+   private static final Logger logger = LoggerFactory.getLogger(BlackRockCityMapUI.class);
 
    /**
     * Creates new form BlackRockCityMap
@@ -407,7 +402,6 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
 
       String svgElement = g2.getSVGElement ();
 
-//      System.out.println (svgElement);
       String filename = String.format ("%s.svg", baseFilename);
       File ko = new File (filename);
       try (BufferedWriter writer = new BufferedWriter (new FileWriter (ko)))
@@ -464,7 +458,7 @@ public class BlackRockCityMapUI extends javax.swing.JFrame
       }
       catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex)
       {
-         java.util.logging.Logger.getLogger (BlackRockCityMapUI.class.getName ()).log (java.util.logging.Level.SEVERE, null, ex);
+         logger.error ("BlackRockCityMapUI.main", ex);
       }
       //</editor-fold>
       //</editor-fold>

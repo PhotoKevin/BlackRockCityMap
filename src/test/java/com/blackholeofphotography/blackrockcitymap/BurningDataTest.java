@@ -82,15 +82,15 @@ public class BurningDataTest
    }
 
    /**
-    * Test of P1 method, of class BurningData.
+    * Test of getP1 method, of class BurningData.
     */
    @Test
    public void testP1 ()
    {
-//      System.out.println ("P1");
+//      System.out.println ("getP1");
 //      BurningData instance = null;
 //      GPS expResult = null;
-//      GPS result = instance.P1 ();
+//      GPS result = instance.getP1 ();
 //      assertEquals (expResult, result);
 //      // TODO review the generated test code and remove the default call to fail.
 //      fail ("The test case is a prototype.");
