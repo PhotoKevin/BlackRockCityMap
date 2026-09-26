@@ -45,17 +45,17 @@ import org.slf4j.LoggerFactory;
  */
 public class CityGraph
 {
-   private static final Logger logger = LoggerFactory.getLogger(BurningDataJson.class);
+   private static final Logger logger = LoggerFactory.getLogger(CityData.class);
    private final List<BRCNode> nodes = new ArrayList<> ();
    
    /**
     * This year's data set.
     */
-   private final BurningDataJson d;
+   private final CityData d;
 
    public CityGraph (int year, LLALocation relocate)
    {
-      d = new BurningDataJson (year);
+      d = new CityData (year);
       if (relocate != null)
          d.setGoldenSpikeOverride (relocate);
       

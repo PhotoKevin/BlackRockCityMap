@@ -177,12 +177,12 @@ public class AnnularStreet
     * @param d The data set for this year.
     * @return Distance in Feet
     */
-   public double getRadius (BurningDataJson d)
+   public double getRadius (CityData d)
    {
       return d.getStreetRadiusFT (this.streetLetter);
    }
    
-   public static double getRadius (BurningDataJson d, char roadLetter)
+   public static double getRadius (CityData d, char roadLetter)
    {
       return new AnnularStreet (roadLetter).getRadius (d);
    }
@@ -193,7 +193,7 @@ public class AnnularStreet
     * @param edge The street edge of interest  (center, manside, outside).
     * @return Distance in Feet
     */
-   public double getRadius (BurningDataJson d, AnnularOffset edge)
+   public double getRadius (CityData d, AnnularOffset edge)
    {
       double radius = getRadius (d);
       if (edge == AnnularOffset.MANSIDE)

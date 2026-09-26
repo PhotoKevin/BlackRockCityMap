@@ -40,18 +40,18 @@ import org.junit.jupiter.api.Test;
 public class AnnularStreetTest
 {
 
-   private static BurningDataJson dataSet;
+   private static CityData dataSet;
 
    public AnnularStreetTest ()
    {
-      dataSet = new BurningDataJson (2018);
+      dataSet = new CityData (2018);
    }
    
    @BeforeAll
    public static void setUpClass ()
    {
       System.out.println ("Setup");
-      dataSet = new BurningDataJson (2018);
+      dataSet = new CityData (2018);
    }
    
    @AfterAll

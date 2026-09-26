@@ -36,7 +36,7 @@ import java.util.ArrayList;
  */
 public class DistanceScale
 {
-   public static ArrayList<Path> DrawScale (BurningDataJson d)
+   public static ArrayList<Path> DrawScale (CityData d)
    {
       ArrayList<Path> paths = new ArrayList<> ();
       LLALocation P1 = d.GS ().moveFT (0, 500);

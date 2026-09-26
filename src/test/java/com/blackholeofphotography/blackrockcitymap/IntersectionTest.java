@@ -40,17 +40,17 @@ import org.junit.jupiter.api.Test;
  */
 public class IntersectionTest
 {
-   private static BurningDataJson dataSet;
+   private static CityData dataSet;
 
    public IntersectionTest ()
    {
-      dataSet = new BurningDataJson (2026);
+      dataSet = new CityData (2026);
    }
    
    @BeforeAll
    public static void setUpClass ()
    {
-      dataSet = new BurningDataJson (2026);
+      dataSet = new CityData (2026);
    }
    
    @AfterAll

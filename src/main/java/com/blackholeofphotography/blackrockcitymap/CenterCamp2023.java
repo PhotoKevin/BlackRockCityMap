@@ -39,8 +39,8 @@ import java.util.ArrayList;
  */
 public class CenterCamp2023
 {
-   private final BurningDataJson d;
-   public CenterCamp2023 (BurningDataJson dataSet)
+   private final CityData d;
+   public CenterCamp2023 (CityData dataSet)
    {
       d = dataSet;
    }

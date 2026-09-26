@@ -39,11 +39,11 @@ import org.junit.jupiter.api.Test;
 public class BurningDataTest
 {
 
-   private static BurningDataJson dataSet;
+   private static CityData dataSet;
 
    public BurningDataTest ()
    {
-      dataSet = new BurningDataJson (2019);
+      dataSet = new CityData (2019);
    }
    
    @BeforeAll

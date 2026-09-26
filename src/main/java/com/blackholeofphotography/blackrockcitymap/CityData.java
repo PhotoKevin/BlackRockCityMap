@@ -1,28 +1,3 @@
-/*
- * Copyright (c) 2018, Kevin Nickerson (kevin@blackholeofphotography.com)
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * * Redistributions of source code must retain the above copyright notice, this
- *   list of conditions and the following disclaimer.
- * * Redistributions in binary form must reproduce the above copyright notice,
- *   this list of conditions and the following disclaimer in the documentation
- *   and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- */
 package com.blackholeofphotography.blackrockcitymap;
 
 
@@ -47,24 +22,24 @@ import org.slf4j.LoggerFactory;
  */
 
 
-public class BurningDataJson extends StreetMap 
+public class CityData extends StreetMap 
 {
-   private static final Logger logger = LoggerFactory.getLogger(BurningDataJson.class);
-   private final int year;
+   private static final Logger logger = LoggerFactory.getLogger(CityData.class);
+   private final int mYear;
    private LLALocation goldenSpike;
    private JSONObject cityData;
    
-   public BurningDataJson (int aYear) 
+   public CityData (int aYear) 
    {
       super (getStreetMap (aYear));
 
-      this.year = aYear;
+      mYear = aYear;
       try
       {
          List<String> in;
          ClassLoader classloader = Thread.currentThread().getContextClassLoader();
          
-         URL u = classloader.getResource(String.format ("%d_City-Data.json", year));
+         URL u = classloader.getResource(String.format ("%d_City-Data.json", mYear));
         
          InputStream resource = u.openStream ();
          StringBuilder sb = new StringBuilder ();
@@ -94,159 +69,289 @@ public class BurningDataJson extends StreetMap
    {
       if (goldenSpike == null)
       {
-         JSONObject gs = cityData.getJSONObject ("golden_spike");
-         double latitude = gs.getDouble ("latitude");
-         double longitude = gs.getDouble ("longitude");
-         double altitudeFT = gs.getInt ("elevation");
-         double elevationMeters = ft2KM (altitudeFT) * 1000;
+         try
+         {
+            JSONObject gs = cityData.getJSONObject ("golden_spike");
+            double latitude = gs.getDouble ("latitude");
+            double longitude = gs.getDouble ("longitude");
+            double altitudeFT = gs.getInt ("elevation");
+            double elevationMeters = ft2KM (altitudeFT) * 1000;
 
-         goldenSpike = new LLALocation (latitude, longitude, elevationMeters);
+            goldenSpike = new LLALocation (latitude, longitude, elevationMeters);
+         }
+         catch (JSONException e)
+         {
+            throw new RuntimeException (e);
+         }
       }
 
       return goldenSpike;
    } 
 
    /**
-    * Location of getP1 on the perimeter fence
-    * @return Location of getP1
+    * Location of P1 on the perimeter fence
+    *
+    * @return Location of P1
     */
    public LLALocation getP1 () 
    {
-      JSONObject p1 = cityData.getJSONObject ("p1");
-      double latitude = p1.getDouble ("latitude");
-      double longitude = p1.getDouble ("longitude");
-      double elevationMeters = GS ().getAltitude ();
+      try
+      {
+         JSONObject p1 = cityData.getJSONObject ("p1");
+         double latitude = p1.getDouble ("latitude");
+         double longitude = p1.getDouble ("longitude");
+         double elevationMeters = GS ().getAltitude ();
 
-      return new LLALocation (latitude, longitude, elevationMeters);
+         return new LLALocation (latitude, longitude, elevationMeters);
+      }
+      catch (JSONException e)
+      {
+         throw new RuntimeException (e);
+      }
    }
    
    public int getYear ()
    {
-      return year;
+      return mYear;
    }
 
    /**
     * Radius of center of Esplanade
+    *
     * @return Radius in feet.
     */
    public double getEsplanadeRadius  () 
    {
-      return cityData.getDouble ("esplanade_radius");
+      try
+      {
+         return cityData.getDouble ("esplanade_radius");
+      }
+      catch (JSONException e)
+      {
+         throw new RuntimeException (e);
+      }
    }
 
    /**
     * Distance from man to center of center camp.
+    *
     * @return Distance in feet.
     */
    private double getManToCenterCampRadius () 
    {
-      return cityData.getDouble ("center_camp_man_distance");
+      try
+      {
+         return cityData.getDouble ("center_camp_man_distance");
+      }
+      catch (JSONException e)
+      {
+         throw new RuntimeException (e);
+      }
    }
 
    /**
     * Distance from man to center of center camp.
+    *
     * @return Distance in feet.
     */
    private double getManToTempleRadius () 
    {
-      return cityData.getDouble ("temple_man_distance");
+      try
+      {
+         return cityData.getDouble ("temple_man_distance");
+      }
+      catch (JSONException e)
+      {
+         throw new RuntimeException (e);
+      }
    }
    
    public int getRoute66Radius ()
    {
-      JSONObject centerCamp = cityData.getJSONObject ("center_camp");
-      return centerCamp.getInt ("route66_radius");
+      try
+      {
+         JSONObject centerCamp = cityData.getJSONObject ("center_camp");
+         return centerCamp.getInt ("route66_radius");
+      }
+      catch (JSONException e)
+      {
+         throw new RuntimeException (e);
+      }
    }
+
    /**
     * Inner radius of the center theme camps
+    *
     * @return Inner radius in feet
     */
    public double getCenterThemeCampInnerRadius () 
    {
-      JSONObject centerCamp = cityData.getJSONObject ("center_camp");
-      return centerCamp.getDouble ("inner_radius");
+      try
+      {
+         JSONObject centerCamp = cityData.getJSONObject ("center_camp");
+         return centerCamp.getDouble ("inner_radius");
+      }
+      catch (JSONException e)
+      {
+         throw new RuntimeException (e);
+      }
    }
    
    /**
     * Outer radius of the center them camps.
+    *
     * @return Outer radius in feet
     */
    public double getCenterThemeCampOuterRadius () 
    {
-      JSONObject centerCamp = cityData.getJSONObject ("center_camp");
-      return centerCamp.getDouble ("outer_radius");
+      try
+      {
+         JSONObject centerCamp = cityData.getJSONObject ("center_camp");
+         return centerCamp.getDouble ("outer_radius");
+      }
+      catch (JSONException e)
+      {
+         throw new RuntimeException (e);
+      }
    }
+
    /**
     * Width of the center camp keyhole at its widest point.
+    *
     * @return Keyhole width in feet.
     */
    public double getCenterCampKeyholeWidest () 
    {
-      JSONObject centerCamp = cityData.getJSONObject ("center_camp");
-      return centerCamp.getDouble ("keyhole_widest");
+      try
+      {
+         JSONObject centerCamp = cityData.getJSONObject ("center_camp");
+         return centerCamp.getDouble ("keyhole_widest");
+      }
+      catch (JSONException e)
+      {
+         throw new RuntimeException (e);
+      }
    }
 
    /**
     * Width of the center camp keyhole at its narrowest point.
+    *
     * @return Keyhole width in feet.
     */
-   public double getCenterCampKeyholeNarrowest () 
+   public double getCenterCampKeyholeNarrowest ()
    {
-      JSONObject centerCamp = cityData.getJSONObject ("center_camp");
-      return centerCamp.getDouble ("keyhole_narrowest");
+      try
+      {
+         JSONObject centerCamp = cityData.getJSONObject ("center_camp");
+         return centerCamp.getDouble ("keyhole_narrowest");
+      }
+      catch (JSONException e)
+      {
+         throw new RuntimeException (e);
+      }
    }
    
    /**
     * Radius of the center of Rod's Road.
+    *
     * @return Radius in feet.
     */
-   private double getRodsRoadRadius () 
+   private double getRodsRoadRadius ()
    {
-      // TODO: Support old map
-      return cityData.getDouble ("temple_man_distance");
+      try
+      {
+         return cityData.getDouble ("temple_man_distance");
+      }
+      catch (JSONException e)
+      {
+         throw new RuntimeException (e);
+      }
    }
 
    /**
     * Width of a regular street.
+    *
     * @return Width of a street in feet.
-    * @apiNote 2014 (and possibly earlier years) had regular streets and skinny streets. 
-    * Hence the name here. 
+    * @apiNote 2014 (and possibly earlier years) had regular streets and skinny streets.
+    * Hence, the name here.
     */
-   public double getRegularStreetWidth () 
+   public double getRegularStreetWidth ()
    {
-      return cityData.getDouble ("street_width_radial");
+      try
+      {
+
+         return cityData.getDouble ("street_width_radial");
+      }
+      catch (JSONException e)
+      {
+         throw new RuntimeException (e);
+      }
+   }
+
+   public double getAltitudeMeters ()
+   {
+      double elev = this.GS ().getAltitude ();
+      return ft2KM (elev) * 1000;
    }
    
    public double getAnnularWidth (char roadLetter)
    {
-      JSONObject annularStreets = cityData.getJSONObject ("annular_streets");
-      JSONObject streetData;
-      if (roadLetter == AnnularStreet.ESPLANADE)
-         streetData = annularStreets.getJSONObject ("esplanade");
-      else
-         streetData = annularStreets.getJSONObject (String.valueOf (roadLetter).toLowerCase ());
-      
-      return streetData.getDouble ("width");
+      try
+      {
+         JSONObject annularStreets = cityData.getJSONObject ("annular_streets");
+         JSONObject streetData;
+         if (roadLetter == AnnularStreet.ESPLANADE)
+            streetData = annularStreets.getJSONObject ("esplanade");
+         else
+            streetData = annularStreets.getJSONObject (String.valueOf (roadLetter).toLowerCase ());
+
+         return streetData.getDouble ("width");
+      }
+      catch (JSONException e)
+      {
+         throw new RuntimeException (e);
+      }
    }
    
    public boolean hasAnnularStreet (char roadLetter)
    {
-      JSONObject annularStreets = cityData.getJSONObject ("annular_streets");
-      if (roadLetter == AnnularStreet.ESPLANADE)
-         return annularStreets.has (String.valueOf ("esplanade"));
-      else
-         return annularStreets.has (String.valueOf (roadLetter).toLowerCase ());
+      try
+      {
+         JSONObject annularStreets = cityData.getJSONObject ("annular_streets");
+         if (roadLetter == AnnularStreet.ESPLANADE)
+            return annularStreets.has ("esplanade");
+         else
+            return annularStreets.has (String.valueOf (roadLetter).toLowerCase ());
+      }
+      catch (JSONException e)
+      {
+         throw new RuntimeException (e);
+      }
    }
 
 
    public double getRadialWidth ()
    {
-      return cityData.getDouble ("street_width_radial");
+      try
+      {
+         return cityData.getDouble ("street_width_radial");
+      }
+      catch (JSONException e)
+      {
+         throw new RuntimeException (e);
+      }
    }
 
    public double getPedestrianWidth ()
    {
-      return cityData.getDouble ("street_width_pedestrian");
+      try
+      {
+         return cityData.getDouble ("street_width_pedestrian");
+      }
+      catch (JSONException e)
+      {
+         throw new RuntimeException (e);
+      }
    }
    
    /**
@@ -275,20 +380,10 @@ public class BurningDataJson extends StreetMap
 
       return normalizeAngle (bearing);
    }
-
-   private double normalizeAngle (double angle)
-   {
-      while (angle < 0.0)
-         angle += 360.0;
-
-      while (angle > 360.0)
-         angle -= 360.0;
-      return angle;
-   }
-
    
    /**
     * Get the compass bearing of the street
+    *
     * @param radial 
     * @return Bearing in degrees from north
     */
@@ -304,8 +399,30 @@ public class BurningDataJson extends StreetMap
       return ((hours * 360.0 / 12.0) % 360) + offset;
    }
 
+   private double normalizeAngle (double angle)
+   {
+      while (angle < 0.0)
+         angle += 360.0;
+
+      while (angle > 360.0)
+         angle -= 360.0;
+      return angle;
+   }
+
+   private double normalizeTime (double time)
+   {
+      while (time < 0.0)
+         time += 12.0;
+
+      while (time > 12.0)
+         time -= 12.0;
+
+      return time;
+   }
+
    /**
     * Distance from the center of an annular street to the man
+    *
     * @param roadLetter Letter of the Annular Street
     * @return Distance in feet.
     */
@@ -341,50 +458,96 @@ public class BurningDataJson extends StreetMap
 
    /**
     * Radius of a plaza
+    *
     * @return Plaza radius in feet
     */
    public double getPlazaRadius ()
    {
-      return cityData.getDouble ("plaza_radius");
+      try
+      {
+         return cityData.getDouble ("plaza_radius");
+      }
+      catch (JSONException e)
+      {
+         throw new RuntimeException (e);
+      }
    }
    
    public double getBPlazaDepth ()
    {
-      return cityData.getDouble ("b_plaza_depth");
+      try
+      {
+         return cityData.getDouble ("b_plaza_depth");
+      }
+      catch (JSONException e)
+      {
+         throw new RuntimeException (e);
+      }
    }
 
    public double getBPlazaWidth ()
    {
-      return cityData.getDouble ("b_plaza_width");
+      try
+      {
+         return cityData.getDouble ("b_plaza_width");
+      }
+      catch (JSONException e)
+      {
+         throw new RuntimeException (e);
+      }
    }
 
 
    /**
     * Radius of  plaza around man
+    *
     * @return Man Plaza radius in feet
     */
    public double getManPlazaRadius ()
    {
-      // The CSV claims radius, but checking G Earth, it's diameter.
-      return cityData.getDouble ("man_plaza_radius");
+      try
+      {
+         // The CSV claims radius, but checking G Earth, it's diameter.
+         return cityData.getDouble ("man_plaza_radius");
+      }
+      catch (JSONException e)
+      {
+         throw new RuntimeException (e);
+      }
    }
 
    /**
     * Radius of plaza around temple
+    *
     * @return Temple Plaza radius in feet
     */
    public double getTemplePlazaRadius ()
    {
-      return cityData.getDouble ("temple_plaza_radius");
+      try
+      {
+         return cityData.getDouble ("temple_plaza_radius");
+      }
+      catch (JSONException e)
+      {
+         throw new RuntimeException (e);
+      }
    }
    
    /**
     * Width of a portal at its mouth (widest point)
+    *
     * @return Portal width in feet
     */
    public double getPortalWidth ()
    {
-      return cityData.getDouble ("portal_mouth_width");
+      try
+      {
+         return cityData.getDouble ("portal_mouth_width");
+      }
+      catch (JSONException e)
+      {
+         throw new RuntimeException (e);
+      }
    }
 
    public boolean isCorner (Intersection i)
@@ -400,16 +563,12 @@ public class BurningDataJson extends StreetMap
 
    public Intersection getIntersection (int hour, int minute, char streetLetter)
    {
-      //return new Intersection (this, hour, minute, streetLetter);
       return new Intersection (hour, minute, streetLetter);
    }
 
    public ArrayList<Intersection> getAllIntersections ()
    {
-
       ArrayList<Intersection> intersections = new ArrayList<> ();
-      //noinspection CollectionAddAllCanBeReplacedWithConstructor
-//      intersections.addAll (getCenterCampIntersections ());
 
       for (int hour=2; hour<10; hour++)
       {
@@ -461,19 +620,27 @@ public class BurningDataJson extends StreetMap
       
    /**
     * Get the depth of a block, not including any roads.
+    *
     * @param roadLetter Letter of the inside annular street for the block.
     * @return The depth in feet
     */
    public double getBlockDepth (char roadLetter)
    {
-      JSONObject annularStreets = cityData.getJSONObject ("annular_streets");
-      JSONObject streetData;
-      if (roadLetter == AnnularStreet.ESPLANADE)
-         streetData = annularStreets.getJSONObject ("esplanade");
-      else
-         streetData = annularStreets.getJSONObject (String.valueOf (roadLetter).toLowerCase ());
+      try
+      {
+         JSONObject annularStreets = cityData.getJSONObject ("annular_streets");
+         JSONObject streetData;
+         if (roadLetter == AnnularStreet.ESPLANADE)
+            streetData = annularStreets.getJSONObject ("esplanade");
+         else
+            streetData = annularStreets.getJSONObject (String.valueOf (roadLetter).toLowerCase ());
 
-      return streetData.getDouble ("depth");
+         return streetData.getDouble ("depth");
+      }
+      catch (JSONException e)
+      {
+         throw new RuntimeException (e);
+      }
    }
    
    public void setGoldenSpikeOverride (LLALocation gs)

@@ -47,11 +47,11 @@ private static final Logger logger = LoggerFactory.getLogger (BlackRockCityCente
    /**
     * This year's data set.
     */
-   private final BurningDataJson d;
+   private final CityData d;
 
    public BlackRockCityCenterline (int year, LLALocation relocate)
    {
-      d = new BurningDataJson (year);
+      d = new CityData (year);
       if (relocate != null)
          d.setGoldenSpikeOverride (relocate);
    }
